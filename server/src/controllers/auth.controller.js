@@ -2,18 +2,18 @@ import User from "../models/User.js";
 import jwt from "jsonwebtoken";
 
 export async function signup(req, res) {
-  const { fullName, email, password } = req.body;
+  const { email, password, fullName } = req.body;
 
   try {
     if (!email || !password || !fullName) {
       return res
         .status(400)
-        .json({ message: "Opps, pls fill in all fields here." });
+        .json({ message: "Opps, pls fill in all fields here" });
     }
 
     if (password.length < 8) {
       return res.status(400).json({
-        message: "Pls be aware that password must be at least 8 characters.",
+        message: "Pls be aware that password must be at least 8 characters",
       });
     }
 
@@ -52,8 +52,8 @@ export async function signup(req, res) {
     );
 
     res.cookie("jwt", jwtToken, {
-      maxAge: 7 * 24 * 60 * 60 * 1000,
-      httpOnly: true, //
+      maxAge: 2 * 24 * 60 * 60 * 1000,
+      httpOnly: true,
       sameSite: "strict",
       secure: process.env.NODE_ENV === "production",
     });
@@ -66,8 +66,47 @@ export async function signup(req, res) {
 }
 
 export async function login(req, res) {
-  res.send("Login route");
+  try {
+    const { email, password } = req.body;
+
+    if (!email || !password) {
+      return res
+        .status(400)
+        .json({ message: "Opps, pls fill in all fields here" });
+    }
+
+    const user = await User.findOne({ email });
+    if (!user)
+      return res.status(401).json({ message: "Invalid email or password" });
+
+    const isPasswordCorrect = await user.comparePassword(password);
+    if (!isPasswordCorrect)
+      return res.status(401).json({ message: "Invalid email or password" });
+
+    const jwtToken = jwt.sign(
+      { userId: User._id },
+      process.env.JWT_SECRET_KEY,
+      {
+        expiresIn: process.env.JWT_EXPIRES_IN,
+      }
+    );
+
+    res.cookie("jwt", jwtToken, {
+      maxAge: 2 * 24 * 60 * 60 * 1000,
+      httpOnly: true,
+      sameSite: "strict",
+      secure: process.env.NODE_ENV === "production",
+    });
+
+    res.status(200).json({ success: true, user });
+  } catch (error) {
+    console.log("Error in login controller", error.message);
+    res.status(500).json({ message: "Internal Server Error" });
+  }
 }
 export function logout(req, res) {
-  res.send("Logout route");
+  res.clearCookie("jwt");
+  res
+    .status(200)
+    .json({ success: true, message: "You have been Logout successfully" });
 }
