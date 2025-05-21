@@ -1,25 +1,27 @@
 import React from "react";
 import { Routes, Route } from "react-router";
 import HomePage from "./pages/HomePage";
-import SingUpPage from "./pages/SignupPage";
+import SignUpPage from "./pages/SignupPage";
 import LoginPage from "./pages/LoginPage";
 import OnboardingPage from "./pages/OnboardingPage";
 import NotificationPage from "./pages/NotificationPage";
 import ChatPage from "./pages/ChatPage";
 import VideoCallPage from "./pages/VideoCallPage";
+import { Toaster } from "react-hot-toast";
 
 const App = () => {
   return (
     <div className="bg-blue-300 h-screen">
       <Routes>
         <Route path="/" element={<HomePage />} />
-        <Route path="/signup" element={<SingUpPage />} />
+        <Route path="/signup" element={<SignUpPage />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/onboarding" element={<OnboardingPage />} />
         <Route path="/notification" element={<NotificationPage />} />
         <Route path="/chat" element={<ChatPage />} />
         <Route path="/videocall" element={<VideoCallPage />} />
       </Routes>
+      <Toaster />
     </div>
   );
 };
