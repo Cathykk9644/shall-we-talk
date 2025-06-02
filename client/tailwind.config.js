@@ -40,10 +40,10 @@ export default {
         620: "620px",
       },
       screens: {
-        sm: "640px",
-        md: "768px",
-        lg: "1024px",
-        xl: "1280px",
+        sm: "768px",
+        md: "1024px",
+        lg: "1280px",
+        xl: "1536px",
       },
       colors: {
         bgColor1: "#f0f3f9",

@@ -4,10 +4,13 @@ import Banner from "../components/Banner.jsx";
 
 const HomePage = () => {
   return (
-    <div className="relative w-screen h-screen bg-bgColor1">
-      <div className="absolute top-0 left-0 w-full h-full">
+    // <div className="relative w-screen h-screen bg-bgColor1">
+    <div className="relative min-h-screen w-full bg-bgColor1">
+      <div className="absolute inset-0 w-full h-full flex flex-col">
         <Header />
-        <Banner />
+        <div>
+          <Banner className="flex-1 flex items-center justify-center px-4 sm:px-8 md:px-16" />
+        </div>
       </div>
     </div>
   );

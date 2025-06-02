@@ -24,7 +24,7 @@ app.use("/api/users", userRoutes);
 app.use("/api/chat", chatRoutes);
 
 app.get("/", (req, res) => {
-  res.send("Hello Cathy!");
+  res.send("Hello Shall-We-Talk!");
 });
 
 app.listen(PORT, () => {
