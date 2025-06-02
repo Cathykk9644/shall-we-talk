@@ -55,13 +55,13 @@ const Signup = () => {
         <form className="flex flex-col space-y-4">
           <div className="w-full">
             <label className="block text-gray-400 text-xs font-semibold">
-              Username
+              Full Name
             </label>
             <input
               className="h-10 block w-full mt-2 rounded-md border-0 p-4 text-gray-500 text-xs shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:outline-0 focus:ring-1 focus:ring-inset focus:ring-sky-600"
               name="password"
               type="password"
-              placeholder="Username"
+              placeholder="Steve Jobs"
               required
             />
           </div>
@@ -73,7 +73,7 @@ const Signup = () => {
               className="h-10 block w-full mt-2 rounded-md border-0 p-4 text-gray-500 text-xs shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:outline-0 focus:ring-1 focus:ring-inset focus:ring-sky-600"
               name="email"
               type="email"
-              placeholder="Email"
+              placeholder="SteveJobs@apple.com"
               required
             />
           </div>
@@ -91,17 +91,24 @@ const Signup = () => {
             />
           </div>
 
-          <div className="w-full">
-            <label className="block text-gray-400 text-xs font-semibold">
-              Confirm Password
+          <div className="form-control">
+            <label className="label cursor-pointer justify-center gap-2">
+              <input
+                type="checkbox"
+                className="checkbox checkbox-xs "
+                required
+              />
+              <span className="text-xs leading-tight text-gray-500">
+                I agree to the{" "}
+                <span className=" hover:underline text-gray-500">
+                  terms of service
+                </span>{" "}
+                and{" "}
+                <span className=" hover:underline text-gray-500">
+                  privacy policy
+                </span>
+              </span>
             </label>
-            <input
-              className="h-10 block w-full mt-2 rounded-md border-0 p-4 text-gray-500 text-xs shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:outline-0 focus:ring-1 focus:ring-inset focus:ring-sky-600"
-              name="password"
-              type="password"
-              placeholder="Password Again"
-              required
-            />
           </div>
 
           <button
@@ -112,19 +119,11 @@ const Signup = () => {
           </button>
         </form>
 
-        <div className=" grid grid-cols-3 items-center text-gray-400 ">
-          <hr className="border-gray-300" />
-          <p className="text-center text-xs font-semibold">
-            Or try sign up with
-          </p>
-          <hr className="border-gray-300" />
-        </div>
-
         <div className="text-center">
           <p className="text-xs text-gray-400 mb-4">
             Already have an account with us?{" "}
             <span
-              className="underline cursor-pointer"
+              className="underline cursor-pointer font-semibold text-sky-500 hover:text-sky-600 "
               onClick={() => navigate("/login")}
             >
               Log in now!

@@ -5,6 +5,7 @@ import hero2 from "../Assets/hero-2.png";
 import herobg from "../Assets/hero-shape-2.png";
 import contact from "../Assets/hero-shape-1.svg";
 import { useNavigate } from "react-router";
+import { IoMdLogIn } from "react-icons/io";
 
 const Banner = () => {
   const navigate = useNavigate();
@@ -15,14 +16,14 @@ const Banner = () => {
           <img
             src={decorationImg}
             alt="Decoration"
-            className="w-16 sm:w-24 xl:w-44 mb-2 self-start"
+            className="w-16 sm:w-28 xl:w-44 mb-2 self-start"
           />
-          <h1 className="text-2xl sm:text-3xl lg:text-5xl font-bold text-sky-600 mt-4 lg:mt-8">
+          <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-sky-600 mt-4 lg:mt-8">
             Teach Yours, Learn Theirs - Perfect Your{" "}
             <span className="text-3xl sm:text-4xl lg:text-5xl text-rose-400">
               Language Pairing
             </span>{" "}
-            on Shall WeTalk!
+            Experience on Shall WeTalk!
           </h1>
         </div>
 
@@ -35,9 +36,10 @@ const Banner = () => {
         <div className="flex items-center">
           <button
             onClick={() => navigate("/signup")}
-            className="text-white py-3 px-4 rounded-xl text-md hover:bg-sky-700 transition duration-300 hover:scale-90 bg-gradient-to-r from-sky-400 to bg-sky-600 w-auto"
+            className="text-white py-3 px-4 rounded-xl text-md hover:bg-sky-700 transition duration-300 hover:scale-90 bg-gradient-to-r from-sky-400 to bg-sky-600 w-auto "
           >
             Try it for Free
+            <IoMdLogIn className="ml-36 -mt-5 text-lg" />
           </button>
         </div>
       </div>
