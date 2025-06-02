@@ -9,7 +9,7 @@ import { useNavigate } from "react-router";
 const Banner = () => {
   const navigate = useNavigate();
   return (
-    <div className="w-full min-h-[70vh] flex flex-col md:flex-row px-4 md:px-10 py-6 md:py-10 gap-8">
+    <div className="w-full min-h-[70vh] flex flex-col md:flex-row px-4 md:px-10 py-2 sm:py-4 md:py-10 gap-8">
       <div className="flex-1 md:p-6 xl:p-8 flex flex-col justify-center">
         <div className="flex flex-col items-start">
           <img

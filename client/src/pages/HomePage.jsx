@@ -4,7 +4,6 @@ import Banner from "../components/Banner.jsx";
 
 const HomePage = () => {
   return (
-    // <div className="relative w-screen h-screen bg-bgColor1">
     <div className="relative min-h-screen w-full bg-bgColor1">
       <div className="absolute inset-0 w-full h-full flex flex-col">
         <Header />

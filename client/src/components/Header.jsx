@@ -6,7 +6,7 @@ import { useNavigate, Link } from "react-router";
 const Header = () => {
   const navigate = useNavigate();
   return (
-    <div className="w-screen z-50 md:px-14 md:py-8  px-3 py-4 xl:py-12">
+    <div className="w-screen z-50 md:px-14 md:py-8 px-3 py-4 xl:py-12">
       <div className="flex justify-between items-center h-full">
         <div className=" flex items-center">
           <img
