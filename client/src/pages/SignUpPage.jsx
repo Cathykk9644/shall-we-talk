@@ -5,8 +5,8 @@ import loginbg from "../Assets/loginbg.avif";
 import logo from "../Assets/Logo.jpeg";
 import loginImg from "../Assets/landingbg3.png";
 import { RiChatSmile2Line } from "react-icons/ri";
-import { axiosInstance } from "../config/axios.js";
 import { useQueryClient, useMutation } from "@tanstack/react-query";
+import { signup } from "../config/api.js";
 
 const Signup = () => {
   const navigate = useNavigate();
@@ -19,11 +19,12 @@ const Signup = () => {
 
   const queryClient = useQueryClient();
 
-  const { mutate, isPending, error } = useMutation({
-    mutationFn: async () => {
-      const response = await axiosInstance.post("/auth/signup", signupData);
-      return response.data;
-    },
+  const {
+    mutate: signUpMutation,
+    isPending,
+    error,
+  } = useMutation({
+    mutationFn: signup,
 
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["authenticatedUser"] });
@@ -32,7 +33,7 @@ const Signup = () => {
 
   const handleSignup = (e) => {
     e.preventDefault();
-    mutate();
+    signUpMutation(signupData);
   };
 
   return (
@@ -75,6 +76,13 @@ const Signup = () => {
         <Link to="/" className="flex justify-center hover:scale-95">
           <img src={logo} alt="logo" className="w-48 object-cover " />
         </Link>
+
+        {/* ERROR MESSAGE IF ANY */}
+        {error && (
+          <div className="alert alert-error mb-4 bg-rose-400 text-white text-sm font-bold">
+            <span>{error.response.data.message}</span>
+          </div>
+        )}
         <h1 className="text-xl font-bold text-sky-500 items-center">
           Let's start to create account
         </h1>
@@ -156,7 +164,14 @@ const Signup = () => {
             type="submit"
             className="h-10 px-4 py-2 bg-sky-500 text-white rounded-md hover:bg-bgColor3 text-sm focus:outline-none font-semibold hover:scale-95"
           >
-            {isPending ? "Signing up..." : "Create Account"}
+            {isPending ? (
+              <>
+                <span className="loading loading-spinner loading-xs"></span>
+                Loading...
+              </>
+            ) : (
+              "Create Account"
+            )}
           </button>
         </form>
 
