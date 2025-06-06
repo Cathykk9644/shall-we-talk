@@ -1,20 +1,39 @@
 import React from "react";
-
+import { useState } from "react";
 import { useNavigate, Link } from "react-router";
 import loginbg from "../Assets/loginbg.avif";
 import logo from "../Assets/Logo.jpeg";
-
 import loginImg from "../Assets/landingbg3.png";
 import { RiChatSmile2Line } from "react-icons/ri";
+import { axiosInstance } from "../config/axios.js";
+import { useQueryClient, useMutation } from "@tanstack/react-query";
 
 const Signup = () => {
   const navigate = useNavigate();
 
-  // const [signupData, setSignupData] = useState({
-  //   fullName: "",
-  //   email: "",
-  //   password: "",
-  // });
+  const [signupData, setSignupData] = useState({
+    fullName: "",
+    email: "",
+    password: "",
+  });
+
+  const queryClient = useQueryClient();
+
+  const { mutate, isPending, error } = useMutation({
+    mutationFn: async () => {
+      const response = await axiosInstance.post("/auth/signup", signupData);
+      return response.data;
+    },
+
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["authenticatedUser"] });
+    },
+  });
+
+  const handleSignup = (e) => {
+    e.preventDefault();
+    mutate();
+  };
 
   return (
     <div className="flex min-h-screen">
@@ -59,7 +78,8 @@ const Signup = () => {
         <h1 className="text-xl font-bold text-sky-500 items-center">
           Let's start to create account
         </h1>
-        <form className="flex flex-col space-y-4">
+        <form className="flex flex-col space-y-4" onSubmit={handleSignup}>
+          {/* FULLNAME */}
           <div className="w-full">
             <label className="block text-gray-400 text-xs font-semibold">
               Full Name
@@ -69,9 +89,14 @@ const Signup = () => {
               name="name"
               type="text"
               placeholder="Steve Jobs"
+              value={signupData.fullName}
+              onChange={(e) =>
+                setSignupData({ ...signupData, fullName: e.target.value })
+              }
               required
             />
           </div>
+          {/* EMAIL */}
           <div className="w-full">
             <label className="block text-gray-400 text-xs font-semibold">
               Email
@@ -81,10 +106,15 @@ const Signup = () => {
               name="email"
               type="email"
               placeholder="SteveJobs@apple.com"
+              value={signupData.email}
+              onChange={(e) =>
+                setSignupData({ ...signupData, email: e.target.value })
+              }
               required
             />
           </div>
 
+          {/* PASSWORD */}
           <div className="w-full">
             <label className="block text-gray-400 text-xs font-semibold">
               Password
@@ -94,6 +124,10 @@ const Signup = () => {
               name="password"
               type="password"
               placeholder="***********"
+              value={signupData.password}
+              onChange={(e) =>
+                setSignupData({ ...signupData, password: e.target.value })
+              }
               required
             />
           </div>
@@ -122,7 +156,7 @@ const Signup = () => {
             type="submit"
             className="h-10 px-4 py-2 bg-sky-500 text-white rounded-md hover:bg-bgColor3 text-sm focus:outline-none font-semibold hover:scale-95"
           >
-            Create Account
+            {isPending ? "Signing up..." : "Create Account"}
           </button>
         </form>
 

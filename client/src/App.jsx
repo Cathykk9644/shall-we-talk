@@ -9,7 +9,8 @@ import ChatPage from "./pages/ChatPage";
 import VideoCallPage from "./pages/VideoCallPage";
 import { Toaster } from "react-hot-toast";
 import { useQuery } from "@tanstack/react-query";
-import axios from "axios";
+
+import { axiosInstance } from "./config/axios.js";
 
 const App = () => {
   const {
@@ -20,7 +21,7 @@ const App = () => {
     queryKey: ["authenticatedUser"],
 
     queryFn: async () => {
-      const res = await axios.get("/auth/me");
+      const res = await axiosInstance.get("/auth/me");
 
       return res.data;
     },
@@ -34,7 +35,10 @@ const App = () => {
     <div className="bg-blue-300 h-screen">
       <Routes>
         <Route path="/" element={<HomePage />} />
-        <Route path="/signup" element={<SignUpPage />} />
+        <Route
+          path="/signup"
+          element={!authUser ? <SignUpPage /> : <Navigate to="/" />}
+        />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/onboarding" element={authUser && <OnboardingPage />} />
         <Route path="/notification" element={<NotificationPage />} />
