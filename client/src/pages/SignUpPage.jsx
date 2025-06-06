@@ -10,16 +10,22 @@ import { RiChatSmile2Line } from "react-icons/ri";
 const Signup = () => {
   const navigate = useNavigate();
 
+  // const [signupData, setSignupData] = useState({
+  //   fullName: "",
+  //   email: "",
+  //   password: "",
+  // });
+
   return (
     <div className="flex min-h-screen">
-      {/* Right Side with Background Image and Transparent Container */}
+      {/* Left hand Side with Background Image and Transparent Container */}
       <div
-        className="w-1/2 bg-cover py-36 px-12 object-fill"
+        className="hidden md:block md:w-1/2 bg-cover py-36 px-12 object-fill"
         style={{ backgroundImage: `url(${loginbg})` }}
       >
         {/* Transparent container */}
         <div
-          className="bg-white  bg-opacity-20 rounded-lg p-8 backdrop-filter backdrop-blur-md"
+          className="bg-white  bg-opacity-20 rounded-lg p-8 backdrop-filter backdrop-blur-md lg:mt-20"
           style={{ backdropFilter: "blur(5px)" }}
         >
           <div className="flex space-x-4 ">
@@ -40,12 +46,13 @@ const Signup = () => {
         <img
           src={loginImg}
           alt="loginImg"
-          className="absolute bottom-20 left-12 m-4 max-w-xs object-cover opacity-40"
+          className="absolute md:bottom-20 left-12 m-4 max-w-xs object-cover opacity-40 lg:bottom-48"
           style={{ maxWidth: "220px" }}
         />
       </div>
 
-      <div className=" flex flex-col gap-8 w-1/2 bg-bgColor1 py-12 px-20">
+      {/* Right hand Side with Signup Form */}
+      <div className="flex flex-col gap-8 w-full md:w-1/2 bg-bgColor1 p-6 md:py-12 md:px-20 lg:py-36 ">
         <Link to="/" className="flex justify-center hover:scale-95">
           <img src={logo} alt="logo" className="w-48 object-cover " />
         </Link>
@@ -59,8 +66,8 @@ const Signup = () => {
             </label>
             <input
               className="h-10 block w-full mt-2 rounded-md border-0 p-4 text-gray-500 text-xs shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:outline-0 focus:ring-1 focus:ring-inset focus:ring-sky-600"
-              name="password"
-              type="password"
+              name="name"
+              type="text"
               placeholder="Steve Jobs"
               required
             />
@@ -86,7 +93,7 @@ const Signup = () => {
               className="h-10 block w-full mt-2 rounded-md border-0 p-4 text-gray-500 text-xs shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:outline-0 focus:ring-1 focus:ring-inset focus:ring-sky-600"
               name="password"
               type="password"
-              placeholder="Password"
+              placeholder="***********"
               required
             />
           </div>
