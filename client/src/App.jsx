@@ -8,23 +8,34 @@ import NotificationPage from "./pages/NotificationPage";
 import ChatPage from "./pages/ChatPage";
 import VideoCallPage from "./pages/VideoCallPage";
 import { Toaster } from "react-hot-toast";
-
 import PageLoader from "./components/PageLoader.jsx";
 import useAuthUser from "./hooks/useAuthUser.js";
 
 const App = () => {
   const { isLoading, authUser } = useAuthUser();
 
+  const isAuthenticated = Boolean(authUser);
+  const isOnboardingComplete = authUser?.isOnboarded;
+
   if (isLoading) return <PageLoader />;
 
   // todo fix the protected routes later
   return (
-    <div className="bg-blue-300 h-screen">
+    <div className="h-screen bg-bgColor1">
       <Routes>
-        <Route path="/" element={<HomePage />} />
+        <Route
+          path="/"
+          element={
+            isAuthenticated && isOnboardingComplete ? (
+              <HomePage />
+            ) : (
+              <Navigate to={!isAuthenticated ? "/onboarding" : "/login"} />
+            )
+          }
+        />
         <Route
           path="/signup"
-          element={!authUser ? <SignUpPage /> : <Navigate to="/" />}
+          element={!isAuthenticated ? <SignUpPage /> : <Navigate to="/" />}
         />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/onboarding" element={authUser && <OnboardingPage />} />
