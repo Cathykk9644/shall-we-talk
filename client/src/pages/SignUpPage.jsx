@@ -79,7 +79,7 @@ const Signup = () => {
 
         {/* ERROR MESSAGE IF ANY */}
         {error && (
-          <div className="alert alert-error mb-4 bg-rose-400 text-white text-sm font-bold">
+          <div className="alert alert-error bg-rose-400 text-white text-sm font-bold">
             <span>{error.response.data.message}</span>
           </div>
         )}
@@ -147,13 +147,13 @@ const Signup = () => {
                 className="checkbox checkbox-xs "
                 required
               />
-              <span className="text-xs leading-tight text-gray-500">
+              <span className="text-xs leading-tight text-gray-400 font-semibold">
                 I agree to the{" "}
-                <span className=" hover:underline text-gray-500">
+                <span className=" hover:underline hover:text-gray-500 text-gray-400 font-semibold  hover:font-bold">
                   terms of service
                 </span>{" "}
                 and{" "}
-                <span className=" hover:underline text-gray-500">
+                <span className=" hover:underline hover:text-gray-500 text-gray-400 font-semibold  hover:font-bold">
                   privacy policy
                 </span>
               </span>
@@ -176,10 +176,10 @@ const Signup = () => {
         </form>
 
         <div className="text-center">
-          <p className="text-xs text-gray-400 mb-4">
+          <p className="text-xs text-gray-400 mb-4 font-semibold">
             Already have an account with us?{" "}
             <span
-              className="underline cursor-pointer font-semibold text-sky-500 hover:text-sky-600 "
+              className="underline cursor-pointer font-semibold text-sky-500 hover:text-sky-600 hover:font-bold"
               onClick={() => navigate("/login")}
             >
               Log in now!

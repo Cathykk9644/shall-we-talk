@@ -11,13 +11,10 @@ import { Toaster } from "react-hot-toast";
 import { useQuery } from "@tanstack/react-query";
 
 import { axiosInstance } from "./config/axios.js";
+import PageLoader from "./components/PageLoader.jsx";
 
 const App = () => {
-  const {
-    data: authData,
-    isLoading,
-    error,
-  } = useQuery({
+  const { data: authData, isLoading } = useQuery({
     queryKey: ["authenticatedUser"],
 
     queryFn: async () => {
@@ -29,6 +26,8 @@ const App = () => {
   });
 
   const authUser = authData?.user;
+
+  if (isLoading) return <PageLoader />;
 
   // todo fix the protected routes later
   return (
