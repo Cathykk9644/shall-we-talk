@@ -15,30 +15,17 @@ const App = () => {
   const { isLoading, authUser } = useAuthUser();
 
   const isAuthenticated = Boolean(authUser);
-  const isOnboardingComplete = authUser?.isOnboarded;
+  // const isOnboardingComplete = authUser?.isOnboarded;
 
   if (isLoading) return <PageLoader />;
 
-  // todo fix the protected routes later
   return (
     <div className="h-screen bg-bgColor1">
       <Routes>
-        <Route
-          path="/"
-          element={
-            isAuthenticated && isOnboardingComplete ? (
-              <HomePage />
-            ) : (
-              <Navigate to={!isAuthenticated ? "/onboarding" : "/login"} />
-            )
-          }
-        />
-        <Route
-          path="/signup"
-          element={!isAuthenticated ? <SignUpPage /> : <Navigate to="/" />}
-        />
+        <Route path="/" element={<HomePage />} />
+        <Route path="/signup" element={<SignUpPage />} />
+        <Route path="/onboarding" element={<OnboardingPage />} />
         <Route path="/login" element={<LoginPage />} />
-        <Route path="/onboarding" element={authUser && <OnboardingPage />} />
         <Route path="/notification" element={<NotificationPage />} />
         <Route path="/chat" element={<ChatPage />} />
         <Route path="/videocall" element={<VideoCallPage />} />
