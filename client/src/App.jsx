@@ -7,6 +7,7 @@ import OnboardingPage from "./pages/OnboardingPage";
 import NotificationPage from "./pages/NotificationPage";
 import ChatPage from "./pages/ChatPage";
 import VideoCallPage from "./pages/VideoCallPage";
+import PracticeDashboard from "./pages/PracticeDashboard";
 import { Toaster } from "react-hot-toast";
 import PageLoader from "./components/PageLoader.jsx";
 import useAuthUser from "./hooks/useAuthUser.js";
@@ -15,7 +16,7 @@ const App = () => {
   const { isLoading, authUser } = useAuthUser();
 
   const isAuthenticated = Boolean(authUser);
-  // const isOnboardingComplete = authUser?.isOnboarded;
+  const isOnboarded = authUser?.isOnboarded;
 
   if (isLoading) return <PageLoader />;
 
@@ -23,12 +24,41 @@ const App = () => {
     <div className="h-screen bg-bgColor1">
       <Routes>
         <Route path="/" element={<HomePage />} />
-        <Route path="/signup" element={<SignUpPage />} />
+        <Route
+          path="/practice-dashboard"
+          element={
+            isAuthenticated && isOnboarded ? (
+              <PracticeDashboard />
+            ) : (
+              <Navigate to={!isAuthenticated ? "/login" : "/onboarding"} />
+            )
+          }
+        />
+        <Route
+          path="/signup"
+          element={!isAuthenticated ? <SignUpPage /> : <Navigate to="/" />}
+        />
         <Route path="/onboarding" element={<OnboardingPage />} />
-        <Route path="/login" element={<LoginPage />} />
-        <Route path="/notification" element={<NotificationPage />} />
-        <Route path="/chat" element={<ChatPage />} />
-        <Route path="/videocall" element={<VideoCallPage />} />
+        <Route
+          path="/login"
+          element={!isAuthenticated ? <LoginPage /> : <Navigate to="/" />}
+        />
+        <Route
+          path="/notification"
+          element={
+            isAuthenticated ? <NotificationPage /> : <Navigate to="/login" />
+          }
+        />
+        <Route
+          path="/chat"
+          element={isAuthenticated ? <ChatPage /> : <Navigate to="/login" />}
+        />
+        <Route
+          path="/videocall"
+          element={
+            isAuthenticated ? <VideoCallPage /> : <Navigate to="/login" />
+          }
+        />
       </Routes>
       <Toaster />
     </div>
