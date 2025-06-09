@@ -55,7 +55,7 @@ const App = () => {
               !isOnboarded ? (
                 <OnboardingPage />
               ) : (
-                <Navigate to="/" />
+                <Navigate to="/practice-dashboard" />
               )
             ) : (
               <Navigate to="/login" />

@@ -51,10 +51,10 @@ const OnboardingPage = () => {
   };
 
   return (
-    <div className="min-h-screen bg-bgColor1 flex items-center justify-center p-4">
-      <div className="card bg-base-200 w-full max-w-3xl shadow-xl">
+    <div className="min-h-screen bg-gradient-to-b from-sky-500 to-sky-100  flex items-center justify-center p-4">
+      <div className="card  bg-opacity-80 w-full max-w-3xl shadow-xl border-2 border-gray-200">
         <div className="card-body p-6 sm:p-8">
-          <h1 className="text-2xl sm:text-3xl font-bold text-center mb-6">
+          <h1 className="text-2xl sm:text-3xl font-bold text-center mb-6 text-gray-100">
             Complete Your Profile
           </h1>
 
@@ -62,7 +62,7 @@ const OnboardingPage = () => {
             {/* PROFILE PIC CONTAINER */}
             <div className="flex flex-col items-center justify-center space-y-4">
               {/* IMAGE PREVIEW */}
-              <div className="size-32 rounded-full bg-base-300 overflow-hidden">
+              <div className="size-32 rounded-full bg-base-200 overflow-hidden">
                 {formState.profilePic ? (
                   <img
                     src={formState.profilePic}
@@ -71,7 +71,7 @@ const OnboardingPage = () => {
                   />
                 ) : (
                   <div className="flex items-center justify-center h-full">
-                    <CameraIcon className="size-12 text-base-content opacity-40" />
+                    <CameraIcon className="size-12 text-base-content opacity-30" />
                   </div>
                 )}
               </div>
@@ -81,7 +81,7 @@ const OnboardingPage = () => {
                 <button
                   type="button"
                   onClick={handleRandomAvatar}
-                  className="btn btn-accent"
+                  className="btn btn-outline outline-white hover:bg-sky-500 text-white hover:text-white transition-colors hover:scale-95 "
                 >
                   <ShuffleIcon className="size-4 mr-2" />
                   Generate Random Avatar
@@ -92,7 +92,9 @@ const OnboardingPage = () => {
             {/* FULL NAME */}
             <div className="form-control">
               <label className="label">
-                <span className="label-text">Full Name</span>
+                <span className="label-text font-semibold text-gray-500">
+                  Full Name
+                </span>
               </label>
               <input
                 type="text"
@@ -101,15 +103,17 @@ const OnboardingPage = () => {
                 onChange={(e) =>
                   setFormState({ ...formState, fullName: e.target.value })
                 }
-                className="input input-bordered w-full"
-                placeholder="Your full name"
+                className="input w-full text-sm  text-gray-500"
+                placeholder="Pls enter your full name"
               />
             </div>
 
             {/* BIO */}
             <div className="form-control">
               <label className="label">
-                <span className="label-text">Bio</span>
+                <span className="label-text font-semibold text-gray-500">
+                  Bio
+                </span>
               </label>
               <textarea
                 name="bio"
@@ -117,8 +121,8 @@ const OnboardingPage = () => {
                 onChange={(e) =>
                   setFormState({ ...formState, bio: e.target.value })
                 }
-                className="textarea textarea-bordered h-24"
-                placeholder="Tell others about yourself and your language learning goals"
+                className="textarea textarea-bordered h-24 text-ellipsis text-gray-500"
+                placeholder="Tell others about yourself and what you are hoping to achieve on this language learning platform"
               />
             </div>
 
@@ -127,7 +131,9 @@ const OnboardingPage = () => {
               {/* NATIVE LANGUAGE */}
               <div className="form-control">
                 <label className="label">
-                  <span className="label-text">Native Language</span>
+                  <span className="label-text font-semibold text-gray-500">
+                    Native Language
+                  </span>
                 </label>
                 <select
                   name="nativeLanguage"
@@ -138,7 +144,7 @@ const OnboardingPage = () => {
                       nativeLanguage: e.target.value,
                     })
                   }
-                  className="select select-bordered w-full"
+                  className="select select-bordered w-full text-sm text-gray-500"
                 >
                   <option value="">Select your native language</option>
                   {LANGUAGES.map((lang) => (
@@ -152,7 +158,9 @@ const OnboardingPage = () => {
               {/* LEARNING LANGUAGE */}
               <div className="form-control">
                 <label className="label">
-                  <span className="label-text">Learning Language</span>
+                  <span className="label-text font-semibold text-gray-500">
+                    Learning Language
+                  </span>
                 </label>
                 <select
                   name="learningLanguage"
@@ -163,7 +171,7 @@ const OnboardingPage = () => {
                       learningLanguage: e.target.value,
                     })
                   }
-                  className="select select-bordered w-full"
+                  className="select select-bordered w-full text-sm text-gray-500"
                 >
                   <option value="">Select language you'd like to learn</option>
                   {LANGUAGES.map((lang) => (
@@ -178,7 +186,9 @@ const OnboardingPage = () => {
             {/* LOCATION */}
             <div className="form-control">
               <label className="label">
-                <span className="label-text">Location</span>
+                <span className="label-text font-semibold text-gray-500">
+                  Location
+                </span>
               </label>
               <div className="relative">
                 <MapPinIcon className="absolute top-1/2 transform -translate-y-1/2 left-3 size-5 text-base-content opacity-70" />
@@ -189,7 +199,7 @@ const OnboardingPage = () => {
                   onChange={(e) =>
                     setFormState({ ...formState, location: e.target.value })
                   }
-                  className="input input-bordered w-full pl-10"
+                  className="input input-bordered w-full pl-10 text-sm text-gray-500"
                   placeholder="City, Country"
                 />
               </div>
@@ -198,7 +208,7 @@ const OnboardingPage = () => {
             {/* SUBMIT BUTTON */}
 
             <button
-              className="btn btn-primary w-full"
+              className="btn bg-sky-500 w-full text-ellipsis text-white hover:bg-sky-600 transition-colors hover:scale-95"
               disabled={isPending}
               type="submit"
             >
