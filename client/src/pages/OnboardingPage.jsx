@@ -165,7 +165,7 @@ const OnboardingPage = () => {
                   }
                   className="select select-bordered w-full"
                 >
-                  <option value="">Select language you're learning</option>
+                  <option value="">Select language you'd like to learn</option>
                   {LANGUAGES.map((lang) => (
                     <option key={`learning-${lang}`} value={lang.toLowerCase()}>
                       {lang}

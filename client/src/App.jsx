@@ -11,6 +11,7 @@ import PracticeDashboard from "./pages/PracticeDashboard";
 import { Toaster } from "react-hot-toast";
 import PageLoader from "./components/PageLoader.jsx";
 import useAuthUser from "./hooks/useAuthUser.js";
+import { Video } from "lucide-react";
 
 const App = () => {
   const { isLoading, authUser } = useAuthUser();
@@ -36,27 +37,73 @@ const App = () => {
         />
         <Route
           path="/signup"
-          element={!isAuthenticated ? <SignUpPage /> : <Navigate to="/" />}
+          element={
+            !isAuthenticated ? (
+              <SignUpPage />
+            ) : (
+              <Navigate
+                to={isOnboarded ? "/practice-dashboard" : "/onboarding"}
+              />
+            )
+          }
         />
-        <Route path="/onboarding" element={<OnboardingPage />} />
+
+        <Route
+          path="/onboarding"
+          element={
+            isAuthenticated ? (
+              !isOnboarded ? (
+                <OnboardingPage />
+              ) : (
+                <Navigate to="/" />
+              )
+            ) : (
+              <Navigate to="/login" />
+            )
+          }
+        />
+
         <Route
           path="/login"
-          element={!isAuthenticated ? <LoginPage /> : <Navigate to="/" />}
+          element={
+            !isAuthenticated ? (
+              <LoginPage />
+            ) : (
+              <Navigate
+                to={isOnboarded ? "/practice-dashboard" : "/onboarding"}
+              />
+            )
+          }
         />
         <Route
           path="/notification"
           element={
-            isAuthenticated ? <NotificationPage /> : <Navigate to="/login" />
+            isAuthenticated && isOnboarded ? (
+              <NotificationPage />
+            ) : (
+              <Navigate to={!isAuthenticated ? "/login" : "onboarding"} />
+            )
+          }
+        />
+
+        <Route
+          path="/chat/:id"
+          element={
+            isAuthenticated && isOnboarded ? (
+              <ChatPage />
+            ) : (
+              <Navigate to={!isAuthenticated ? "/login" : "/onboarding"} />
+            )
           }
         />
         <Route
-          path="/chat"
-          element={isAuthenticated ? <ChatPage /> : <Navigate to="/login" />}
-        />
-        <Route
-          path="/videocall"
+          path="/call/:id"
           element={
-            isAuthenticated ? <VideoCallPage /> : <Navigate to="/login" />
+            isAuthenticated && isOnboarded ? (
+              <VideoCallPage />
+            ) : (
+              <Navigate to={!isAuthenticated ? "/login" : "/onboarding"} />
+            )
           }
         />
       </Routes>
