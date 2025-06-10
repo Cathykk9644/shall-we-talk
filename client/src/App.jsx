@@ -29,7 +29,7 @@ const App = () => {
           path="/practice-dashboard"
           element={
             isAuthenticated && isOnboarded ? (
-              <Layout>
+              <Layout showSidebar={true}>
                 <PracticeDashboard />
               </Layout>
             ) : (
