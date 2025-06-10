@@ -11,7 +11,7 @@ import PracticeDashboard from "./pages/PracticeDashboard";
 import { Toaster } from "react-hot-toast";
 import PageLoader from "./components/PageLoader.jsx";
 import useAuthUser from "./hooks/useAuthUser.js";
-import { Video } from "lucide-react";
+import Layout from "./components/Layout.jsx";
 
 const App = () => {
   const { isLoading, authUser } = useAuthUser();
@@ -29,7 +29,9 @@ const App = () => {
           path="/practice-dashboard"
           element={
             isAuthenticated && isOnboarded ? (
-              <PracticeDashboard />
+              <Layout>
+                <PracticeDashboard />
+              </Layout>
             ) : (
               <Navigate to={!isAuthenticated ? "/login" : "/onboarding"} />
             )
