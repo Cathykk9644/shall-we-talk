@@ -2,9 +2,8 @@ import React, { useState } from "react";
 import { Link, useNavigate } from "react-router";
 import loginbg from "../Assets/loginbg.avif";
 import logo from "../Assets/Logo.jpeg";
-import { useMutation } from "@tanstack/react-query";
+import { useQueryClient, useMutation } from "@tanstack/react-query";
 import { login } from "../config/api";
-import toast from "react-hot-toast";
 
 const LoginPage = () => {
   const navigate = useNavigate();
@@ -14,15 +13,15 @@ const LoginPage = () => {
     password: "",
   });
 
-  const { mutate: loginMutation, isLoading } = useMutation({
+  const queryClient = useQueryClient();
+
+  const {
+    mutate: loginMutation,
+    isPending,
+    error,
+  } = useMutation({
     mutationFn: login,
-    onSuccess: () => {
-      toast.success("Login successful!");
-      navigate("/practice-dashboard");
-    },
-    onError: (error) => {
-      toast.error(error.response?.data?.message || "Login failed!");
-    },
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: ["authUser"] }),
   });
 
   const handleLogin = (e) => {
@@ -56,6 +55,13 @@ const LoginPage = () => {
         <Link to="/" className="flex justify-center hover:scale-95">
           <img src={logo} alt="logo" className="w-48 object-cover" />
         </Link>
+
+        {/* ERROR MESSAGE DISPLAY */}
+        {error && (
+          <div className="alert alert-error mb-4">
+            <span>{error.response.data.message}</span>
+          </div>
+        )}
 
         <h1 className="text-xl font-bold text-sky-500 items-center">
           Log in to your account
@@ -100,8 +106,9 @@ const LoginPage = () => {
           <button
             type="submit"
             className="h-10 px-4 py-2 bg-sky-500 text-white rounded-md hover:bg-bgColor3 text-sm focus:outline-none font-semibold hover:scale-95"
+            disabled={isPending}
           >
-            {isLoading ? (
+            {isPending ? (
               <>
                 <span className="loading loading-spinner loading-xs"></span>
                 Logging in...
