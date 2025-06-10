@@ -9,8 +9,8 @@ const Sidebar = () => {
   const currentPath = location.pathname;
 
   return (
-    <aside className="w-56 bg-sky-500 border-r border-base-300 hidden md:flex flex-col h-screen sticky top-0">
-      <div className="p-5 border-b-2 border-white  ">
+    <aside className="w-60 bg-sky-500 border-r border-base-300 hidden md:flex flex-col h-screen sticky top-0">
+      <div className="p-6 ">
         <Link to="/" className="flex items-center gap-3">
           <FaRegPaperPlane className="size-9 text-white" />
           <span className="text-xl font-bold text-white  ">Shall WeTalk</span>
