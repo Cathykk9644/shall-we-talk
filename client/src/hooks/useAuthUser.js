@@ -3,7 +3,7 @@ import { getAuthUser } from "../config/api";
 
 const useAuthUser = () => {
   const authUser = useQuery({
-    queryKey: ["authenticatedUser"],
+    queryKey: ["authUser"],
     queryFn: getAuthUser,
     retry: false,
     onError: (error) => {

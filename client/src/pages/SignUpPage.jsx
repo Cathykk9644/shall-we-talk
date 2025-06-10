@@ -27,7 +27,7 @@ const Signup = () => {
     mutationFn: signup,
 
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["authenticatedUser"] });
+      queryClient.invalidateQueries({ queryKey: ["authUser"] });
     },
   });
 
