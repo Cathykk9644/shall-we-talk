@@ -58,11 +58,7 @@ const Banner = () => {
           alt="hero1"
           className="absolute top-0 left-0 w-1/2 h-auto object-cover rounded-br-md p-1 hover:scale-105 transition duration-300"
         />
-        <img
-          src={contact}
-          alt="contact"
-          className="absolute -bottom-8 left-6 sm:left-14 w-1/2 sm:w-1/3 h-1/5 object-cover rounded-br-md p-1 hover:scale-110 transition duration-300"
-        />
+
         {/* Bottom right image */}
         <img
           src={hero2}

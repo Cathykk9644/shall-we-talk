@@ -17,15 +17,15 @@ const Sidebar = () => {
         </Link>
       </div>
 
-      <nav className="flex-1 p-4 space-y-1 text-white ">
+      <nav className="flex-1 p-4 space-y-2 text-white ">
         <Link
           to="/"
           className={`btn btn-ghost justify-start w-full gap-3 px-3 normal-case ${
             currentPath === "/" ? "btn-active" : ""
           }`}
         >
-          <HomeIcon className="size-5  opacity-90 " />
-          <span>Home</span>
+          <HomeIcon className="size-6  opacity-90 " />
+          <span className="text-lg">Home</span>
         </Link>
 
         <Link
@@ -34,8 +34,8 @@ const Sidebar = () => {
             currentPath === "/friends" ? "btn-active" : ""
           }`}
         >
-          <UsersIcon className="size-5 text-white opacity-90" />
-          <span>Friends</span>
+          <UsersIcon className="size-6 text-white opacity-90" />
+          <span className="text-lg">Friends</span>
         </Link>
 
         <Link
@@ -44,8 +44,8 @@ const Sidebar = () => {
             currentPath === "/notifications" ? "btn-active" : ""
           }`}
         >
-          <BellIcon className="size-5 text-white opacity-90" />
-          <span>Notifications</span>
+          <BellIcon className="size-6 text-white opacity-90" />
+          <span className="text-lg">Notifications</span>
         </Link>
 
         <Link
@@ -54,8 +54,8 @@ const Sidebar = () => {
             currentPath === "/" ? "btn-active" : ""
           }`}
         >
-          <HomeIcon className="size-5 text-white opacity-90" />
-          <span>Profile</span>
+          <HomeIcon className="size-6 text-white opacity-90" />
+          <span className="text-lg">Profile</span>
         </Link>
       </nav>
 
