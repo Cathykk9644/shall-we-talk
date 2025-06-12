@@ -13,8 +13,9 @@ import {
   UserPlusIcon,
   UsersIcon,
 } from "lucide-react";
-import FriendCard from "../components/FriendCard";
+import FriendCard, { getLanguageFlag } from "../components/FriendCard";
 import NoFriendsFound from "../components/NoFriendFound";
+import { capitialize } from "../config/utils";
 
 const PracticeDashboard = () => {
   const queryClient = useQueryClient();
