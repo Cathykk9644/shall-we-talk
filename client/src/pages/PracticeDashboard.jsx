@@ -30,21 +30,20 @@ const PracticeDashboard = () => {
     queryFn: getUserFriends,
   });
 
-  // const { data: recommendedUsers = [], isLoading: loadingUsers } = useQuery({
-  //   queryKey: ["users"],
-  //   queryFn: getRecommendedUsers,
-  // });
-
   const { data: recommendedData = {}, isLoading: loadingUsers } = useQuery({
     queryKey: ["users", page],
     queryFn: () => getRecommendedUsers(page, limit),
-    onSuccess: (data) => {
-      setTotalUsers(data.totalUsers || 0); // Update total users
-    },
+
     onError: (error) => {
       console.error("Error fetching recommended users:", error);
     },
   });
+
+  useEffect(() => {
+    if (recommendedData && typeof recommendedData.totalUsers === "number") {
+      setTotalUsers(recommendedData.totalUsers);
+    }
+  }, [recommendedData]);
 
   const recommendedUsers = recommendedData.recommendedUsers || [];
 
@@ -68,6 +67,10 @@ const PracticeDashboard = () => {
       setOutgoingRequestsIds(outgoingIds);
     }
   }, [outgoingFriendReqs]);
+
+  useEffect(() => {
+    console.log("Updated Total Users:", totalUsers);
+  }, [totalUsers]);
 
   return (
     <div className="p-4 sm:p-6 lg:p-8 bg-bgColor1">
