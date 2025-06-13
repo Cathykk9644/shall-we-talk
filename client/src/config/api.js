@@ -39,7 +39,7 @@ export async function getRecommendedUsers(page = 1, limit = 6) {
   const response = await axiosInstance.get(
     `/users?page=${page}&limit=${limit}`
   );
-  // console.log("getRecommendedUsers", response.data); // Log the response from the backend
+
   return response.data;
 }
 

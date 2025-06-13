@@ -29,14 +29,6 @@ export async function getRecommendedFriends(req, res) {
       ],
     });
 
-    // Log the response data
-    console.log("Backend response:", {
-      recommendedUsers: getRecommendedUsers,
-      totalUsers,
-      page,
-      limit,
-    });
-
     res.status(200).json({
       recommendedUsers: getRecommendedUsers,
       totalUsers,
