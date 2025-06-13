@@ -185,6 +185,7 @@ export const LANGUAGES = [
   "Polish",
   "Greek",
   "Hungarian",
+  "Hindi",
   "Czech",
   "Romanian",
   "Bulgarian",

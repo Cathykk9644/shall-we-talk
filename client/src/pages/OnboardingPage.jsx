@@ -11,10 +11,12 @@ import {
   CameraIcon,
 } from "lucide-react";
 import { LANGUAGES } from "../constants";
+import { useNavigate } from "react-router";
 
 const OnboardingPage = () => {
   const { authUser } = useAuthUser();
   const queryClient = useQueryClient();
+  const navigate = useNavigate();
 
   const [formState, setFormState] = useState({
     fullName: authUser?.fullName || "",
@@ -30,6 +32,7 @@ const OnboardingPage = () => {
     onSuccess: () => {
       toast.success("Hey you've completed the onboarding process successfully");
       queryClient.invalidateQueries({ queryKey: ["authenticatedUser"] });
+      navigate("/practice-dashboard");
     },
 
     onError: (error) => {
