@@ -171,7 +171,7 @@ export const LANGUAGES = [
   "Cantonese",
   "Japanese",
   "Korean",
-  "Hindi",
+
   "Russian",
   "Portuguese",
   "Arabic",
