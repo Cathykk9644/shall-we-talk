@@ -13,7 +13,7 @@ export async function getRecommendedFriends(req, res) {
         { isOnboarded: true },
       ],
     });
-    res.status(200).json({ getRecommendedUsers });
+    res.status(200).json(getRecommendedUsers);
   } catch (error) {
     console.error("Error in getRecommendedUsers controller", error.message);
     res.status(500).json({ message: "Internal Server Error" });
