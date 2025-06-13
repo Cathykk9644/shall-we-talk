@@ -21,15 +21,32 @@ const PracticeDashboard = () => {
   const queryClient = useQueryClient();
   const [outgoingRequestsIds, setOutgoingRequestsIds] = useState(new Set());
 
+  const [page, setPage] = useState(1);
+  const [totalUsers, setTotalUsers] = useState(0);
+  const limit = 6; // Number of users per page
+
   const { data: friends = [], isLoading: loadingFriends } = useQuery({
     queryKey: ["friends"],
     queryFn: getUserFriends,
   });
 
-  const { data: recommendedUsers = [], isLoading: loadingUsers } = useQuery({
-    queryKey: ["users"],
-    queryFn: getRecommendedUsers,
+  // const { data: recommendedUsers = [], isLoading: loadingUsers } = useQuery({
+  //   queryKey: ["users"],
+  //   queryFn: getRecommendedUsers,
+  // });
+
+  const { data: recommendedData = {}, isLoading: loadingUsers } = useQuery({
+    queryKey: ["users", page],
+    queryFn: () => getRecommendedUsers(page, limit),
+    onSuccess: (data) => {
+      setTotalUsers(data.totalUsers || 0); // Update total users
+    },
+    onError: (error) => {
+      console.error("Error fetching recommended users:", error);
+    },
   });
+
+  const recommendedUsers = recommendedData.recommendedUsers || [];
 
   const { data: outgoingFriendReqs } = useQuery({
     queryKey: ["outgoingFriendReqs"],
@@ -188,6 +205,24 @@ const PracticeDashboard = () => {
               })}
             </div>
           )}
+
+          <div className="flex justify-center mt-6">
+            <button
+              className="btn btn-outline mr-2"
+              disabled={page === 1}
+              onClick={() => setPage((prev) => Math.max(prev - 1, 1))}
+            >
+              Previous
+            </button>
+            <span className="text-gray-500">Page {page}</span>
+            <button
+              className="btn btn-outline ml-2"
+              disabled={page * limit >= totalUsers}
+              onClick={() => setPage((prev) => prev + 1)}
+            >
+              Next
+            </button>
+          </div>
         </section>
       </div>
     </div>

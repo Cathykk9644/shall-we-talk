@@ -35,9 +35,11 @@ export async function getUserFriends() {
   return response.data;
 }
 
-export async function getRecommendedUsers() {
-  const response = await axiosInstance.get("/users");
-
+export async function getRecommendedUsers(page = 1, limit = 6) {
+  // console.log("API Response:", response.data); // Log the response from the backend
+  const response = await axiosInstance.get(
+    `/users?page=${page}&limit=${limit}`
+  );
   return response.data;
 }
 

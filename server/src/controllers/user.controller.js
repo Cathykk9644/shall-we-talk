@@ -6,14 +6,43 @@ export async function getRecommendedFriends(req, res) {
     const currentUserId = req.user._id;
     const currentUser = req.user;
 
+    // Extract pagination parameters from query
+    const page = parseInt(req.query.page) || 1; // Default to page 1
+    const limit = parseInt(req.query.limit) || 6; // Default to 6 items per page
+    const skip = (page - 1) * limit;
+
     const getRecommendedUsers = await User.find({
       $and: [
         { _id: { $ne: currentUserId } }, //exclude current user
         { _id: { $nin: currentUser.friends } }, // exclude current user's friends
         { isOnboarded: true },
       ],
+    })
+      .skip(skip) // Skip items for pagination
+      .limit(limit); // Limit the number of items
+
+    const totalUsers = await User.countDocuments({
+      $and: [
+        { _id: { $ne: currentUserId } },
+        { _id: { $nin: currentUser.friends } },
+        { isOnboarded: true },
+      ],
     });
-    res.status(200).json(getRecommendedUsers);
+
+    // Log the response data
+    console.log("Backend response:", {
+      recommendedUsers: getRecommendedUsers,
+      totalUsers,
+      page,
+      limit,
+    });
+
+    res.status(200).json({
+      recommendedUsers: getRecommendedUsers,
+      totalUsers,
+      page,
+      limit,
+    });
   } catch (error) {
     console.error("Error in getRecommendedUsers controller", error.message);
     res.status(500).json({ message: "Internal Server Error" });
