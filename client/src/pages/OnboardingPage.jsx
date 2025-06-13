@@ -12,6 +12,7 @@ import {
 } from "lucide-react";
 import { LANGUAGES } from "../constants";
 import { useNavigate } from "react-router";
+import imageCompression from "browser-image-compression";
 
 const OnboardingPage = () => {
   const { authUser } = useAuthUser();
@@ -53,6 +54,27 @@ const OnboardingPage = () => {
     toast.success("Random profile picture generated!");
   };
 
+  const handleCustomAvatarUpload = async (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      try {
+        const options = {
+          maxSizeMB: 1, // Maximum size in MB
+          maxWidthOrHeight: 800, // Maximum width or height
+          useWebWorker: true,
+        };
+        const compressedFile = await imageCompression(file, options);
+        const reader = new FileReader();
+        reader.onload = () => {
+          setFormState({ ...formState, profilePic: reader.result }); // Update profilePic with compressed image
+        };
+        reader.readAsDataURL(compressedFile);
+      } catch (error) {
+        toast.error("Failed to compress image");
+      }
+    }
+  };
+
   return (
     <div className="min-h-screen bg-gradient-to-b from-sky-500 to-sky-100  flex items-center justify-center p-4">
       <div className="card  bg-opacity-80 w-full max-w-3xl shadow-xl border-2 border-gray-200">
@@ -77,6 +99,23 @@ const OnboardingPage = () => {
                     <CameraIcon className="size-12 text-base-content opacity-30" />
                   </div>
                 )}
+              </div>
+              {/* Upload Custom Avatar */}
+              <div className="flex items-center gap-2">
+                <label
+                  htmlFor="customAvatar"
+                  className="btn btn-outline outline-white hover:bg-sky-500 text-white hover:text-white transition-colors hover:scale-95"
+                >
+                  <CameraIcon className="size-4 mr-2" />
+                  Upload Custom Avatar
+                </label>
+                <input
+                  id="customAvatar"
+                  type="file"
+                  accept="image/*"
+                  onChange={handleCustomAvatarUpload}
+                  className="hidden"
+                />
               </div>
 
               {/* Generate Random Avatar BTN */}
