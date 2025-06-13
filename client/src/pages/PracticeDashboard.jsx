@@ -209,21 +209,23 @@ const PracticeDashboard = () => {
             </div>
           )}
 
-          <div className="flex justify-center mt-6">
+          <div className="flex justify-center mt-6 join">
             <button
-              className="btn btn-outline mr-2"
+              className="btn  mr-2 join-item bg-slate-200 text-gray-400 hover:bg-slate-300"
               disabled={page === 1}
               onClick={() => setPage((prev) => Math.max(prev - 1, 1))}
             >
-              Previous
+              «
             </button>
-            <span className="text-gray-500">Page {page}</span>
+            <span className=" join-item btn mr-2  bg-slate-200 text-gray-400 hover:bg-slate-300">
+              Page {page}
+            </span>
             <button
-              className="btn btn-outline ml-2"
+              className="btn  ml-2 join-item  bg-slate-200 text-gray-400 hover:bg-slate-300"
               disabled={page * limit >= totalUsers}
               onClick={() => setPage((prev) => prev + 1)}
             >
-              Next
+              »
             </button>
           </div>
         </section>
