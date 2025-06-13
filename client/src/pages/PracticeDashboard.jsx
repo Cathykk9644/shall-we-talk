@@ -53,14 +53,17 @@ const PracticeDashboard = () => {
   }, [outgoingFriendReqs]);
 
   return (
-    <div className="p-4 sm:p-6 lg:p-8">
-      <div className="container mx-auto space-y-10">
+    <div className="p-4 sm:p-6 lg:p-8 bg-bgColor1">
+      <div className="container mx-auto space-y-8">
         <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
-          <h2 className="text-2xl sm:text-3xl font-bold tracking-tight">
+          <h2 className="text-2xl sm:text-3xl font-bold tracking-tight text-gray-500">
             Your Existing Friends
           </h2>
-          <Link to="/notifications" className="btn btn-outline btn-sm">
-            <UsersIcon className="mr-2 size-4" />
+          <Link
+            to="/notifications"
+            className="btn btn-outline outline-gray-400 btn-sm text-gray-500 hover:bg-gray-100 hover:text-gray-700 transition-all duration-200"
+          >
+            <UsersIcon className="mr-2 size-4 text-gray-500" />
             Friend Requests
           </Link>
         </div>
@@ -83,14 +86,17 @@ const PracticeDashboard = () => {
         {/* Recommend New Friend Section */}
         <section>
           <div className="mb-6 sm:mb-8">
-            <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+            <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 ">
               <div>
-                <h2 className="text-2xl sm:text-3xl font-bold tracking-tight">
+                <h2 className="text-2xl sm:text-3xl font-bold tracking-tight text-gray-500">
                   Meet New Learners
                 </h2>
-                <p className="opacity-70">
-                  Discover perfect language exchange partners based on your
-                  profile
+                <p className="opacity-70 text-gray-500 mt-4 bg-slate-200 p-6 rounded-xl">
+                  Hey get started with your language learning journey by
+                  connecting with new language partners! Explore profiles of
+                  learners who share your interests and language goals. Send
+                  friend requests to start practicing together and enhance your
+                  language skills through real conversations.
                 </p>
               </div>
             </div>
@@ -101,11 +107,11 @@ const PracticeDashboard = () => {
               <span className="loading loading-spinner loading-lg" />
             </div>
           ) : recommendedUsers.length === 0 ? (
-            <div className="card bg-base-200 p-6 text-center">
+            <div className="card bg-slate-200 p-6 text-start text-gray-500">
               <h3 className="font-semibold text-lg mb-2">
                 No recommendations available
               </h3>
-              <p className="text-base-content opacity-70">
+              <p className="text-gray-500 opacity-70">
                 Check back later for new language partners!
               </p>
             </div>
@@ -117,10 +123,10 @@ const PracticeDashboard = () => {
                 return (
                   <div
                     key={user._id}
-                    className="card bg-base-200 hover:shadow-lg transition-all duration-300"
+                    className="card bg-slate-200 hover:shadow-lg transition-all duration-300 text-gray-600"
                   >
-                    <div className="card-body p-5 space-y-4">
-                      <div className="flex items-center gap-3">
+                    <div className="card-body p-6 space-y-4">
+                      <div className="flex items-center gap-4">
                         <div className="avatar size-16 rounded-full">
                           <img src={user.profilePic} alt={user.fullName} />
                         </div>
@@ -139,12 +145,12 @@ const PracticeDashboard = () => {
                       </div>
 
                       {/* Languages with flags */}
-                      <div className="flex flex-wrap gap-1.5">
-                        <span className="badge badge-secondary">
+                      <div className="flex flex-wrap gap-3">
+                        <span className="badge bg-sky-500 text-white font-semibold  ">
                           {getLanguageFlag(user.nativeLanguage)}
                           Native: {capitialize(user.nativeLanguage)}
                         </span>
-                        <span className="badge badge-outline">
+                        <span className="badge badge-outline text-gray-500 border-gray-400 font-semibold">
                           {getLanguageFlag(user.learningLanguage)}
                           Learning: {capitialize(user.learningLanguage)}
                         </span>
@@ -157,7 +163,9 @@ const PracticeDashboard = () => {
                       {/* Action button */}
                       <button
                         className={`btn w-full mt-2 ${
-                          hasRequestBeenSent ? "btn-disabled" : "btn-primary"
+                          hasRequestBeenSent
+                            ? "btn-disabled"
+                            : "bg-sky-500 hover:bg-sky-600 text-white"
                         } `}
                         onClick={() => sendRequestMutation(user._id)}
                         disabled={hasRequestBeenSent || isPending}
