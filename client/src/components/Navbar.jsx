@@ -3,6 +3,7 @@ import useAuthUser from "../hooks/useAuthUser";
 import { BellIcon, LogOutIcon, ShipWheelIcon } from "lucide-react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { logout } from "../config/api";
+import LOGO from "../Assets/Logo.jpeg";
 
 const Navbar = () => {
   const { authUser } = useAuthUser();
@@ -21,12 +22,13 @@ const Navbar = () => {
         <div className="flex items-center justify-end w-full  space-x-4">
           {/* LOGO - ONLY IN THE CHAT PAGE */}
           {isChatPage && (
-            <div className="pl-5">
-              <Link to="/" className="flex items-center gap-2.5">
-                <ShipWheelIcon className="size-9 text-primary" />
-                <span className="text-3xl font-bold font-mono bg-clip-text text-transparent bg-gradient-to-r from-primary to-secondary  tracking-wider">
-                  Streamify
-                </span>
+            <div className="pl-2">
+              <Link to="/" className="flex justify-start gap-2.5">
+                <img
+                  src={LOGO}
+                  alt="logo"
+                  className="w-44 h-30 md:hidden object-cover hover:scale-90"
+                />
               </Link>
             </div>
           )}
@@ -34,13 +36,13 @@ const Navbar = () => {
           <div className="flex items-center gap-3 sm:gap-4 ml-auto">
             <Link to={"/notifications"}>
               <button className="btn btn-ghost btn-circle">
-                <BellIcon className="h-6 w-6 text-base-content opacity-70" />
+                <BellIcon className="size-7 text-sky-600 opacity-90" />
               </button>
             </Link>
           </div>
 
           <div className="avatar">
-            <div className="w-9 rounded-full border-2 border-gray-300">
+            <div className="w-9 rounded-full border-2 border-sky-200">
               <img
                 src={authUser?.profilePic}
                 alt="User Avatar"
@@ -51,7 +53,7 @@ const Navbar = () => {
 
           {/* Logout button */}
           <button className="btn btn-ghost btn-circle" onClick={logoutMutation}>
-            <LogOutIcon className="h-6 w-6 text-base-content opacity-70" />
+            <LogOutIcon className="size-7 text-sky-600 opacity-90" />
           </button>
         </div>
       </div>
