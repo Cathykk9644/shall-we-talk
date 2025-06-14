@@ -1,6 +1,6 @@
 import { Link, useLocation } from "react-router";
 import useAuthUser from "../hooks/useAuthUser";
-import { BellIcon, HomeIcon, ShipWheelIcon, UsersIcon } from "lucide-react";
+import { BellIcon, UserIcon, ShipWheelIcon, UsersIcon } from "lucide-react";
 import { FaRegPaperPlane } from "react-icons/fa";
 
 const Sidebar = () => {
@@ -9,7 +9,7 @@ const Sidebar = () => {
   const currentPath = location.pathname;
 
   return (
-    <aside className="w-60 bg-sky-500 border-r border-base-300 hidden md:flex flex-col h-screen sticky top-0">
+    <aside className="w-64 bg-sky-500 border-r border-base-300 hidden md:flex flex-col h-screen sticky top-0">
       <div className="p-6 ">
         <Link to="/" className="flex items-center gap-3">
           <FaRegPaperPlane className="size-9 text-white" />
@@ -19,13 +19,13 @@ const Sidebar = () => {
 
       <nav className="flex-1 p-4 space-y-2 text-white ">
         <Link
-          to="/"
+          to="/practice-dashboard"
           className={`btn btn-ghost justify-start w-full gap-3 px-3 normal-case ${
-            currentPath === "/" ? "btn-active" : ""
+            currentPath === "/practice-dashboard" ? "btn-active" : ""
           }`}
         >
-          <HomeIcon className="size-6  opacity-90 " />
-          <span className="text-lg">Home</span>
+          <ShipWheelIcon className="size-6  opacity-90 " />
+          <span className="text-lg">Dashboard</span>
         </Link>
 
         <Link
@@ -49,12 +49,12 @@ const Sidebar = () => {
         </Link>
 
         <Link
-          to="/"
+          to="/profile"
           className={`btn btn-ghost justify-start w-full gap-3 px-3 normal-case ${
-            currentPath === "/" ? "btn-active" : ""
+            currentPath === "/profile" ? "btn-active" : ""
           }`}
         >
-          <HomeIcon className="size-6 text-white opacity-90" />
+          <UserIcon className="size-6 text-white opacity-90" />
           <span className="text-lg">Profile</span>
         </Link>
       </nav>
