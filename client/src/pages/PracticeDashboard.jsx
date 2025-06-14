@@ -91,7 +91,7 @@ const PracticeDashboard = () => {
         {/* Existing Friend Section */}
         {loadingFriends ? (
           <div className="flex justify-center py-12">
-            <span className="loading loading-spinner loading-lg" />
+            <span className="loading loading-spinner loading-lg text-sky-500" />
           </div>
         ) : friends.length === 0 ? (
           <NoFriendsFound />
@@ -124,7 +124,7 @@ const PracticeDashboard = () => {
 
           {loadingUsers ? (
             <div className="flex justify-center py-12">
-              <span className="loading loading-spinner loading-lg" />
+              <span className="loading loading-spinner loading-lg text-sky-500" />
             </div>
           ) : recommendedUsers.length === 0 ? (
             <div className="card bg-slate-200 p-6 text-start text-gray-500">
@@ -147,7 +147,7 @@ const PracticeDashboard = () => {
                   >
                     <div className="card-body p-6 space-y-4">
                       <div className="flex items-center gap-4">
-                        <div className="avatar size-16 rounded-full">
+                        <div className="avatar size-16 border-2 border-gray-300 rounded-full">
                           <img src={user.profilePic} alt={user.fullName} />
                         </div>
 
