@@ -60,7 +60,7 @@ const NotificationPage = () => {
                       <div className="card-body p-4">
                         <div className="flex items-center justify-between">
                           <div className="flex items-center gap-4">
-                            <div className="avatar w-14 h-14 rounded-full bg-base-300">
+                            <div className="avatar w-14 h-14 rounded-full bg-base-300 ">
                               <img
                                 src={request.sender.profilePic}
                                 alt={request.sender.fullName}
@@ -99,8 +99,8 @@ const NotificationPage = () => {
             {/* ACCEPTED REQS NOTIFICATONS */}
             {acceptedRequests.length > 0 && (
               <section className="space-y-4">
-                <h2 className="text-xl font-semibold flex items-center gap-2">
-                  <BellIcon className="h-5 w-5 text-success" />
+                <h2 className="text-xl font-semibold flex items-center gap-2 text-gray-500">
+                  <BellIcon className="size-6 text-sky-600" />
                   New Connections
                 </h2>
 
@@ -108,11 +108,11 @@ const NotificationPage = () => {
                   {acceptedRequests.map((notification) => (
                     <div
                       key={notification._id}
-                      className="card bg-base-200 shadow-sm"
+                      className="card bg-slate-200 shadow-sm"
                     >
                       <div className="card-body p-4">
-                        <div className="flex items-start gap-3">
-                          <div className="avatar mt-1 size-10 rounded-full">
+                        <div className="flex items-start gap-3 text-gray-500">
+                          <div className="avatar mt-1 size-10 rounded-full border-2 border-gray-300 ">
                             <img
                               src={notification.recipient.profilePic}
                               alt={notification.recipient.fullName}
@@ -122,17 +122,17 @@ const NotificationPage = () => {
                             <h3 className="font-semibold">
                               {notification.recipient.fullName}
                             </h3>
-                            <p className="text-sm my-1">
+                            <p className="text-xs my-1 font-semibold">
                               {notification.recipient.fullName} accepted your
                               friend request
                             </p>
-                            <p className="text-xs flex items-center opacity-70">
+                            <p className="text-xs flex items-center opacity-80 font-semibold">
                               <ClockIcon className="h-3 w-3 mr-1" />
                               Recently
                             </p>
                           </div>
-                          <div className="badge badge-success">
-                            <MessageSquareIcon className="h-3 w-3 mr-1" />
+                          <div className="badge text-white bg-sky-500 font-semibold badge-md">
+                            <MessageSquareIcon className="size-4 mr-1 font-bold" />
                             New Friend
                           </div>
                         </div>
