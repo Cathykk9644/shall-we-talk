@@ -54,26 +54,35 @@ const OnboardingPage = () => {
     toast.success("Random profile picture generated!");
   };
 
-  const handleCustomAvatarUpload = async (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      try {
-        const options = {
-          maxSizeMB: 1, // Maximum size in MB
-          maxWidthOrHeight: 800, // Maximum width or height
-          useWebWorker: true,
-        };
-        const compressedFile = await imageCompression(file, options);
-        const reader = new FileReader();
-        reader.onload = () => {
-          setFormState({ ...formState, profilePic: reader.result }); // Update profilePic with compressed image
-        };
-        reader.readAsDataURL(compressedFile);
-      } catch (error) {
-        toast.error("Failed to compress image");
-      }
-    }
-  };
+  // const handleCustomAvatarUpload = async (e) => {
+  //   const file = e.target.files[0];
+  //   console.log("Uploaded file size (bytes):", file?.size);
+
+  //   // Check if file size exceeds 10 MB (10485760 bytes)
+  //   if (file && file.size > 1048576) {
+  //     toast.error(
+  //       "The selected file is over 100 MB. Please choose a smaller image."
+  //     );
+  //     return;
+  //   }
+  //   if (file) {
+  //     try {
+  //       const options = {
+  //         maxSizeMB: 1, // Maximum size in MB
+  //         maxWidthOrHeight: 800, // Maximum width or height
+  //         useWebWorker: true,
+  //       };
+  //       const compressedFile = await imageCompression(file, options);
+  //       const reader = new FileReader();
+  //       reader.onload = () => {
+  //         setFormState({ ...formState, profilePic: reader.result }); // Update profilePic with compressed image
+  //       };
+  //       reader.readAsDataURL(compressedFile);
+  //     } catch (error) {
+  //       toast.error("Failed to compress image");
+  //     }
+  //   }
+  // };
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-sky-500 to-sky-100  flex items-center justify-center p-4">
@@ -104,7 +113,7 @@ const OnboardingPage = () => {
               <div className="flex items-center gap-2">
                 <label
                   htmlFor="customAvatar"
-                  className="btn btn-outline outline-white hover:bg-sky-500 text-white hover:text-white transition-colors hover:scale-95"
+                  className="btn btn-outline outline-white hover:bg-sky-500 text-white hover:text-white transition-colors hover:scale-95 "
                 >
                   <CameraIcon className="size-4 mr-2" />
                   Upload Custom Avatar
