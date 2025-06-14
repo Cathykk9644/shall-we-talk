@@ -12,6 +12,7 @@ import {
 } from "lucide-react";
 import { LANGUAGES } from "../constants";
 import { useNavigate } from "react-router";
+// import { supabase } from "../../supabase";
 import imageCompression from "browser-image-compression";
 
 const OnboardingPage = () => {
@@ -54,34 +55,68 @@ const OnboardingPage = () => {
     toast.success("Random profile picture generated!");
   };
 
+  const handleCustomAvatarUpload = async (e) => {
+    const file = e.target.files[0];
+    console.log("Uploaded file size (bytes):", file?.size);
+
+    // Check if file size exceeds 10 MB (10485760 bytes)
+    if (file && file.size > 1048576) {
+      toast.error(
+        "The selected file is over 100 MB. Please choose a smaller image."
+      );
+      return;
+    }
+    if (file) {
+      try {
+        const options = {
+          maxSizeMB: 1, // Maximum size in MB
+          maxWidthOrHeight: 800, // Maximum width or height
+          useWebWorker: true,
+        };
+        const compressedFile = await imageCompression(file, options);
+        const reader = new FileReader();
+        reader.onload = () => {
+          setFormState({ ...formState, profilePic: reader.result }); // Update profilePic with compressed image
+        };
+        reader.readAsDataURL(compressedFile);
+      } catch (error) {
+        toast.error("Failed to compress image");
+      }
+    }
+  };
+
   // const handleCustomAvatarUpload = async (e) => {
   //   const file = e.target.files[0];
-  //   console.log("Uploaded file size (bytes):", file?.size);
+  //   if (!file) return;
 
-  //   // Check if file size exceeds 10 MB (10485760 bytes)
-  //   if (file && file.size > 1048576) {
-  //     toast.error(
-  //       "The selected file is over 100 MB. Please choose a smaller image."
-  //     );
+  //   // Create a unique file name using timestamp and original name
+  //   const fileName = `${Date.now()}-${file.name}`;
+
+  //   // Upload file to the 'profile' bucket in Supabase Storage
+  //   const { data, error } = await supabase.storage
+  //     .from("profile")
+  //     .upload(fileName, file);
+
+  //   if (error) {
+  //     console.error("Upload error:", error);
+  //     toast.error("Upload failed. Please try again.");
   //     return;
   //   }
-  //   if (file) {
-  //     try {
-  //       const options = {
-  //         maxSizeMB: 1, // Maximum size in MB
-  //         maxWidthOrHeight: 800, // Maximum width or height
-  //         useWebWorker: true,
-  //       };
-  //       const compressedFile = await imageCompression(file, options);
-  //       const reader = new FileReader();
-  //       reader.onload = () => {
-  //         setFormState({ ...formState, profilePic: reader.result }); // Update profilePic with compressed image
-  //       };
-  //       reader.readAsDataURL(compressedFile);
-  //     } catch (error) {
-  //       toast.error("Failed to compress image");
-  //     }
+
+  //   // Get the public URL for the uploaded image
+  //   const { publicURL, error: urlError } = supabase.storage
+  //     .from("profile")
+  //     .getPublicUrl(data.path);
+
+  //   if (urlError) {
+  //     console.error("Get public URL error:", urlError);
+  //     toast.error("Could not retrieve image URL. Please try again.");
+  //     return;
   //   }
+
+  //   // Update Profile Pic with the public URL from Supabase
+  //   setFormState({ ...formState, profilePic: publicURL });
+  //   toast.success("Custom avatar uploaded!");
   // };
 
   return (
