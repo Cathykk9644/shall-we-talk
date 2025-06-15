@@ -37,7 +37,7 @@ const ChatPage = () => {
 
   useEffect(() => {
     const initChat = async () => {
-      if (!tokenData?.token || !authUser) return;
+      if (!tokenData?.streamToken || !authUser) return;
 
       try {
         console.log("Initializing stream chat client...");
@@ -50,15 +50,17 @@ const ChatPage = () => {
             name: authUser.fullName,
             image: authUser.profilePic,
           },
-          tokenData.token
+          tokenData.streamToken
         );
 
         //
         const channelId = [authUser._id, targetUserId].sort().join("-");
+        console.log("Channel ID:", channelId);
 
         const currChannel = client.channel("messaging", channelId, {
           members: [authUser._id, targetUserId],
         });
+        console.log("Current Channel:", currChannel);
 
         await currChannel.watch();
 
@@ -74,6 +76,14 @@ const ChatPage = () => {
 
     initChat();
   }, [tokenData, authUser, targetUserId]);
+
+  useEffect(() => {
+    console.log("Token Data:", tokenData);
+  }, [tokenData]);
+
+  useEffect(() => {
+    console.log("Auth User:", authUser);
+  }, [authUser]);
 
   const handleVideoCall = () => {
     if (channel) {
