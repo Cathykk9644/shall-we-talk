@@ -111,12 +111,13 @@ const PracticeDashboard = () => {
                 <h2 className="text-2xl sm:text-3xl font-bold tracking-tight text-gray-500">
                   Meet New Learners
                 </h2>
-                <p className="opacity-70 text-gray-500 mt-4 bg-slate-200 p-6 rounded-xl">
-                  Hey get started with your language learning journey by
-                  connecting with new language partners! Explore profiles of
-                  learners who share your interests and language goals. Send
-                  friend requests to start practicing together and enhance your
-                  language skills through real conversations.
+                <p className="opacity-80 text-gray-500 mt-4 bg-slate-200 p-6 rounded-xl">
+                  <span className="text-4xl bg-opacity-50">👋 😉</span> Hey get
+                  started with your language learning journey by connecting with
+                  new language partners! Explore profiles of learners who share
+                  your interests and language goals. Send friend requests to
+                  start practicing together and enhance your language skills
+                  through real conversations.
                 </p>
               </div>
             </div>
