@@ -66,7 +66,7 @@ const Signup = () => {
         <img
           src={loginImg}
           alt="loginImg"
-          className="absolute md:bottom-20 left-12 m-4 max-w-xs object-cover opacity-40 lg:bottom-48"
+          className="sticky top-20 left-12 m-4 max-w-xs object-cover opacity-40 lg:bottom-48"
           style={{ maxWidth: "220px" }}
         />
       </div>
