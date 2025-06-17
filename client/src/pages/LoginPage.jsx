@@ -4,6 +4,8 @@ import loginbg from "../Assets/loginbg.avif";
 import logo from "../Assets/Logo.jpeg";
 import { useQueryClient, useMutation } from "@tanstack/react-query";
 import { login } from "../config/api";
+import loginImg from "../Assets/landingbg3.png";
+import { RiChatSmile2Line } from "react-icons/ri";
 
 const LoginPage = () => {
   const navigate = useNavigate();
@@ -40,14 +42,27 @@ const LoginPage = () => {
           className="bg-white bg-opacity-20 rounded-lg p-8 backdrop-filter backdrop-blur-md lg:mt-20"
           style={{ backdropFilter: "blur(5px)" }}
         >
-          <h1 className="text-4xl font-bold text-white mb-8">Welcome Back!</h1>
+          <div className="flex space-x-4 mb-8">
+            <RiChatSmile2Line className="text-white text-5xl" />
+            <h1 className="text-4xl font-bold text-white ">Welcome Back!</h1>
+          </div>
+
           <p className="text-3xl font-semibold text-white mb-2">
-            Log in to continue
+            Chat Globally
+          </p>
+          <p className="text-3xl font-semibold text-white mb-2">
+            Connect Locally
           </p>
           <p className="text-3xl font-semibold text-white mb-16">
-            Start connecting with the world!
+            Right Here On Shall Wetalk!
           </p>
         </div>
+        <img
+          src={loginImg}
+          alt="loginImg"
+          className="sticky top-20 left-12 m-4 max-w-xs object-cover opacity-40 lg:bottom-48"
+          style={{ maxWidth: "220px" }}
+        />
       </div>
 
       {/* Right hand Side with Login Form */}
