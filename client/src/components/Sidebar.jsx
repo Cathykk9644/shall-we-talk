@@ -1,6 +1,12 @@
 import { Link, useLocation } from "react-router";
 import useAuthUser from "../hooks/useAuthUser";
-import { BellIcon, UserIcon, ShipWheelIcon, UsersIcon } from "lucide-react";
+import {
+  BellIcon,
+  UserIcon,
+  ShipWheelIcon,
+  UsersIcon,
+  HomeIcon,
+} from "lucide-react";
 import { FaRegPaperPlane } from "react-icons/fa";
 
 const Sidebar = () => {
@@ -19,6 +25,16 @@ const Sidebar = () => {
 
       <nav className="flex-1 p-4 space-y-2 text-white ">
         <Link
+          to="/"
+          className={`btn btn-ghost justify-start w-full gap-3 px-3 normal-case ${
+            currentPath === "/" ? "btn-active" : ""
+          }`}
+        >
+          <HomeIcon className="size-6 text-white opacity-90" />
+          <span className="text-lg">Home</span>
+        </Link>
+
+        <Link
           to="/practice-dashboard"
           className={`btn btn-ghost justify-start w-full gap-3 px-3 normal-case ${
             currentPath === "/practice-dashboard" ? "btn-active" : ""
@@ -26,16 +42,6 @@ const Sidebar = () => {
         >
           <ShipWheelIcon className="size-6  opacity-90 " />
           <span className="text-lg">Dashboard</span>
-        </Link>
-
-        <Link
-          to="/friends"
-          className={`btn btn-ghost justify-start w-full gap-3 px-3 normal-case ${
-            currentPath === "/friends" ? "btn-active" : ""
-          }`}
-        >
-          <UsersIcon className="size-6 text-white opacity-90" />
-          <span className="text-lg">Friends</span>
         </Link>
 
         <Link
