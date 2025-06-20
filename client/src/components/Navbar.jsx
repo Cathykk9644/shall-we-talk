@@ -39,15 +39,20 @@ const Navbar = () => {
                 <BellIcon className="size-7 text-sky-600 opacity-90" />
               </button>
             </Link>
-          </div>
 
-          <div className="avatar">
-            <div className="w-9 rounded-full border-2 border-sky-200">
-              <img
-                src={authUser?.profilePic}
-                alt="User Avatar"
-                rel="noreferrer"
-              />
+            <div className="avatar">
+              <div className="w-9 rounded-full border-2 border-sky-200">
+                <img
+                  src={authUser?.profilePic}
+                  alt="User Avatar"
+                  rel="noreferrer"
+                />
+              </div>
+              {authUser?.fullName && (
+                <span className="text-sky-600 text-sm  hidden sm:inline ml-2 mt-2 font-semibold">
+                  Hey {authUser.fullName}!
+                </span>
+              )}
             </div>
           </div>
 
