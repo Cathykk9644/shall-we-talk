@@ -12,7 +12,7 @@ import {
 } from "lucide-react";
 import { LANGUAGES } from "../constants";
 import { useNavigate } from "react-router";
-// import { supabase } from "../../supabase";
+
 import imageCompression from "browser-image-compression";
 
 const OnboardingPage = () => {
@@ -84,40 +84,6 @@ const OnboardingPage = () => {
       }
     }
   };
-
-  // const handleCustomAvatarUpload = async (e) => {
-  //   const file = e.target.files[0];
-  //   if (!file) return;
-
-  //   // Create a unique file name using timestamp and original name
-  //   const fileName = `${Date.now()}-${file.name}`;
-
-  //   // Upload file to the 'profile' bucket in Supabase Storage
-  //   const { data, error } = await supabase.storage
-  //     .from("profile")
-  //     .upload(fileName, file);
-
-  //   if (error) {
-  //     console.error("Upload error:", error);
-  //     toast.error("Upload failed. Please try again.");
-  //     return;
-  //   }
-
-  //   // Get the public URL for the uploaded image
-  //   const { publicURL, error: urlError } = supabase.storage
-  //     .from("profile")
-  //     .getPublicUrl(data.path);
-
-  //   if (urlError) {
-  //     console.error("Get public URL error:", urlError);
-  //     toast.error("Could not retrieve image URL. Please try again.");
-  //     return;
-  //   }
-
-  //   // Update Profile Pic with the public URL from Supabase
-  //   setFormState({ ...formState, profilePic: publicURL });
-  //   toast.success("Custom avatar uploaded!");
-  // };
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-sky-500 to-sky-100  flex items-center justify-center p-4">
