@@ -4,7 +4,7 @@ import loginbg from "../Assets/loginbg.avif";
 import logo from "../Assets/Logo.jpeg";
 import { useQueryClient, useMutation } from "@tanstack/react-query";
 import { login } from "../config/api";
-import loginImg from "../Assets/landingbg3.png";
+
 import { RiChatSmile2Line } from "react-icons/ri";
 
 const LoginPage = () => {
@@ -57,16 +57,10 @@ const LoginPage = () => {
             Right Here On Shall Wetalk!
           </p>
         </div>
-        {/* <img
-          src={loginImg}
-          alt="loginImg"
-          className="sticky top-20 left-12 m-4 max-w-xs object-cover opacity-40 lg:bottom-48"
-          style={{ maxWidth: "220px" }}
-        /> */}
       </div>
 
       {/* Right hand Side with Login Form */}
-      <div className="flex flex-col gap-8 w-full md:w-1/2 bg-bgColor1 p-6 md:py-12 md:px-20 lg:py-36">
+      <div className="flex flex-col gap-8 w-full md:w-1/2 bg-bgColor1 p-6 md:py-12 md:px-20 lg:py-36 mt-10">
         <Link to="/" className="flex justify-center hover:scale-95">
           <img src={logo} alt="logo" className="w-48 object-cover" />
         </Link>
