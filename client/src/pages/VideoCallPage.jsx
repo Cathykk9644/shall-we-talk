@@ -3,6 +3,7 @@ import { useNavigate, useParams } from "react-router";
 import useAuthUser from "../hooks/useAuthUser";
 import { useQuery } from "@tanstack/react-query";
 import { getStreamToken } from "../config/api";
+import LOGO from "../Assets/Logo.jpeg";
 
 import {
   StreamVideo,
@@ -76,8 +77,15 @@ const CallPage = () => {
   if (isLoading || isConnecting) return <PageLoader />;
 
   return (
-    <div className="h-screen flex flex-col items-center justify-center">
+    <div className="h-screen flex flex-col items-center justify-center bg-bgColor1 text-white">
       <div className="relative">
+        <div className=" flex items-center justify-center mb-4">
+          <img
+            src={LOGO}
+            alt="logo"
+            className="w-48  object-cover hover:scale-90"
+          />
+        </div>
         {client && call ? (
           <StreamVideo client={client}>
             <StreamCall call={call}>
