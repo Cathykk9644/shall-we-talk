@@ -26,6 +26,7 @@ const ProfilePage = () => {
     profilePic: "",
   });
   const [message, setMessage] = useState("");
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
 
   // Fetch user profile
   const {
@@ -53,7 +54,7 @@ const ProfilePage = () => {
     onSuccess: (data) => {
       queryClient.setQueryData(["userProfile"], data);
       setEditField(null);
-      setMessage("Profile updated!");
+      setMessage("Profile updated successfully!");
     },
     onError: () => setMessage("Update failed."),
   });
@@ -81,9 +82,16 @@ const ProfilePage = () => {
   };
 
   const handleDelete = () => {
-    if (window.confirm("Are you sure you want to delete your account?")) {
-      deleteMutation.mutate();
-    }
+    setShowDeleteModal(true);
+  };
+
+  const confirmDelete = () => {
+    setShowDeleteModal(false);
+    deleteMutation.mutate();
+  };
+
+  const cancelDelete = () => {
+    setShowDeleteModal(false);
   };
 
   if (isLoading)
@@ -94,7 +102,7 @@ const ProfilePage = () => {
     );
   if (isError)
     return (
-      <div className="flex justify-center py-12 text-red-500">
+      <div className="flex justify-center py-12 text-rose-500">
         {error?.message || "Failed to load profile."}
       </div>
     );
@@ -125,7 +133,7 @@ const ProfilePage = () => {
             <div
               className={`mb-4 px-4 py-2 rounded text-center font-semibold ${
                 message.includes("updated")
-                  ? "bg-gray-100 text-sky-600 "
+                  ? "bg-slate-300 text-sky-600 "
                   : "bg-red-100 text-rose-400"
               }`}
             >
@@ -228,6 +236,36 @@ const ProfilePage = () => {
                 Delete Account
               </button>
             </div>
+            {/* Modal for delete confirmation */}
+            {showDeleteModal && (
+              <div className="fixed inset-0 flex items-center justify-center bg-sky-800 bg-opacity-40 z-50">
+                <div className="bg-slate-200 rounded-2xl shadow-md p-10 max-w-sm w-full  border-sky-600 border-2 flex flex-col items-center">
+                  <h3 className="text-2xl font-bold mb-4 text-gray-600">
+                    Confirm Account Deletion
+                  </h3>
+
+                  <p className="mb-6 text-gray-500 text-center text-sm font-semibold">
+                    Are you sure you want to delete your account? This action
+                    cannot be undone.
+                  </p>
+                  <div className="flex justify-end gap-3">
+                    <button
+                      onClick={cancelDelete}
+                      className="btn bg-sky-500 hover:bg-sky-600 text-white font-semibold px-4 py-1 rounded-xl"
+                    >
+                      Cancel
+                    </button>
+                    <button
+                      onClick={confirmDelete}
+                      className="btn bg-rose-400 hover:bg-rose-500 text-white font-semibold px-4 py-1 rounded-xl"
+                      disabled={deleteMutation.isLoading}
+                    >
+                      Delete
+                    </button>
+                  </div>
+                </div>
+              </div>
+            )}
           </div>
         </div>
       </div>
