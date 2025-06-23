@@ -23,7 +23,7 @@ const PracticeDashboard = () => {
 
   const [page, setPage] = useState(1);
   const [totalUsers, setTotalUsers] = useState(0);
-  const limit = 6; // Number of users per page
+  const limit = 6;
 
   const { data: friends = [], isLoading: loadingFriends } = useQuery({
     queryKey: ["friends"],
@@ -111,13 +111,16 @@ const PracticeDashboard = () => {
                 <h2 className="text-2xl sm:text-3xl font-bold tracking-tight text-gray-500">
                   Meet New Learners
                 </h2>
-                <p className="opacity-80 text-gray-500 mt-4 bg-slate-200 p-6 rounded-xl">
-                  <span className="text-4xl bg-opacity-50">👋 😉</span> Hey get
-                  started with your language learning journey by connecting with
-                  new language partners! Explore profiles of learners who share
-                  your interests and language goals. Send friend requests to
-                  start practicing together and enhance your language skills
-                  through real conversations.
+                <p className="opacity-80 text-gray-500 mt-4 bg-slate-200 p-6 rounded-xl text-justify">
+                  <span className="text-4xl bg-opacity-50">👋 😉</span> Welcome
+                  to our unique language exchange platform! Here, you can use
+                  your native language to help others learn, while also finding
+                  native speakers of the language you wish to master. Connect
+                  with learners and teachers from around the world, share your
+                  expertise, and immerse yourself in real conversations. Explore
+                  profiles, send friend requests, and start practicing together
+                  to accelerate your language journey through authentic,
+                  meaningful exchanges.
                 </p>
               </div>
             </div>
@@ -178,7 +181,9 @@ const PracticeDashboard = () => {
                       </div>
 
                       {user.bio && (
-                        <p className="text-sm opacity-70">{user.bio}</p>
+                        <p className="text-sm opacity-70 text-justify">
+                          {user.bio}
+                        </p>
                       )}
 
                       {/* Action button */}

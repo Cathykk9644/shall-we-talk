@@ -7,10 +7,12 @@ const FriendCard = ({ friend }) => {
       <div className="card-body p-4">
         {/* USER INFO */}
         <div className="flex items-center gap-4 mb-3">
-          <div className="avatar size-12 border-2 border-gray-300 rounded-full ">
+          <div className="avatar size-12 border-2 border-gray-300 rounded-full">
             <img src={friend.profilePic} alt={friend.fullName} />
           </div>
-          <h3 className="font-semibold truncate">{friend.fullName}</h3>
+          <h3 className="font-semibold truncate  text-gray-600">
+            {friend.fullName}
+          </h3>
         </div>
 
         <div className="flex flex-wrap gap-1.5 mb-3">
