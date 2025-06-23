@@ -6,13 +6,13 @@ import {
 } from "../config/api";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { Pencil } from "lucide-react";
+import { LANGUAGES } from "../constants";
 
 const editableFields = [
-  { key: "fullName", label: "Name" },
-  { key: "bio", label: "Bio" },
-  { key: "nativeLanguage", label: "Native Language" },
-  { key: "learningLanguage", label: "Learning Language" },
-  // Removed profilePic from editable fields
+  { key: "fullName", label: "Name", type: "text" },
+  { key: "bio", label: "Bio", type: "textarea" },
+  { key: "nativeLanguage", label: "Native Language", type: "select" },
+  { key: "learningLanguage", label: "Learning Language", type: "select" },
 ];
 
 const ProfilePage = () => {
@@ -117,7 +117,7 @@ const ProfilePage = () => {
                 className="object-cover w-full h-full"
               />
             </div>
-            <h2 className="text-2xl sm:text-4xl  font-bold tracking-tight text-gray-600 text-left mb-0 ml-6">
+            <h2 className="text-2xl sm:text-4xl font-bold tracking-tight text-gray-500 text-left mb-0">
               My Profile
             </h2>
           </div>
@@ -143,7 +143,7 @@ const ProfilePage = () => {
                     onSubmit={handleUpdateField}
                     className="flex-1 flex gap-2 items-center"
                   >
-                    {field.key === "bio" ? (
+                    {field.type === "textarea" ? (
                       <textarea
                         name={field.key}
                         value={form[field.key]}
@@ -151,6 +151,25 @@ const ProfilePage = () => {
                         className="textarea textarea-bordered w-full bg-white min-h-[30px]"
                         autoFocus
                       />
+                    ) : field.type === "select" ? (
+                      <select
+                        name={field.key}
+                        value={form[field.key]}
+                        onChange={handleChange}
+                        className="select select-bordered w-full bg-white"
+                        autoFocus
+                      >
+                        <option value="">
+                          {field.key === "nativeLanguage"
+                            ? "Select your native language"
+                            : "Select language you'd like to learn"}
+                        </option>
+                        {LANGUAGES.map((lang) => (
+                          <option key={lang} value={lang.toLowerCase()}>
+                            {lang}
+                          </option>
+                        ))}
+                      </select>
                     ) : (
                       <input
                         name={field.key}
@@ -183,7 +202,7 @@ const ProfilePage = () => {
                   </form>
                 ) : (
                   <div className="flex-1 flex items-center gap-2">
-                    <span>
+                    <span className="text-gray-500">
                       {user[field.key] || (
                         <span className="text-gray-400">
                           {field.key === "bio" ? "No bio" : "N/A"}
