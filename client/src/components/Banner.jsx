@@ -12,7 +12,7 @@ const Banner = () => {
   const { authUser } = useAuthUser();
 
   return (
-    <div className="w-full min-h-[70vh] flex flex-col md:flex-row px-4 md:px-10 py-2 sm:py-4 md:py-10 gap-8">
+    <div className="w-full min-h-[70vh] flex flex-col md:flex-row px-4 md:px-10 py-2 sm:py-4 md:py-10 gap-8 bg-bgColor1">
       <div className="flex-1 md:p-6 xl:p-8 flex flex-col justify-center">
         <div className="flex flex-col items-start">
           <img
@@ -68,14 +68,14 @@ const Banner = () => {
         <img
           src={hero1}
           alt="hero1"
-          className="absolute top-0 left-0 w-1/2 h-auto object-cover rounded-br-md p-1 hover:scale-105 transition duration-300"
+          className="absolute top-0 left-0 w-1/2 h-4/5 object-contain rounded-br-md p-2 hover:scale-105 transition duration-300"
         />
 
         {/* Bottom right image */}
         <img
           src={hero2}
           alt="hero2"
-          className="absolute bottom-0 right-0 w-1/2  h-4/5 object-cover rounded-tl-md p-1 hover:scale-105 transition duration-300 ml-2 sm:ml-4"
+          className="absolute bottom-0 right-2 w-1/2  h-4/5 object-contain rounded-tl-md p-2 hover:scale-105 transition duration-300 ml-2 sm:ml-4"
         />
       </div>
     </div>
