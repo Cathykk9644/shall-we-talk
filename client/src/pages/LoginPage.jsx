@@ -67,7 +67,7 @@ const LoginPage = () => {
 
         {/* ERROR MESSAGE DISPLAY */}
         {error && (
-          <div className="alert alert-error mb-4">
+          <div className="alert alert-error mb-4 text-white font-semibold">
             <span>{error.response.data.message}</span>
           </div>
         )}
