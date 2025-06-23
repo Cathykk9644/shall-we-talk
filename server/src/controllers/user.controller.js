@@ -180,3 +180,50 @@ export async function getOutgoingFriendRequests(req, res) {
     res.status(500).json({ message: "Internal Server Error" });
   }
 }
+
+// Get user profile
+export async function getUserProfile(req, res) {
+  try {
+    const userId = req.user._id;
+    const user = await User.findById(userId).select("-password");
+    if (!user) return res.status(404).json({ message: "User not found." });
+    res.status(200).json(user);
+  } catch (error) {
+    console.error("Error in getUserProfile controller", error.message);
+    res.status(500).json({ message: "Internal Server Error" });
+  }
+}
+
+// Update user profile
+export async function updateUserProfile(req, res) {
+  try {
+    const userId = req.user._id;
+    const { fullName, bio, nativeLanguage, learningLanguage, profilePic } =
+      req.body;
+    const updatedUser = await User.findByIdAndUpdate(
+      userId,
+      { fullName, bio, nativeLanguage, learningLanguage, profilePic },
+      { new: true, runValidators: true }
+    );
+    if (!updatedUser)
+      return res.status(404).json({ message: "User not found." });
+    res.status(200).json(updatedUser);
+  } catch (error) {
+    console.error("Error in updateUserProfile controller", error.message);
+    res.status(500).json({ message: "Internal Server Error" });
+  }
+}
+
+// Delete user account
+export async function deleteUserAccount(req, res) {
+  try {
+    const userId = req.user._id;
+    const deletedUser = await User.findByIdAndDelete(userId);
+    if (!deletedUser)
+      return res.status(404).json({ message: "User not found." });
+    res.status(200).json({ message: "User account deleted successfully." });
+  } catch (error) {
+    console.error("Error in deleteUserAccount controller", error.message);
+    res.status(500).json({ message: "Internal Server Error" });
+  }
+}

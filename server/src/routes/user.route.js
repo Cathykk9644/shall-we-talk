@@ -9,6 +9,12 @@ import {
   getOutgoingFriendRequests,
 } from "../controllers/user.controller.js";
 
+import {
+  getUserProfile,
+  updateUserProfile,
+  deleteUserAccount,
+} from "../controllers/user.controller.js";
+
 const router = express.Router();
 
 // Apply auth middleware to all routes
@@ -22,5 +28,9 @@ router.put("/friend-request/:id/accept", acceptFriendRequest);
 
 router.get("/friend-requests", getIncomingFriendRequests);
 router.get("/outgoing-friend-requests", getOutgoingFriendRequests);
+
+router.get("/profile", getUserProfile);
+router.put("/profile", updateUserProfile);
+router.delete("/profile", deleteUserAccount);
 
 export default router;
