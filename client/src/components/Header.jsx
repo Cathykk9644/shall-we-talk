@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import LOGO from "../Assets/Logo.jpeg";
 import { useNavigate, Link } from "react-router";
 import useAuthUser from "../hooks/useAuthUser";
@@ -10,11 +10,20 @@ const Header = () => {
   const navigate = useNavigate();
   const { authUser } = useAuthUser();
 
+  const [showLogoutModal, setShowLogoutModal] = useState(false);
+
   const queryClient = useQueryClient();
   const { mutate: logoutMutation } = useMutation({
     mutationFn: logout,
     onSuccess: () => queryClient.invalidateQueries({ queryKey: ["authUser"] }),
   });
+
+  const handleLogoutClick = () => setShowLogoutModal(true);
+  const confirmLogout = () => {
+    setShowLogoutModal(false);
+    logoutMutation();
+  };
+  const cancelLogout = () => setShowLogoutModal(false);
 
   return (
     <div className="w-screen z-50 md:px-14 md:py-8 px-3 py-4 xl:py-12">
@@ -50,7 +59,7 @@ const Header = () => {
                   <img
                     src={authUser.profilePic}
                     alt="User Avatar"
-                    className="w-8 h-8 rounded-full border-2 border-textColor1 object-cover"
+                    className="size-8 md:size-12 rounded-full border-2 border-textColor1 object-cover"
                   />
                 ) : (
                   <span className="w-8 h-8 rounded-full bg-gray-300 flex items-center justify-center text-textColor1 font-bold">
@@ -61,17 +70,45 @@ const Header = () => {
                   Hey {authUser.fullName}!
                 </span>
                 <button
-                  onClick={logoutMutation}
+                  onClick={handleLogoutClick}
                   className="ml-2 p-2 rounded-full hover:bg-gray-200 transition"
                   title="Logout"
                 >
-                  <LogOutIcon className="w-5 h-5 text-textColor1" />
+                  <LogOutIcon className="size-4 md:size-6 text-textColor1" />
                 </button>
               </div>
             </>
           )}
         </div>
       </div>
+
+      {/* Logout Confirmation Modal */}
+      {showLogoutModal && (
+        <div className="fixed inset-0 flex items-center justify-center bg-sky-800 bg-opacity-40 z-50">
+          <div className="bg-slate-200 rounded-2xl shadow-md p-10 max-w-sm w-full border-sky-600 border-2 flex flex-col items-center">
+            <h3 className="text-2xl font-bold mb-4 text-gray-600">
+              Confirm Logout
+            </h3>
+            <p className="mb-6 text-gray-500 text-center text-sm font-semibold">
+              Are you sure you want to log out?
+            </p>
+            <div className="flex justify-center gap-3 w-full">
+              <button
+                onClick={cancelLogout}
+                className="btn bg-sky-500 hover:bg-sky-600 text-white font-semibold px-4 py-1 rounded-xl"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={confirmLogout}
+                className="btn bg-rose-400 hover:bg-rose-500 text-white font-semibold px-4 py-1 rounded-xl"
+              >
+                Log Out
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
