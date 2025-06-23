@@ -12,7 +12,7 @@ const editableFields = [
   { key: "bio", label: "Bio" },
   { key: "nativeLanguage", label: "Native Language" },
   { key: "learningLanguage", label: "Learning Language" },
-  { key: "profilePic", label: "Profile Image URL" },
+  // Removed profilePic from editable fields
 ];
 
 const ProfilePage = () => {
@@ -107,8 +107,8 @@ const ProfilePage = () => {
 
   return (
     <div className="p-4 sm:p-6 lg:p-8 bg-bgColor1 min-h-screen">
-      <div className="container mx-auto max-w-3xl">
-        <div className="card bg-slate-200 p-12 rounded-2xl shadow-md">
+      <div className="container mx-auto max-w-4xl flex flex-col items-center justify-center text-gray-500">
+        <div className="card bg-slate-200 p-12 rounded-2xl shadow-md w-full">
           <div className="flex items-center gap-8 mb-8">
             <div className="avatar size-32 border-2 border-gray-300 rounded-full overflow-hidden">
               <img
@@ -117,7 +117,7 @@ const ProfilePage = () => {
                 className="object-cover w-full h-full"
               />
             </div>
-            <h2 className="text-2xl sm:text-3xl font-bold tracking-tight text-gray-500 text-left mb-0">
+            <h2 className="text-2xl sm:text-4xl  font-bold tracking-tight text-gray-600 text-left mb-0 ml-6">
               My Profile
             </h2>
           </div>
@@ -132,7 +132,7 @@ const ProfilePage = () => {
               {message}
             </div>
           )}
-          <div className="space-y-6">
+          <div className="space-y-8">
             {editableFields.map((field) => (
               <div key={field.key} className="flex items-start gap-2">
                 <span className="font-semibold text-gray-600 min-w-[180px] block">
@@ -148,7 +148,7 @@ const ProfilePage = () => {
                         name={field.key}
                         value={form[field.key]}
                         onChange={handleChange}
-                        className="textarea textarea-bordered w-full bg-white min-h-[40px]"
+                        className="textarea textarea-bordered w-full bg-white min-h-[30px]"
                         autoFocus
                       />
                     ) : (
