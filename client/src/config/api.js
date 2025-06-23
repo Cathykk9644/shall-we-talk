@@ -69,3 +69,20 @@ export async function getStreamToken() {
   const response = await axiosInstance.get("/chat/streamToken");
   return response.data;
 }
+
+// User profile APIs
+
+export async function getUserProfile() {
+  const response = await axiosInstance.get("/users/profile");
+  return response.data;
+}
+
+export async function updateUserProfile(profileData) {
+  const response = await axiosInstance.put("/users/profile", profileData);
+  return response.data;
+}
+
+export async function deleteUserAccount() {
+  const response = await axiosInstance.delete("/users/profile");
+  return response.data;
+}
