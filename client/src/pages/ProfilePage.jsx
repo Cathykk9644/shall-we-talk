@@ -117,7 +117,7 @@ const ProfilePage = () => {
                 className="object-cover w-full h-full"
               />
             </div>
-            <h2 className="text-2xl sm:text-4xl font-bold tracking-tight text-gray-500 text-left mb-0">
+            <h2 className="text-2xl sm:text-4xl font-bold tracking-tight text-gray-500 text-left mb-0 ml-4">
               My Profile
             </h2>
           </div>
