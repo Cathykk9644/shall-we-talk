@@ -3,12 +3,14 @@ import decorationImg from "../Assets/departmets-vector.svg";
 import hero1 from "../Assets/hero-1.png";
 import hero2 from "../Assets/hero-2.png";
 import herobg from "../Assets/hero-shape-2.png";
-
 import { useNavigate } from "react-router";
 import { IoMdLogIn } from "react-icons/io";
+import useAuthUser from "../hooks/useAuthUser";
 
 const Banner = () => {
   const navigate = useNavigate();
+  const { authUser } = useAuthUser();
+
   return (
     <div className="w-full min-h-[70vh] flex flex-col md:flex-row px-4 md:px-10 py-2 sm:py-4 md:py-10 gap-8">
       <div className="flex-1 md:p-6 xl:p-8 flex flex-col justify-center">
@@ -34,13 +36,23 @@ const Banner = () => {
         </p>
 
         <div className="flex items-center">
-          <button
-            onClick={() => navigate("/signup")}
-            className="text-white py-3 px-4 rounded-xl text-md hover:bg-sky-700 transition duration-300 hover:scale-90 bg-gradient-to-r from-sky-400 to bg-sky-600 w-auto "
-          >
-            Try it for Free
-            <IoMdLogIn className="ml-36 -mt-5 text-lg" />
-          </button>
+          {!authUser ? (
+            <button
+              onClick={() => navigate("/signup")}
+              className="text-white py-3 px-4 rounded-xl text-md hover:bg-sky-700 transition duration-300 hover:scale-90 bg-gradient-to-r from-sky-400 to bg-sky-600 w-auto font-semibold "
+            >
+              Try it for Free
+              <IoMdLogIn className="ml-36 -mt-5 text-lg" />
+            </button>
+          ) : (
+            <button
+              onClick={() => navigate("/practice-dashboard")}
+              className="text-white py-3 px-4 rounded-xl text-md hover:bg-sky-700 transition duration-300 hover:scale-90 bg-gradient-to-r from-sky-400 to bg-sky-600 w-auto font-semibold "
+            >
+              Go to Dashboard
+              <IoMdLogIn className="ml-44 -mt-5 text-lg" />
+            </button>
+          )}
         </div>
       </div>
       {/* Right side (hero Image container) */}
