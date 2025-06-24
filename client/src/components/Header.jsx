@@ -90,7 +90,8 @@ const Header = () => {
               Confirm Logout
             </h3>
             <p className="mb-6 text-gray-500 text-center text-sm font-semibold">
-              Are you sure you want to log out?
+              Are you sure you want to log out? You will need to log in again to
+              access your account.
             </p>
             <div className="flex justify-center gap-3 w-full">
               <button

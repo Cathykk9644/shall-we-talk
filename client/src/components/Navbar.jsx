@@ -72,7 +72,7 @@ const Navbar = () => {
               className="btn btn-ghost btn-circle"
               onClick={handleLogoutClick}
             >
-              <LogOutIcon className="size-7 text-sky-600 opacity-90" />
+              <LogOutIcon className="size-6 text-sky-600 opacity-80" />
             </button>
           </div>
         </div>
@@ -86,7 +86,8 @@ const Navbar = () => {
               Confirm Logout
             </h3>
             <p className="mb-6 text-gray-500 text-center text-sm font-semibold">
-              Are you sure you want to log out?
+              Are you sure you want to log out? You will need to log in again to
+              access your account.
             </p>
             <div className="flex justify-center gap-3 w-full">
               <button
