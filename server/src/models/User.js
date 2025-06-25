@@ -21,10 +21,12 @@ const userSchema = new mongoose.Schema(
       type: String,
       default: "",
     },
+
     profilePic: {
-      type: String,
-      default: "",
+      publicId: { type: String, default: "" },
+      url: { type: String, default: "" },
     },
+
     nativeLanguage: {
       type: String,
       default: "",
