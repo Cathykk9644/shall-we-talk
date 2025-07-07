@@ -151,10 +151,13 @@ const PracticeDashboard = () => {
                   >
                     <div className="card-body p-6 space-y-4">
                       <div className="flex items-center gap-4">
-                        <div className="avatar size-16 border-2 border-gray-300 rounded-full">
-                          <img src={user.profilePic} alt={user.fullName} />
+                        <div className="avatar size-16 border-2 border-gray-300 rounded-full overflow-hidden">
+                          <img
+                            src={user.profilePic}
+                            alt={user.fullName}
+                            className="w-full h-full object-cover rounded-full"
+                          />
                         </div>
-
                         <div>
                           <h3 className="font-semibold text-lg">
                             {user.fullName}
