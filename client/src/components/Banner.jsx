@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import decorationImg from "../Assets/departmets-vector.svg";
 import hero1 from "../Assets/hero-1.png";
 import hero2 from "../Assets/hero-2.png";
@@ -10,6 +10,23 @@ import useAuthUser from "../hooks/useAuthUser";
 const Banner = () => {
   const navigate = useNavigate();
   const { authUser } = useAuthUser();
+
+  // Track window width for responsive background
+  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+
+  useEffect(() => {
+    const handleResize = () => setWindowWidth(window.innerWidth);
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
+  // Responsive background style
+  let bgSize = "90%";
+  let bgPosition = "center";
+  if (windowWidth >= 460 && windowWidth <= 1026) {
+    bgSize = "contain";
+    bgPosition = "center";
+  }
 
   return (
     <div className="w-full min-h-[70vh] flex flex-col md:flex-row px-4 md:px-10 py-2 sm:py-4 md:py-10 gap-8 bg-bgColor1">
@@ -60,7 +77,8 @@ const Banner = () => {
         className="flex-1 relative bg-cover bg-center opacity-95 min-h-[250px] md:min-h-0"
         style={{
           backgroundImage: `url(${herobg})`,
-          backgroundSize: "90%",
+          backgroundSize: bgSize,
+          backgroundPosition: bgPosition,
           backgroundRepeat: "no-repeat",
         }}
       >
@@ -68,14 +86,14 @@ const Banner = () => {
         <img
           src={hero1}
           alt="hero1"
-          className="absolute top-0 left-0 w-1/2 h-4/5 object-contain rounded-br-md p-2 hover:scale-105 transition duration-300"
+          className="absolute top-0 left-0  w-1/2 h-4/5 object-contain rounded-br-md p-2  transition duration-300"
         />
 
         {/* Bottom right image */}
         <img
           src={hero2}
           alt="hero2"
-          className="absolute bottom-0 right-2 w-1/2  h-4/5 object-contain rounded-tl-md p-2 hover:scale-105 transition duration-300 ml-2 sm:ml-4"
+          className="absolute bottom-0 right-2 w-1/2  h-4/5 object-contain rounded-tl-md p-2  transition duration-300 ml-2 sm:ml-4"
         />
       </div>
     </div>
