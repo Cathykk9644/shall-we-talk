@@ -7,8 +7,8 @@ export async function getRecommendedFriends(req, res) {
     const currentUser = req.user;
 
     // Extract pagination parameters from query
-    const page = parseInt(req.query.page) || 1; // Default to page 1
-    const limit = parseInt(req.query.limit) || 6; // Default to 6 items per page
+    const page = parseInt(req.query.page) || 1;
+    const limit = parseInt(req.query.limit) || 6;
     const skip = (page - 1) * limit;
 
     const getRecommendedUsers = await User.find({

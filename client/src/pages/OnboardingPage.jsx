@@ -26,7 +26,8 @@ const OnboardingPage = () => {
     nativeLanguage: authUser?.nativeLanguage || "",
     learningLanguage: authUser?.learningLanguage || "",
     location: authUser?.location || "",
-    profilePic: authUser?.profilePic || "",
+    profilePic: authUser?.profilePic || "", // for preview
+    image: "", // for sending to backend
   });
 
   const { mutate: onboardingMutation, isPending } = useMutation({
@@ -42,47 +43,60 @@ const OnboardingPage = () => {
     },
   });
 
-  const handleOnboarding = (e) => {
-    e.preventDefault();
-    onboardingMutation(formState);
-  };
-
   const handleRandomAvatar = () => {
-    const idx = Math.floor(Math.random() * 100) + 1; // 1-100 included
+    const idx = Math.floor(Math.random() * 100) + 1;
     const randomAvatar = `https://avatar.iran.liara.run/public/${idx}.png`;
-
-    setFormState({ ...formState, profilePic: randomAvatar });
+    setFormState({
+      ...formState,
+      profilePic: randomAvatar,
+      image: randomAvatar,
+    });
     toast.success("Random profile picture generated!");
   };
 
   const handleCustomAvatarUpload = async (e) => {
     const file = e.target.files[0];
-    console.log("Uploaded file size (bytes):", file?.size);
-
-    // Check if file size exceeds 10 MB (10485760 bytes)
-    if (file && file.size > 1048576) {
+    if (file && file.size > 10485760) {
       toast.error(
-        "The selected file is over 100 MB. Please choose a smaller image."
+        "The selected file is over 10 MB. Please choose a smaller image."
       );
       return;
     }
     if (file) {
       try {
         const options = {
-          maxSizeMB: 1, // Maximum size in MB
-          maxWidthOrHeight: 800, // Maximum width or height
+          maxSizeMB: 1,
+          maxWidthOrHeight: 800,
           useWebWorker: true,
         };
         const compressedFile = await imageCompression(file, options);
         const reader = new FileReader();
         reader.onload = () => {
-          setFormState({ ...formState, profilePic: reader.result }); // Update profilePic with compressed image
+          setFormState({
+            ...formState,
+            profilePic: reader.result, // for preview
+            image: reader.result, // for backend upload
+          });
         };
         reader.readAsDataURL(compressedFile);
       } catch (error) {
         toast.error("Failed to compress image");
       }
     }
+  };
+
+  const handleOnboarding = (e) => {
+    e.preventDefault();
+    // Only send the fields required by backend
+    const payload = {
+      fullName: formState.fullName,
+      bio: formState.bio,
+      nativeLanguage: formState.nativeLanguage,
+      learningLanguage: formState.learningLanguage,
+      location: formState.location,
+      image: formState.image, // send image as base64 or url
+    };
+    onboardingMutation(payload);
   };
 
   return (

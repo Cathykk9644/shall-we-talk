@@ -6,4 +6,12 @@ cloudinary.config({
   api_secret: process.env.CLOUDINARY_API_SECRET,
 });
 
-export default cloudinary;
+export const uploadToCloudinary = async (path, folder = "my-profile") => {
+  try {
+    const data = await cloudinary.uploader.upload(path, { folder: folder });
+    return { url: data.secure_url, publicId: data.public_id };
+  } catch (err) {
+    console.log(err);
+    throw err;
+  }
+};
