@@ -67,7 +67,7 @@ const Header = () => {
                   </span>
                 )}
                 <span className="font-semibold text-textColor1 text-sm xl:text-lg">
-                  Hey {authUser.fullName}!
+                  Hey {authUser.fullName.split(" ")[0]}!
                 </span>
                 <button
                   onClick={handleLogoutClick}
