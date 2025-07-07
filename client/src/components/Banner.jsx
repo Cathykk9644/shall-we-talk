@@ -60,7 +60,7 @@ const Banner = () => {
         className="flex-1 relative bg-cover bg-center opacity-95 min-h-[250px] md:min-h-0"
         style={{
           backgroundImage: `url(${herobg})`,
-          backgroundSize: "95%",
+          backgroundSize: "90%",
           backgroundRepeat: "no-repeat",
         }}
       >

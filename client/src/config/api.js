@@ -71,7 +71,6 @@ export async function getStreamToken() {
 }
 
 // User profile APIs
-
 export async function getUserProfile() {
   const response = await axiosInstance.get("/users/profile");
   return response.data;
