@@ -27,6 +27,34 @@ const ProfilePage = () => {
   });
   const [message, setMessage] = useState("");
   const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [uploadingImage, setUploadingImage] = useState(false);
+  // Handle profile image change
+  const handleProfilePicChange = async (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+    setMessage("");
+    setUploadingImage(true);
+    try {
+      // Convert file to base64
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onloadend = async () => {
+        const base64Image = reader.result;
+        // Call update mutation for profilePic
+        updateMutation.mutate(
+          { profilePic: base64Image },
+          {
+            onSuccess: () => setMessage("Profile image updated!"),
+            onError: () => setMessage("Failed to update image."),
+            onSettled: () => setUploadingImage(false),
+          }
+        );
+      };
+    } catch (err) {
+      setMessage("Failed to update image.");
+      setUploadingImage(false);
+    }
+  };
 
   // Fetch user profile
   const {
@@ -118,12 +146,34 @@ const ProfilePage = () => {
       <div className="container mx-auto max-w-4xl flex flex-col items-center justify-center text-gray-500">
         <div className="card bg-slate-200 p-12 rounded-2xl shadow-md w-full">
           <div className="flex items-center gap-8 mb-8">
-            <div className="avatar size-32 border-2 border-gray-300 rounded-full overflow-hidden">
+            <div className="relative avatar size-32 border-2 border-gray-300 rounded-full overflow-hidden group">
               <img
                 src={user.profilePic}
                 alt="Profile"
                 className="object-cover w-full h-full"
               />
+              {/* Edit button in lower right corner of avatar */}
+              <label
+                htmlFor="profile-pic-upload"
+                className="absolute bottom-1 right-10 border bg-sky-500 bg-opacity-90 rounded-full px-2 py-1 flex items-center justify-center cursor-pointer shadow-lg  border-white transition-all duration-200 hover:bg-sky-600"
+                style={{ zIndex: 3 }}
+                title="Change profile image"
+              >
+                <span className="text-white font-semibold text-xs">Edit</span>
+                <input
+                  id="profile-pic-upload"
+                  type="file"
+                  accept="image/*"
+                  className="hidden"
+                  onChange={handleProfilePicChange}
+                  disabled={uploadingImage}
+                />
+              </label>
+              {uploadingImage && (
+                <div className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-40 z-10">
+                  <span className="loading loading-spinner loading-md text-sky-200" />
+                </div>
+              )}
             </div>
             <h2 className="text-2xl sm:text-4xl font-bold tracking-tight text-gray-500 text-left mb-0 ml-4">
               My Profile
