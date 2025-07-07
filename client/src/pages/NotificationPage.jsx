@@ -60,22 +60,31 @@ const NotificationPage = () => {
                       <div className="card-body p-4">
                         <div className="flex items-center justify-between">
                           <div className="flex items-center gap-4">
-                            <div className="avatar w-14 h-14 rounded-full bg-base-300 ">
+                            <div className="avatar w-14 h-14 rounded-full bg-base-300 overflow-hidden">
                               <img
                                 src={request.sender.profilePic}
                                 alt={request.sender.fullName}
+                                className="w-full h-full object-cover rounded-full"
                               />
                             </div>
                             <div>
                               <h3 className="font-semibold">
                                 {request.sender.fullName}
                               </h3>
-                              <div className="flex flex-wrap gap-1.5 mt-1 text-gray-500">
+                              <div className="flex flex-wrap gap-4 mt-1 text-gray-500">
                                 <span className="badge badge-info text-white font-semibold badge-sm">
-                                  Native: {request.sender.nativeLanguage}
+                                  Native:{" "}
+                                  {request.sender.nativeLanguage
+                                    .charAt(0)
+                                    .toUpperCase() +
+                                    request.sender.nativeLanguage.slice(1)}
                                 </span>
                                 <span className="badge badge-outline badge-sm border-1 border-gray-500 font-semibold">
-                                  Learning: {request.sender.learningLanguage}
+                                  Learning:{" "}
+                                  {request.sender.learningLanguage
+                                    .charAt(0)
+                                    .toUpperCase() +
+                                    request.sender.learningLanguage.slice(1)}
                                 </span>
                               </div>
                             </div>
@@ -112,10 +121,11 @@ const NotificationPage = () => {
                     >
                       <div className="card-body p-4">
                         <div className="flex items-start gap-3 text-gray-500">
-                          <div className="avatar mt-1 size-10 rounded-full border-2 border-gray-300 ">
+                          <div className="avatar mt-1 size-10 rounded-full border-2 border-gray-300 overflow-hidden">
                             <img
                               src={notification.recipient.profilePic}
                               alt={notification.recipient.fullName}
+                              className="w-full h-full object-cover rounded-full"
                             />
                           </div>
                           <div className="flex-1">

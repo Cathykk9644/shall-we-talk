@@ -8,11 +8,20 @@ import {
   HomeIcon,
 } from "lucide-react";
 import { FaRegPaperPlane } from "react-icons/fa";
+import { useQuery } from "@tanstack/react-query";
+import { getFriendRequests } from "../config/api";
 
 const Sidebar = () => {
   const { authUser } = useAuthUser();
   const location = useLocation();
   const currentPath = location.pathname;
+
+  const { data: friendRequests } = useQuery({
+    queryKey: ["friendRequests"],
+    queryFn: getFriendRequests,
+  });
+
+  const incomingCount = friendRequests?.incomingReqs?.length || 0;
 
   return (
     <aside className="w-64 bg-sky-500 border-r border-base-300 hidden md:flex flex-col h-screen sticky top-0">
@@ -50,8 +59,15 @@ const Sidebar = () => {
             currentPath === "/notifications" ? "btn-active" : ""
           }`}
         >
-          <BellIcon className="size-6 text-white opacity-90" />
-          <span className="text-lg">Notifications</span>
+          <div className="relative flex items-center gap-2">
+            <BellIcon className="size-6 text-white opacity-90" />
+            <span className="text-lg">Notifications</span>
+            {incomingCount > 0 && (
+              <span className="absolute -top-2 -right-5 bg-rose-400 text-white rounded-full text-xs px-2 py-1 flex items-center justify-center min-w-[1.5rem] min-h-[1.5rem]">
+                {incomingCount}
+              </span>
+            )}
+          </div>
         </Link>
 
         <Link

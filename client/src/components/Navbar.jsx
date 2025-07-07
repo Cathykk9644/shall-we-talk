@@ -2,14 +2,21 @@ import React, { useState } from "react";
 import { Link, useLocation } from "react-router";
 import useAuthUser from "../hooks/useAuthUser";
 import { BellIcon, LogOutIcon, ShipWheelIcon } from "lucide-react";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { logout } from "../config/api";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { logout, getFriendRequests } from "../config/api";
 import LOGO from "../Assets/Logo.jpeg";
 
 const Navbar = () => {
   const { authUser } = useAuthUser();
   const location = useLocation();
   const isChatPage = location.pathname?.startsWith("/chat");
+
+  // Fetch friend requests for notification count
+  const { data: friendRequests } = useQuery({
+    queryKey: ["friendRequests"],
+    queryFn: getFriendRequests,
+  });
+  const incomingCount = friendRequests?.incomingReqs?.length || 0;
 
   const [showLogoutModal, setShowLogoutModal] = useState(false);
 
@@ -44,10 +51,15 @@ const Navbar = () => {
               </div>
             )}
 
-            <div className="flex items-center gap-3 sm:gap-4 ml-auto">
-              <Link to={"/notifications"}>
+            <div className="flex items-center gap-3 sm:gap-8 ml-auto">
+              <Link to={"/notifications"} className="relative">
                 <button className="btn btn-ghost btn-circle">
                   <BellIcon className="size-7 text-sky-600 opacity-90" />
+                  {incomingCount > 0 && (
+                    <span className="absolute -top-1 -right-1 bg-rose-400 text-white rounded-full text-xs px-2 py-1 flex items-center justify-center min-w-[1.25rem] min-h-[1.25rem]">
+                      {incomingCount}
+                    </span>
+                  )}
                 </button>
               </Link>
 
