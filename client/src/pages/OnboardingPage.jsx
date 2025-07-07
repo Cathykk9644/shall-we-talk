@@ -30,6 +30,8 @@ const OnboardingPage = () => {
     image: "", // for sending to backend
   });
 
+  const [imageError, setImageError] = useState(""); // Add this state
+
   const { mutate: onboardingMutation, isPending } = useMutation({
     mutationFn: completeOnboarding,
     onSuccess: () => {
@@ -55,10 +57,15 @@ const OnboardingPage = () => {
   };
 
   const handleCustomAvatarUpload = async (e) => {
+    setImageError(""); // Reset error on new upload
     const file = e.target.files[0];
-    if (file && file.size > 10485760) {
+    if (file && file.size > 4 * 1024 * 1024) {
+      // 4 MB limit
+      setImageError(
+        "The selected file is over 4 MB. Please choose a smaller image."
+      );
       toast.error(
-        "The selected file is over 10 MB. Please choose a smaller image."
+        "The selected file is over 4 MB. Please choose a smaller image."
       );
       return;
     }
@@ -80,6 +87,7 @@ const OnboardingPage = () => {
         };
         reader.readAsDataURL(compressedFile);
       } catch (error) {
+        setImageError("Failed to compress image");
         toast.error("Failed to compress image");
       }
     }
@@ -141,6 +149,9 @@ const OnboardingPage = () => {
                   className="hidden"
                 />
               </div>
+              {imageError && (
+                <div className="text-red-500 text-sm mt-1">{imageError}</div>
+              )}
 
               {/* Generate Random Avatar BTN */}
               <div className="flex items-center gap-2">
