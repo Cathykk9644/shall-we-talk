@@ -14,6 +14,7 @@ import {
   UsersIcon,
 } from "lucide-react";
 import FriendCard, { getLanguageFlag } from "../components/FriendCard";
+import FriendSection from "../components/FriendSection";
 import NoFriendsFound from "../components/NoFriendFound";
 import { capitialize } from "../config/utils";
 
@@ -96,11 +97,7 @@ const PracticeDashboard = () => {
         ) : friends.length === 0 ? (
           <NoFriendsFound />
         ) : (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
-            {friends.map((friend) => (
-              <FriendCard key={friend._id} friend={friend} />
-            ))}
-          </div>
+          <FriendSection friends={friends} />
         )}
 
         {/* Recommend New Friend Section */}
