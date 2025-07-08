@@ -10,6 +10,7 @@ import {
   ShuffleIcon,
   CameraIcon,
 } from "lucide-react";
+import { UserIcon } from "@heroicons/react/24/solid";
 import { LANGUAGES } from "../constants";
 import { useNavigate } from "react-router";
 
@@ -120,7 +121,9 @@ const OnboardingPage = () => {
             <div className="flex flex-col items-center justify-center space-y-4">
               {/* IMAGE PREVIEW */}
               <div className="size-32 rounded-full bg-base-200 overflow-hidden">
-                {formState.profilePic ? (
+                {formState.profilePic &&
+                typeof formState.profilePic === "string" &&
+                formState.profilePic.trim() !== "" ? (
                   <img
                     src={formState.profilePic}
                     alt="Profile Preview"
@@ -128,7 +131,7 @@ const OnboardingPage = () => {
                   />
                 ) : (
                   <div className="flex items-center justify-center h-full">
-                    <CameraIcon className="size-12 text-base-content opacity-30" />
+                    <UserIcon className="w-16 h-16 text-gray-400 opacity-50" />
                   </div>
                 )}
               </div>
@@ -136,10 +139,10 @@ const OnboardingPage = () => {
               <div className="flex items-center gap-2">
                 <label
                   htmlFor="customAvatar"
-                  className="btn btn-outline outline-white hover:bg-sky-500 text-white hover:text-white transition-colors hover:scale-95 "
+                  className="btn btn-outline outline-white hover:bg-sky-500 text-white hover:text-white hover:!border-white transition-colors hover:scale-95 "
                 >
                   <CameraIcon className="size-4 mr-2" />
-                  Upload Custom Avatar
+                  Upload Your Own Avatar
                 </label>
                 <input
                   id="customAvatar"
@@ -150,7 +153,9 @@ const OnboardingPage = () => {
                 />
               </div>
               {imageError && (
-                <div className="text-red-500 text-sm mt-1">{imageError}</div>
+                <div className="text-rose-500 text-sm mt-1 font-semibold">
+                  {imageError}
+                </div>
               )}
 
               {/* Generate Random Avatar BTN */}
@@ -158,7 +163,7 @@ const OnboardingPage = () => {
                 <button
                   type="button"
                   onClick={handleRandomAvatar}
-                  className="btn btn-outline outline-white hover:bg-sky-500 text-white hover:text-white transition-colors hover:scale-95 "
+                  className="btn btn-outline outline-white hover:bg-sky-500 text-white hover:text-white hover:!border-white transition-colors hover:scale-95 "
                 >
                   <ShuffleIcon className="size-4 mr-2" />
                   Generate Random Avatar
