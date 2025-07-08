@@ -155,7 +155,7 @@ const ProfilePage = () => {
               {/* Edit button in lower right corner of avatar */}
               <label
                 htmlFor="profile-pic-upload"
-                className="absolute bottom-1 right-10 border bg-sky-500 bg-opacity-90 rounded-full px-2 py-1 flex items-center justify-center cursor-pointer shadow-lg  border-white transition-all duration-200 hover:bg-sky-600"
+                className="absolute -bottom-0 right-6 border bg-sky-500 bg-opacity-90 rounded-full px-2 py-1 flex items-center justify-center cursor-pointer shadow-lg  border-white transition-all duration-200 hover:bg-sky-600"
                 style={{ zIndex: 3 }}
                 title="Change profile image"
               >
@@ -170,8 +170,8 @@ const ProfilePage = () => {
                 />
               </label>
               {uploadingImage && (
-                <div className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-40 z-10">
-                  <span className="loading loading-spinner loading-md text-sky-200" />
+                <div className="absolute inset-0 flex items-center justify-center bg-sky-600 bg-opacity-40 z-10">
+                  <span className="loading loading-spinner loading-md text-white" />
                 </div>
               )}
             </div>
