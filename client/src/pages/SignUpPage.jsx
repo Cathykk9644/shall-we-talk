@@ -3,7 +3,6 @@ import { useState } from "react";
 import { useNavigate, Link } from "react-router";
 import loginbg from "../Assets/loginbg.avif";
 import logo from "../Assets/Logo.jpeg";
-import loginImg from "../Assets/landingbg3.png";
 import { RiChatSmile2Line } from "react-icons/ri";
 import { useQueryClient, useMutation } from "@tanstack/react-query";
 import { signup } from "../config/api.js";
@@ -63,12 +62,6 @@ const Signup = () => {
             Right Here On Shall Wetalk!
           </p>
         </div>{" "}
-        {/* <img
-          src={loginImg}
-          alt="loginImg"
-          className="sticky top-20 left-12 m-4 max-w-xs object-cover opacity-40 lg:bottom-48"
-          style={{ maxWidth: "220px" }}
-        /> */}
       </div>
 
       {/* Right hand Side with Signup Form */}

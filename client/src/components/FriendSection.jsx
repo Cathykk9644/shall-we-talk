@@ -55,7 +55,7 @@ const FriendSection = ({ friends }) => {
         >
           <MdChevronLeft className="text-lg font-bold text-white" />
         </motion.div>
-        <span className="mx-1 text-sm text-gray-500 font-bold select-none">
+        <span className="mx-1 text-sm text-gray-400 font-bold select-none">
           View Friends
         </span>
         <motion.div
