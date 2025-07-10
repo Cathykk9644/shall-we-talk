@@ -155,7 +155,7 @@ const ProfilePage = () => {
               {/* Edit button in lower right corner of avatar */}
               <label
                 htmlFor="profile-pic-upload"
-                className="absolute bottom-1 right-10 border bg-sky-500 bg-opacity-90 rounded-full px-2 py-1 flex items-center justify-center cursor-pointer shadow-lg  border-white transition-all duration-200 hover:bg-sky-600"
+                className="absolute bottom-1 right-4 border bg-sky-500 bg-opacity-90 rounded-full px-2 py-1 flex items-center justify-center cursor-pointer shadow-lg  border-white transition-all duration-200 hover:bg-sky-600"
                 style={{ zIndex: 3 }}
                 title="Change profile image"
               >
