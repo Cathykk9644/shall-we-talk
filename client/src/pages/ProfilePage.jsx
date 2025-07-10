@@ -170,8 +170,8 @@ const ProfilePage = () => {
                 />
               </label>
               {uploadingImage && (
-                <div className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-40 z-10">
-                  <span className="loading loading-spinner loading-md text-sky-200" />
+                <div className="absolute inset-0 flex items-center justify-center bg-sky-600 bg-opacity-40 z-10">
+                  <span className="loading loading-spinner loading-md text-white" />
                 </div>
               )}
             </div>
