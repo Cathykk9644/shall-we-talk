@@ -142,11 +142,11 @@ const ProfilePage = () => {
     );
 
   return (
-    <div className="p-4 sm:p-6 lg:p-8 bg-bgColor1 min-h-screen">
-      <div className="container mx-auto max-w-4xl flex flex-col items-center justify-center text-gray-500">
-        <div className="card bg-slate-200 p-12 rounded-2xl shadow-md w-full">
-          <div className="flex items-center gap-8 mb-8">
-            <div className="relative avatar size-32 border-2 border-gray-300 rounded-full overflow-hidden group">
+    <div className="p-2 sm:p-4 lg:p-8 bg-bgColor1 min-h-screen">
+      <div className="container mx-auto max-w-4xl flex flex-col items-center justify-center text-gray-500 px-0 sm:px-4">
+        <div className="card bg-slate-200 px-2 py-6 sm:p-8 md:p-12 rounded-2xl shadow-md w-full">
+          <div className="flex flex-col sm:flex-row items-center gap-4 sm:gap-8 mb-8 w-full">
+            <div className="relative avatar w-28 h-28 sm:size-32 border-2 border-gray-300 rounded-full overflow-hidden group flex-shrink-0 mx-auto sm:mx-0">
               <img
                 src={user.profilePic}
                 alt="Profile"
@@ -155,7 +155,7 @@ const ProfilePage = () => {
               {/* Edit button in lower right corner of avatar */}
               <label
                 htmlFor="profile-pic-upload"
-                className="absolute bottom-1 right-4 border bg-sky-500 bg-opacity-90 rounded-full px-2 py-1 flex items-center justify-center cursor-pointer shadow-lg  border-white transition-all duration-200 hover:bg-sky-600"
+                className="absolute bottom-1 right-2 sm:right-4 border bg-sky-500 bg-opacity-90 rounded-full px-2 py-1 flex items-center justify-center cursor-pointer shadow-lg border-white transition-all duration-200 hover:bg-sky-600"
                 style={{ zIndex: 3 }}
                 title="Change profile image"
               >
@@ -175,7 +175,7 @@ const ProfilePage = () => {
                 </div>
               )}
             </div>
-            <h2 className="text-2xl sm:text-4xl font-bold tracking-tight text-gray-500 text-left mb-0 ml-4">
+            <h2 className="text-xl xs:text-2xl sm:text-4xl font-bold tracking-tight text-gray-500 text-left mb-0 sm:ml-4 w-full text-center sm:text-left mt-4 sm:mt-0">
               My Profile
             </h2>
           </div>
@@ -192,14 +192,17 @@ const ProfilePage = () => {
           )}
           <div className="space-y-8">
             {editableFields.map((field) => (
-              <div key={field.key} className="flex items-start gap-2">
-                <span className="font-semibold text-gray-600 min-w-[180px] block">
+              <div
+                key={field.key}
+                className="flex flex-col sm:flex-row items-start gap-2 sm:gap-4 w-full"
+              >
+                <span className="font-semibold text-gray-600 min-w-[140px] sm:min-w-[180px] block mb-1 sm:mb-0">
                   {field.label}:
                 </span>
                 {editField === field.key ? (
                   <form
                     onSubmit={handleUpdateField}
-                    className="flex-1 flex gap-2 items-center"
+                    className="flex-1 flex flex-col sm:flex-row gap-2 items-stretch sm:items-center w-full"
                   >
                     {field.type === "textarea" ? (
                       <textarea
@@ -237,30 +240,32 @@ const ProfilePage = () => {
                         autoFocus
                       />
                     )}
-                    <button
-                      type="submit"
-                      className="btn bg-sky-500 hover:bg-sky-600 text-white font-semibold px-4 py-1"
-                      disabled={updateMutation.isLoading}
-                    >
-                      Save
-                    </button>
-                    <button
-                      type="button"
-                      onClick={() => {
-                        setEditField(null);
-                        setForm((prev) => ({
-                          ...prev,
-                          [field.key]: user[field.key] || "",
-                        }));
-                      }}
-                      className="btn bg-gray-300 hover:bg-gray-400 text-gray-700 font-semibold px-4 py-1"
-                    >
-                      Cancel
-                    </button>
+                    <div className="flex gap-2 mt-2 sm:mt-0">
+                      <button
+                        type="submit"
+                        className="btn bg-sky-500 hover:bg-sky-600 text-white font-semibold px-4 py-1"
+                        disabled={updateMutation.isLoading}
+                      >
+                        Save
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => {
+                          setEditField(null);
+                          setForm((prev) => ({
+                            ...prev,
+                            [field.key]: user[field.key] || "",
+                          }));
+                        }}
+                        className="btn bg-gray-300 hover:bg-gray-400 text-gray-700 font-semibold px-4 py-1"
+                      >
+                        Cancel
+                      </button>
+                    </div>
                   </form>
                 ) : (
-                  <div className="flex-1 flex items-center gap-2">
-                    <span className="text-gray-500">
+                  <div className="flex-1 flex flex-col sm:flex-row items-start sm:items-center gap-2 w-full">
+                    <span className="text-gray-500 break-words w-full">
                       {user[field.key] || (
                         <span className="text-gray-400">
                           {field.key === "bio" ? "No bio" : "N/A"}
@@ -269,7 +274,7 @@ const ProfilePage = () => {
                     </span>
                     <button
                       onClick={() => setEditField(field.key)}
-                      className="ml-2 text-sky-500 hover:text-sky-700 p-1"
+                      className="ml-0 sm:ml-2 text-sky-500 hover:text-sky-700 p-1"
                       aria-label={`Edit ${field.label}`}
                     >
                       <Pencil size={18} />
