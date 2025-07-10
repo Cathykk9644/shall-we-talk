@@ -149,7 +149,7 @@ const PracticeDashboard = () => {
                     className="card bg-slate-200 hover:shadow-lg transition-all duration-300 text-gray-600 min-w-0"
                   >
                     <div className="card-body p-4 sm:p-6 space-y-3 sm:space-y-4">
-                      <div className="flex flex-col xs:flex-row items-start xs:items-center gap-3 sm:gap-4">
+                      <div className="flex items-center gap-3 sm:gap-4">
                         <div className="avatar size-14 sm:size-16 border-2 border-gray-300 rounded-full overflow-hidden">
                           <img
                             src={user.profilePic}
