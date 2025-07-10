@@ -74,15 +74,15 @@ const PracticeDashboard = () => {
   }, [totalUsers]);
 
   return (
-    <div className="p-4 sm:p-6 lg:p-8 bg-bgColor1">
-      <div className="container mx-auto space-y-8">
-        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+    <div className="px-4 py-4 sm:p-6 lg:p-8 bg-bgColor1 min-h-screen w-full">
+      <div className="w-full mx-auto space-y-2 px-0 sm:px-4">
+        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 sm:gap-4 w-full">
           <h2 className="text-2xl sm:text-3xl font-bold tracking-tight text-gray-500">
             Your Existing Friends
           </h2>
           <Link
             to="/notifications"
-            className="btn btn-outline outline-gray-400 btn-sm text-gray-500 hover:bg-gray-100 hover:text-gray-700 transition-all duration-200"
+            className="btn btn-outline outline-gray-400 btn-xs sm:btn-sm text-gray-500 hover:bg-gray-100 hover:text-gray-700 transition-all duration-200"
           >
             <UsersIcon className="mr-2 size-4 text-gray-500" />
             Friend Requests
@@ -97,7 +97,9 @@ const PracticeDashboard = () => {
         ) : friends.length === 0 ? (
           <NoFriendsFound />
         ) : (
-          <FriendSection friends={friends} />
+          <div className="-mx-2 sm:mx-0 ">
+            <FriendSection friends={friends} />
+          </div>
         )}
 
         {/* Recommend New Friend Section */}
@@ -137,18 +139,18 @@ const PracticeDashboard = () => {
               </p>
             </div>
           ) : (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 w-full">
               {recommendedUsers.map((user) => {
                 const hasRequestBeenSent = outgoingRequestsIds.has(user._id);
 
                 return (
                   <div
                     key={user._id}
-                    className="card bg-slate-200 hover:shadow-lg transition-all duration-300 text-gray-600"
+                    className="card bg-slate-200 hover:shadow-lg transition-all duration-300 text-gray-600 min-w-0"
                   >
-                    <div className="card-body p-6 space-y-4">
-                      <div className="flex items-center gap-4">
-                        <div className="avatar size-16 border-2 border-gray-300 rounded-full overflow-hidden">
+                    <div className="card-body p-4 sm:p-6 space-y-3 sm:space-y-4">
+                      <div className="flex flex-col xs:flex-row items-start xs:items-center gap-3 sm:gap-4">
+                        <div className="avatar size-14 sm:size-16 border-2 border-gray-300 rounded-full overflow-hidden">
                           <img
                             src={user.profilePic}
                             alt={user.fullName}
@@ -156,7 +158,7 @@ const PracticeDashboard = () => {
                           />
                         </div>
                         <div>
-                          <h3 className="font-semibold text-lg">
+                          <h3 className="font-semibold text-base sm:text-lg">
                             {user.fullName}
                           </h3>
                           {user.location && (
@@ -169,26 +171,26 @@ const PracticeDashboard = () => {
                       </div>
 
                       {/* Languages with flags */}
-                      <div className="flex flex-wrap gap-3">
-                        <span className="badge bg-sky-500 text-white font-semibold  ">
+                      <div className="flex flex-wrap gap-2 sm:gap-3">
+                        <span className="badge bg-sky-500 text-white font-semibold text-xs sm:text-sm">
                           {getLanguageFlag(user.nativeLanguage)}
                           Native: {capitialize(user.nativeLanguage)}
                         </span>
-                        <span className="badge badge-outline text-gray-500 border-gray-400 font-semibold">
+                        <span className="badge badge-outline text-gray-500 border-gray-400 font-semibold text-xs sm:text-sm">
                           {getLanguageFlag(user.learningLanguage)}
                           Learning: {capitialize(user.learningLanguage)}
                         </span>
                       </div>
 
                       {user.bio && (
-                        <p className="text-sm opacity-70 text-justify">
+                        <p className="text-xs sm:text-sm opacity-70 text-justify">
                           {user.bio}
                         </p>
                       )}
 
                       {/* Action button */}
                       <button
-                        className={`btn w-full mt-2 ${
+                        className={`btn w-full mt-2 px-2 py-1 text-xs sm:text-sm ${
                           hasRequestBeenSent
                             ? "btn-disabled"
                             : "bg-sky-500 hover:bg-sky-600 text-white"

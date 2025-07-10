@@ -24,7 +24,7 @@ const Sidebar = () => {
   const incomingCount = friendRequests?.incomingReqs?.length || 0;
 
   return (
-    <aside className="w-64 bg-sky-500 border-r border-base-300 hidden md:flex flex-col h-screen sticky top-0">
+    <aside className="w-64 lg:w-74 bg-sky-500 border-r border-base-300 hidden md:flex flex-col h-screen sticky top-0">
       <div className="p-6 ">
         <Link to="/" className="flex items-center gap-3">
           <FaRegPaperPlane className="size-9 text-white" />

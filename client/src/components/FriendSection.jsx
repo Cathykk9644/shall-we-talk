@@ -32,22 +32,25 @@ const FriendSection = ({ friends }) => {
       <div className="flex justify-between items-center mb-4"></div>
       <div
         ref={scrollContainerRef}
-        className="flex space-x-4 overflow-x-hidden py-4"
+        className="flex w-full space-x-4 overflow-x-auto py-4 px-2 sm:px-0 scrollbar-hide"
         style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
       >
         {friends.map((friend) => (
-          <div key={friend._id} className="min-w-[220px] shrink-0">
+          <div
+            key={friend._id}
+            className="min-w-[180px] sm:min-w-[220px] shrink-0 max-w-xs"
+          >
             <FriendCard friend={friend} />
           </div>
         ))}
       </div>
       <style>{`
-        .flex::-webkit-scrollbar {
+        .scrollbar-hide::-webkit-scrollbar {
           display: none;
         }
       `}</style>
       {/* Scroll controls below cards */}
-      <div className="flex justify-center items-center mt-4 gap-3">
+      <div className="flex justify-center items-center mt-2 gap-3">
         <motion.div
           whileTap={{ scale: 0.8 }}
           className="w-8 h-8 rounded-lg bg-sky-400 hover:bg-sky-500 cursor-pointer transition-all duration-100 ease-in-out hover:shadow-lg flex items-center justify-center"
