@@ -5,6 +5,7 @@ import {
   getRecommendedUsers,
   getOutgoingFriendReqs,
   sendFriendRequest,
+  getFriendRequests,
 } from "../config/api";
 import { Link } from "react-router";
 import {
@@ -23,7 +24,6 @@ const PracticeDashboard = () => {
 
   const [outgoingRequestsIds, setOutgoingRequestsIds] = useState(new Set());
 
-  // Search state
   const [search, setSearch] = useState("");
   const [page, setPage] = useState(1);
   const [totalUsers, setTotalUsers] = useState(0);
@@ -68,6 +68,14 @@ const PracticeDashboard = () => {
     queryKey: ["outgoingFriendReqs"],
     queryFn: getOutgoingFriendReqs,
   });
+
+  // Query for incoming friend requests (for alert badge)
+  const { data: friendRequests } = useQuery({
+    queryKey: ["friendRequests"],
+    queryFn: getFriendRequests,
+    refetchInterval: 10000, // Poll every 10s for new requests
+  });
+  const incomingRequests = friendRequests?.incomingReqs || [];
 
   const { mutate: sendRequestMutation, isPending } = useMutation({
     mutationFn: sendFriendRequest,
@@ -114,10 +122,15 @@ const PracticeDashboard = () => {
           </h2>
           <Link
             to="/notifications"
-            className="btn btn-outline outline-gray-400 btn-xs sm:btn-sm text-gray-500 hover:bg-gray-100 hover:text-gray-700 transition-all duration-200"
+            className="btn btn-outline outline-gray-400 btn-xs sm:btn-sm text-gray-500 hover:bg-gray-100 hover:text-gray-700 transition-all duration-200 relative"
           >
             <UsersIcon className="mr-2 size-4 text-gray-500" />
             Friend Requests
+            {incomingRequests.length > 0 && (
+              <span className="badge badge-info text-white ml-2 absolute -top-2 -right-2 animate-bounce">
+                {incomingRequests.length}
+              </span>
+            )}
           </Link>
         </div>
 
