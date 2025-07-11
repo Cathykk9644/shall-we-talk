@@ -30,8 +30,8 @@ const PracticeDashboard = () => {
   const limit = 6;
 
   const { data: friends = [], isLoading: loadingFriends } = useQuery({
-    queryKey: ["friends"],
-    queryFn: getUserFriends,
+    queryKey: ["friends", search],
+    queryFn: () => getUserFriends(search),
   });
 
   const { data: recommendedData = {}, isLoading: loadingUsers } = useQuery({

@@ -61,14 +61,29 @@ export async function getRecommendedFriends(req, res) {
 
 export async function getFriends(req, res) {
   try {
-    const user = await User.findById(req.user._id)
-      .select("friends")
-      .populate(
-        "friends",
-        "fullName profilePic nativeLanguage learningLanguage"
-      );
-
-    res.status(200).json(user.friends);
+    const search = req.query.search
+      ? req.query.search.trim().toLowerCase()
+      : "";
+    const user = await User.findById(req.user._id).select("friends").populate({
+      path: "friends",
+      select:
+        "fullName profilePic nativeLanguage learningLanguage location bio",
+    });
+    let friends = user.friends;
+    if (search) {
+      friends = friends.filter((friend) => {
+        return (
+          (friend.fullName && friend.fullName.toLowerCase().includes(search)) ||
+          (friend.nativeLanguage &&
+            friend.nativeLanguage.toLowerCase().includes(search)) ||
+          (friend.learningLanguage &&
+            friend.learningLanguage.toLowerCase().includes(search)) ||
+          (friend.location && friend.location.toLowerCase().includes(search)) ||
+          (friend.bio && friend.bio.toLowerCase().includes(search))
+        );
+      });
+    }
+    res.status(200).json(friends);
   } catch (error) {
     console.error("Error in getFriends controller", error.message);
     res.status(500).json({ message: "Internal Server Error" });

@@ -30,8 +30,12 @@ export const logout = async () => {
   return response.data;
 };
 
-export async function getUserFriends() {
-  const response = await axiosInstance.get("/users/friends");
+export async function getUserFriends(search = "") {
+  const params = new URLSearchParams();
+  if (search && search.trim()) params.append("search", search.trim());
+  const response = await axiosInstance.get(
+    `/users/friends?${params.toString()}`
+  );
   return response.data;
 }
 
