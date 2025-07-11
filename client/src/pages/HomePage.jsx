@@ -7,7 +7,7 @@ const HomePage = () => {
     <div className="relative min-h-screen w-full bg-bgColor1">
       <div className="absolute inset-0 w-full h-full flex flex-col">
         <Header />
-        <div>
+        <div className="bg-bgColor1">
           <Banner className="flex-1 flex items-center justify-center px-4 sm:px-8 md:px-16" />
         </div>
       </div>
