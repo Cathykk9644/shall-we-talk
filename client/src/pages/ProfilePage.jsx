@@ -7,6 +7,7 @@ import {
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { Pencil } from "lucide-react";
 import { LANGUAGES } from "../constants";
+import FriendCard, { getLanguageFlag } from "../components/FriendCard";
 
 const editableFields = [
   { key: "fullName", label: "Name", type: "text" },
@@ -212,7 +213,8 @@ const ProfilePage = () => {
                         name={field.key}
                         value={form[field.key]}
                         onChange={handleChange}
-                        className="textarea textarea-bordered w-full bg-white min-h-[30px]"
+                        className="textarea textarea-bordered w-full bg-white min-h-[80px] max-h-60"
+                        maxLength={1000}
                         autoFocus
                       />
                     ) : field.type === "select" ? (
@@ -268,8 +270,21 @@ const ProfilePage = () => {
                   </form>
                 ) : (
                   <div className="flex-1 flex flex-col sm:flex-row items-start sm:items-center gap-2 w-full">
-                    <span className="text-gray-500 break-words w-full">
-                      {user[field.key] || (
+                    <span className="text-gray-500 break-words w-full flex items-center gap-2">
+                      {user[field.key] ? (
+                        field.key === "nativeLanguage" ||
+                        field.key === "learningLanguage" ? (
+                          <>
+                            <span className="mr-1">
+                              {getLanguageFlag(user[field.key])}
+                            </span>
+                            {user[field.key].charAt(0).toUpperCase() +
+                              user[field.key].slice(1)}
+                          </>
+                        ) : (
+                          user[field.key]
+                        )
+                      ) : (
                         <span className="text-gray-400">
                           {field.key === "bio"
                             ? "No bio"
