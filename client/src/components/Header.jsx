@@ -32,7 +32,7 @@ const Header = () => {
           <img
             src={LOGO}
             alt="logo"
-            className="xl:w-64 md:w-48 w-40 object-cover hover:scale-90"
+            className="xl:w-56 md:w-48 w-40 object-cover "
           />
         </div>
 
