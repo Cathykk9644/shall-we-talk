@@ -13,88 +13,99 @@ shall-we-talk/
 │   │   ├── assets/         # Images and static assets
 │   │   ├── components/    # Reusable React components
 │   │   ├── config/        # API and utility functions
-│   │   ├── constants/     # App-wide constants
-│   │   ├── hooks/         # Custom React hooks
-│   │   ├── pages/         # Page-level React components
-│   │   └── ...
-│   ├── index.html         # Main HTML file
-│   ├── package.json       # Frontend dependencies
-│   └── ...
-├── server/         # Backend (Node.js + Express + MongoDB)
-│   ├── src/
-│   │   ├── config/        # DB, cloudinary, multer, etc.
-│   │   ├── controllers/   # Express route controllers
-│   │   ├── middleware/    # Express middleware
-│   │   ├── models/        # Mongoose models
-│   │   ├── routes/        # Express route definitions
-│   │   └── server.js      # Entry point
-│   ├── package.json       # Backend dependencies
-│   └── ...
-└── README.md       # Project documentation
+
+# ✨ Shall WeTalk — Fullstack Chat & Video Calling App ✨
+
+Shall WeTalk is a modern language exchange platform where users can teach others their native language, while also learning new languages from native speakers around the world. Connect, chat, and practice in real time—everyone is both a teacher and a learner!
+
+---
+
+## 🚀 Features
+
+- 🌐 Real-time Messaging with Typing Indicators & Reactions
+- 📹 1-on-1 and Group Video Calls (Stream integration)
+- 🔐 JWT Authentication & Protected Routes
+- 🌍 Language Exchange Platform with Modern UI
+- ⚡ Tech Stack: React + Express + MongoDB + TailwindCSS + DaisyUI + TanStack Query + Cloudinary + Multer + Axios
+- 🧠 Global State Management with React Query
+- 🚨 Robust Error Handling (Frontend & Backend)
+- 🎯 Scalable, Modular Project Structure
+- ⏳ Server-side Search for Users & Friends
+- 🖥️ Responsive and Modern Design
+
+---
+
+## 🗂️ Project Structure
+
+```
+
+shall-we-talk/
+├── client/ # Frontend (React + Vite + Tailwind CSS + DaisyUI + React Query + Axios)
+│ ├── src/
+│ │ ├── assets/ # Images and static assets
+│ │ ├── components/ # Reusable React components
+│ │ ├── config/ # API and utility functions
+│ │ ├── constants/ # App-wide constants
+│ │ ├── hooks/ # Custom React hooks
+│ │ ├── pages/ # Page-level React components
+│ │ └── ...
+│ ├── index.html # Main HTML file
+│ ├── package.json # Frontend dependencies
+│ └── ...
+├── server/ # Backend (Node.js + Express + MongoDB, MVC pattern)
+│ ├── src/
+│ │ ├── config/ # DB, cloudinary, multer, etc.
+│ │ ├── controllers/ # Controllers (business logic, part of MVC)
+│ │ ├── middleware/ # Express middleware (auth, error handling, etc.)
+│ │ ├── models/ # Mongoose models (data layer, part of MVC)
+│ │ ├── routes/ # Route definitions (Express routers, part of MVC)
+│ │ └── server.js # Entry point
+│ ├── package.json # Backend dependencies
+│ └── ...
+└── README.md # Project documentation
+
 ```
 
 ---
 
-## Tech Stack
+## 🧪 .env Setup
 
-### Frontend
-
-- React 18
-- Vite
-- Tailwind CSS
-- DaisyUI
-- React Router
-- React Query (TanStack Query)
-
-### Backend
-
-- Node.js
-- Express.js
-- MongoDB (Mongoose)
-- Cloudinary (for image uploads)
-- Multer (for file uploads)
-- JWT Authentication
-
----
-
-## Features
-
-- User authentication (sign up, login, onboarding)
-- Find and search for language partners (server-side search)
-- Friend requests and notifications
-- Real-time chat and video call (Stream integration)
-- User profile management
-- Responsive, modern UI
-
----
-
-## Getting Started
-
-### Prerequisites
-
-- Node.js (v18+ recommended)
-- MongoDB instance (local or cloud)
-
-### 1. Clone the repository
-
-```bash
-git clone https://github.com/yourusername/shall-we-talk.git
-cd shall-we-talk
+### Backend (`server/.env`)
 ```
 
-### 2. Setup the backend
+PORT=5001
+MONGODB_URI=your_mongodb_uri
+JWT_SECRET=your_jwt_secret
+CLOUDINARY_CLOUD_NAME=your_cloud_name
+CLOUDINARY_API_KEY=your_api_key
+CLOUDINARY_API_SECRET=your_api_secret
+NODE_ENV=development
+
+```
+
+### Frontend (`client/.env`)
+```
+
+VITE_STREAM_API_KEY=your_stream_api_key
+
+````
+
+---
+
+## 🔧 Run the Backend
 
 ```bash
 cd server
 npm install
-# Create a .env file with your MongoDB URI, JWT secret, and Cloudinary credentials
 npm run dev
-```
+````
 
-### 3. Setup the frontend
+---
+
+## 💻 Run the Frontend
 
 ```bash
-cd ../client
+cd client
 npm install
 npm run dev
 ```
@@ -103,32 +114,7 @@ The frontend will be available at `http://localhost:5173` (or as specified by Vi
 
 ---
 
-## Environment Variables
-
-### Backend (`server/.env`)
-
-```
-MONGODB_URI=your_mongodb_uri
-JWT_SECRET=your_jwt_secret
-CLOUDINARY_CLOUD_NAME=your_cloud_name
-CLOUDINARY_API_KEY=your_api_key
-CLOUDINARY_API_SECRET=your_api_secret
-```
-
----
-
-## Scripts
-
-### Backend
-
-- `npm run dev` — Start the backend server with nodemon
-
-### Frontend
-
-- `npm run dev` — Start the Vite development server
-
----
-
-## License
+## 📄 License
 
 MIT
+CLOUDINARY_CLOUD_NAME=your_cloud_name
