@@ -1,24 +1,6 @@
-# Shall WeTalk
-
-A modern language exchange platform for finding and connecting with language partners around the world.
-
----
-
-## Project Structure
-
-```
-shall-we-talk/
-├── client/         # Frontend (React + Vite + Tailwind CSS + DaisyUI)
-│   ├── src/
-│   │   ├── assets/         # Images and static assets
-│   │   ├── components/    # Reusable React components
-│   │   ├── config/        # API and utility functions
-
-# ✨ Shall WeTalk — Fullstack Chat & Video Calling App ✨
+# ✨ Shall WeTalk ✨
 
 Shall WeTalk is a modern language exchange platform where users can teach others their native language, while also learning new languages from native speakers around the world. Connect, chat, and practice in real time—everyone is both a teacher and a learner!
-
----
 
 ## 🚀 Features
 
@@ -32,8 +14,6 @@ Shall WeTalk is a modern language exchange platform where users can teach others
 - 🎯 Scalable, Modular Project Structure
 - ⏳ Server-side Search for Users & Friends
 - 🖥️ Responsive and Modern Design
-
----
 
 ## 🗂️ Project Structure
 
@@ -71,6 +51,7 @@ shall-we-talk/
 ## 🧪 .env Setup
 
 ### Backend (`server/.env`)
+
 ```
 
 PORT=5001
@@ -84,11 +65,12 @@ NODE_ENV=development
 ```
 
 ### Frontend (`client/.env`)
+
 ```
 
 VITE_STREAM_API_KEY=your_stream_api_key
 
-````
+```
 
 ---
 
@@ -98,7 +80,7 @@ VITE_STREAM_API_KEY=your_stream_api_key
 cd server
 npm install
 npm run dev
-````
+```
 
 ---
 
@@ -117,4 +99,3 @@ The frontend will be available at `http://localhost:5173` (or as specified by Vi
 ## 📄 License
 
 MIT
-CLOUDINARY_CLOUD_NAME=your_cloud_name
