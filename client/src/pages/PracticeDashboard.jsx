@@ -91,9 +91,9 @@ const PracticeDashboard = () => {
 
   return (
     <div className="px-4 py-4 sm:p-6 lg:p-8 bg-bgColor1 min-h-screen w-full">
-      <div className="w-full mx-auto space-y-4 px-0 sm:px-4">
+      <div className="w-full mx-auto space-y-5 px-0 sm:px-4">
         {/* Search Bar */}
-        <div className="w-full flex flex-col sm:flex-row items-center justify-between gap-4 mb-4">
+        <div className="w-full flex flex-col sm:flex-row items-start justify-between gap-4 mb-4">
           <h2 className="text-2xl sm:text-3xl font-bold tracking-tight text-gray-500">
             Find Language Partners
           </h2>
@@ -102,7 +102,7 @@ const PracticeDashboard = () => {
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             placeholder="Search users by name, language, location, or bio..."
-            className="input input-bordered w-full sm:w-96 bg-white text-gray-700"
+            className="input input-bordered w-full sm:w-96 bg-white text-gray-700 text-sm font-semibold"
             aria-label="Search users"
           />
         </div>
