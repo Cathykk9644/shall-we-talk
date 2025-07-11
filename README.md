@@ -1,11 +1,16 @@
 # ✨ Shall WeTalk ✨
 
-Shall WeTalk is a modern language exchange platform where users can teach others their native language, while also learning new languages from native speakers around the world. Connect, chat, and practice in real time—everyone is both a teacher and a learner!
+Shall WeTalk is a modern language exchange platform where users can teach others their native language, while also learning new languages from native speakers around the world. Connect, chat, and practice in real time — everyone is both a teacher and a learner!
 
 ## 🚀 Features
 
-- 🌐 Real-time Messaging with Typing Indicators & Reactions
-- 📹 1-on-1 and Group Video Calls (Stream integration)
+- 📝 User Signup, Login, and Onboarding
+- 👤 User Profile Management
+- 🤝 Send and Accept Friend Requests
+- 🔔 Notification Alerts for New Friend Requests
+- 🔋 Pagination for Recommended Language Partners
+- 🌐 Real-time Messaging: Reply, Delete, Start Thread, Add Emoji, Send Image, Typing Indicators & Reactions
+- 📹 1-on-1 and Group Video Calls: Share Screen, Add Emoji Reaction, Record Meeting (Stream integration)
 - 🔐 JWT Authentication & Protected Routes
 - 🌍 Language Exchange Platform with Modern UI
 - ⚡ Tech Stack: React + Express + MongoDB + TailwindCSS + DaisyUI + TanStack Query + Cloudinary + Multer + Axios
@@ -13,7 +18,8 @@ Shall WeTalk is a modern language exchange platform where users can teach others
 - 🚨 Robust Error Handling (Frontend & Backend)
 - 🎯 Scalable, Modular Project Structure
 - ⏳ Server-side Search for Users & Friends
-- 🖥️ Responsive and Modern Design
+
+- �🖥️ Responsive and Modern Design
 
 ## 🗂️ Project Structure
 
