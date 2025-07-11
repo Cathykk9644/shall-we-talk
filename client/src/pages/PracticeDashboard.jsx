@@ -14,7 +14,7 @@ import {
   UsersIcon,
 } from "lucide-react";
 import FriendCard, { getLanguageFlag } from "../components/FriendCard";
-import FriendSection from "../components/FriendSection";
+
 import NoFriendsFound from "../components/NoFriendFound";
 import { capitialize } from "../config/utils";
 
@@ -102,7 +102,7 @@ const PracticeDashboard = () => {
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             placeholder="Search users by name, language, location, or bio..."
-            className="input input-bordered w-full sm:w-96 bg-white text-gray-700 text-sm font-semibold"
+            className="input input-bordered w-full sm:w-96 bg-white text-gray-600 text-sm font-semibold"
             aria-label="Search users"
           />
         </div>
@@ -129,8 +129,10 @@ const PracticeDashboard = () => {
         ) : friends.length === 0 ? (
           <NoFriendsFound />
         ) : (
-          <div className="-mx-2 sm:mx-0 ">
-            <FriendSection friends={friends} />
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+            {friends.map((friend) => (
+              <FriendCard key={friend._id} friend={friend} />
+            ))}
           </div>
         )}
 
