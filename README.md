@@ -2,7 +2,7 @@
 
 Shall WeTalk is a modern language exchange platform where users can teach others their native language, while also learning new languages from native speakers around the world. Connect, chat, and practice in real time — everyone is both a teacher and a learner!
 
-![alt text](<Screenshot 2025-07-11 at 11.31.07 AM.png>)
+![alt text](image-1.png)
 
 ## 🚀 Features
 
