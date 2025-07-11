@@ -20,8 +20,11 @@ import { capitialize } from "../config/utils";
 
 const PracticeDashboard = () => {
   const queryClient = useQueryClient();
+
   const [outgoingRequestsIds, setOutgoingRequestsIds] = useState(new Set());
 
+  // Search state
+  const [search, setSearch] = useState("");
   const [page, setPage] = useState(1);
   const [totalUsers, setTotalUsers] = useState(0);
   const limit = 6;
@@ -46,7 +49,20 @@ const PracticeDashboard = () => {
     }
   }, [recommendedData]);
 
-  const recommendedUsers = recommendedData.recommendedUsers || [];
+  // Filter users by search
+  const recommendedUsers = (recommendedData.recommendedUsers || []).filter(
+    (user) => {
+      if (!search.trim()) return true;
+      const q = search.trim().toLowerCase();
+      return (
+        user.fullName?.toLowerCase().includes(q) ||
+        user.nativeLanguage?.toLowerCase().includes(q) ||
+        user.learningLanguage?.toLowerCase().includes(q) ||
+        user.location?.toLowerCase().includes(q) ||
+        user.bio?.toLowerCase().includes(q)
+      );
+    }
+  );
 
   const { data: outgoingFriendReqs } = useQuery({
     queryKey: ["outgoingFriendReqs"],
@@ -75,7 +91,23 @@ const PracticeDashboard = () => {
 
   return (
     <div className="px-4 py-4 sm:p-6 lg:p-8 bg-bgColor1 min-h-screen w-full">
-      <div className="w-full mx-auto space-y-2 px-0 sm:px-4">
+      <div className="w-full mx-auto space-y-4 px-0 sm:px-4">
+        {/* Search Bar */}
+        <div className="w-full flex flex-col sm:flex-row items-center justify-between gap-4 mb-4">
+          <h2 className="text-2xl sm:text-3xl font-bold tracking-tight text-gray-500">
+            Find Language Partners
+          </h2>
+          <input
+            type="text"
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+            placeholder="Search users by name, language, location, or bio..."
+            className="input input-bordered w-full sm:w-96 bg-white text-gray-700"
+            aria-label="Search users"
+          />
+        </div>
+
+        {/* Existing Friends Section */}
         <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 sm:gap-4 w-full">
           <h2 className="text-2xl sm:text-3xl font-bold tracking-tight text-gray-500">
             Your Existing Friends
