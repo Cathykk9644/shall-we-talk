@@ -13,6 +13,7 @@ const editableFields = [
   { key: "bio", label: "Bio", type: "textarea" },
   { key: "nativeLanguage", label: "Native Language", type: "select" },
   { key: "learningLanguage", label: "Learning Language", type: "select" },
+  { key: "location", label: "Location", type: "text" },
 ];
 
 const ProfilePage = () => {
@@ -24,6 +25,7 @@ const ProfilePage = () => {
     nativeLanguage: "",
     learningLanguage: "",
     profilePic: "",
+    location: "",
   });
   const [message, setMessage] = useState("");
   const [showDeleteModal, setShowDeleteModal] = useState(false);
@@ -72,6 +74,7 @@ const ProfilePage = () => {
         nativeLanguage: data.nativeLanguage || "",
         learningLanguage: data.learningLanguage || "",
         profilePic: data.profilePic || "",
+        location: data.location || "",
       });
     },
   });
@@ -268,7 +271,11 @@ const ProfilePage = () => {
                     <span className="text-gray-500 break-words w-full">
                       {user[field.key] || (
                         <span className="text-gray-400">
-                          {field.key === "bio" ? "No bio" : "N/A"}
+                          {field.key === "bio"
+                            ? "No bio"
+                            : field.key === "location"
+                            ? "No location"
+                            : "N/A"}
                         </span>
                       )}
                     </span>
