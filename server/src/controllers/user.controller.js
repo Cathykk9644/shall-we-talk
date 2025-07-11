@@ -6,28 +6,46 @@ export async function getRecommendedFriends(req, res) {
     const currentUserId = req.user._id;
     const currentUser = req.user;
 
-    // Extract pagination parameters from query
+    // Extract pagination and search parameters from query
     const page = parseInt(req.query.page) || 1;
     const limit = parseInt(req.query.limit) || 6;
     const skip = (page - 1) * limit;
+    const search = req.query.search
+      ? req.query.search.trim().toLowerCase()
+      : "";
 
-    const getRecommendedUsers = await User.find({
-      $and: [
-        { _id: { $ne: currentUserId } }, //exclude current user
-        { _id: { $nin: currentUser.friends } }, // exclude current user's friends
-        { isOnboarded: true },
-      ],
-    })
-      .skip(skip) // Skip items for pagination
-      .limit(limit); // Limit the number of items
-
-    const totalUsers = await User.countDocuments({
+    // Build search filter
+    const baseFilter = {
       $and: [
         { _id: { $ne: currentUserId } },
         { _id: { $nin: currentUser.friends } },
         { isOnboarded: true },
       ],
-    });
+    };
+
+    let searchFilter = baseFilter;
+    if (search) {
+      searchFilter = {
+        $and: [
+          ...baseFilter.$and,
+          {
+            $or: [
+              { fullName: { $regex: search, $options: "i" } },
+              { nativeLanguage: { $regex: search, $options: "i" } },
+              { learningLanguage: { $regex: search, $options: "i" } },
+              { location: { $regex: search, $options: "i" } },
+              { bio: { $regex: search, $options: "i" } },
+            ],
+          },
+        ],
+      };
+    }
+
+    const getRecommendedUsers = await User.find(searchFilter)
+      .skip(skip)
+      .limit(limit);
+
+    const totalUsers = await User.countDocuments(searchFilter);
 
     res.status(200).json({
       recommendedUsers: getRecommendedUsers,

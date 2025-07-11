@@ -35,11 +35,10 @@ export async function getUserFriends() {
   return response.data;
 }
 
-export async function getRecommendedUsers(page = 1, limit = 6) {
-  const response = await axiosInstance.get(
-    `/users?page=${page}&limit=${limit}`
-  );
-
+export async function getRecommendedUsers(page = 1, limit = 6, search = "") {
+  const params = new URLSearchParams({ page, limit });
+  if (search && search.trim()) params.append("search", search.trim());
+  const response = await axiosInstance.get(`/users?${params.toString()}`);
   return response.data;
 }
 

@@ -35,9 +35,8 @@ const PracticeDashboard = () => {
   });
 
   const { data: recommendedData = {}, isLoading: loadingUsers } = useQuery({
-    queryKey: ["users", page],
-    queryFn: () => getRecommendedUsers(page, limit),
-
+    queryKey: ["users", page, search],
+    queryFn: () => getRecommendedUsers(page, limit, search),
     onError: (error) => {
       console.error("Error fetching recommended users:", error);
     },
@@ -49,20 +48,8 @@ const PracticeDashboard = () => {
     }
   }, [recommendedData]);
 
-  // Filter users by search
-  const recommendedUsers = (recommendedData.recommendedUsers || []).filter(
-    (user) => {
-      if (!search.trim()) return true;
-      const q = search.trim().toLowerCase();
-      return (
-        user.fullName?.toLowerCase().includes(q) ||
-        user.nativeLanguage?.toLowerCase().includes(q) ||
-        user.learningLanguage?.toLowerCase().includes(q) ||
-        user.location?.toLowerCase().includes(q) ||
-        user.bio?.toLowerCase().includes(q)
-      );
-    }
-  );
+  // Use server-side filtered users directly
+  const recommendedUsers = recommendedData.recommendedUsers || [];
 
   const { data: outgoingFriendReqs } = useQuery({
     queryKey: ["outgoingFriendReqs"],
