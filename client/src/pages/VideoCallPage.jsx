@@ -3,7 +3,7 @@ import { useNavigate, useParams } from "react-router";
 import useAuthUser from "../hooks/useAuthUser";
 import { useQuery } from "@tanstack/react-query";
 import { getStreamToken } from "../config/api";
-import LOGO from "../Assets/Logo.jpeg";
+import LOGO from "../assets/Logo.jpeg";
 
 import {
   StreamVideo,
