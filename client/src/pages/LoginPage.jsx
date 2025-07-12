@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router";
-import loginbg from "../Assets/loginbg.avif";
-import logo from "../Assets/Logo.jpeg";
+import loginbg from "../assets/loginbg.avif";
+import logo from "../assets/Logo.jpeg";
 import { useQueryClient, useMutation } from "@tanstack/react-query";
 import { login } from "../config/api";
 
