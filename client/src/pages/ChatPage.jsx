@@ -53,6 +53,7 @@ const ChatPage = () => {
           tokenData.streamToken
         );
 
+        //
         const channelId = [authUser._id, targetUserId].sort().join("-");
         console.log("Channel ID:", channelId);
 
