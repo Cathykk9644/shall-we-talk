@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import LOGO from "../Assets/Logo.jpeg";
+import LOGO from "../assets/Logo.jpeg";
 import { useNavigate, Link } from "react-router";
 import useAuthUser from "../hooks/useAuthUser";
 import { UserIcon, LogOutIcon } from "lucide-react";

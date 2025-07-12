@@ -4,7 +4,7 @@ import useAuthUser from "../hooks/useAuthUser";
 import { BellIcon, LogOutIcon, ShipWheelIcon } from "lucide-react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { logout, getFriendRequests } from "../config/api";
-import LOGO from "../Assets/Logo.jpeg";
+import LOGO from "../assets/Logo.jpeg";
 
 const Navbar = () => {
   const { authUser } = useAuthUser();

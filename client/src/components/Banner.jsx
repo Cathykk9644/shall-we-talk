@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
-import decorationImg from "../Assets/departmets-vector.svg";
-import hero1 from "../Assets/hero-1.png";
-import hero2 from "../Assets/hero-2.png";
-import herobg from "../Assets/hero-shape-2.png";
+import decorationImg from "../assets/departmets-vector.svg";
+import hero1 from "../assets/hero-1.png";
+import hero2 from "../assets/hero-2.png";
+import herobg from "../assets/hero-shape-2.png";
 import { useNavigate } from "react-router";
 import { IoMdLogIn } from "react-icons/io";
 import useAuthUser from "../hooks/useAuthUser";
