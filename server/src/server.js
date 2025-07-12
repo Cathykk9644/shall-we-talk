@@ -7,10 +7,13 @@ import { connectDB } from "./config/db.js";
 import cookieParser from "cookie-parser";
 import cors from "cors";
 import bodyParser from "body-parser";
+import path from "path";
 
 const app = express();
 dotenv.config();
-const PORT = process.env.PORT || 5002;
+const PORT = process.env.PORT;
+
+const __dirname = path.resolve();
 
 app.use(cookieParser());
 app.use(
@@ -27,6 +30,14 @@ app.use(bodyParser.urlencoded({ extended: true, limit: "10mb" }));
 app.use("/api/auth", authRoutes);
 app.use("/api/users", userRoutes);
 app.use("/api/chat", chatRoutes);
+
+if (process.env.NODE_ENV === "production") {
+  app.use(express.static(path.join(__dirname, "../client/dist")));
+
+  app.get("*", (req, res) => {
+    res.sendFile(path.join(__dirname, "../client", "dist", "index.html"));
+  });
+}
 
 app.get("/", (req, res) => {
   res.send("Hello Shall-We-Talk!");
