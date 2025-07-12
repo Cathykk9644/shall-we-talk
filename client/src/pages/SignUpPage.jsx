@@ -1,8 +1,8 @@
 import React from "react";
 import { useState } from "react";
 import { useNavigate, Link } from "react-router";
-import loginbg from "../Assets/loginbg.avif";
-import logo from "../Assets/Logo.jpeg";
+import loginbg from "../assets/loginbg.avif";
+import logo from "../assets/Logo.jpeg";
 import { RiChatSmile2Line } from "react-icons/ri";
 import { useQueryClient, useMutation } from "@tanstack/react-query";
 import { signup } from "../config/api.js";
