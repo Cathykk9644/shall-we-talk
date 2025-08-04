@@ -7,11 +7,14 @@ import { useNavigate } from "react-router";
 import { IoMdLogIn } from "react-icons/io";
 import useAuthUser from "../hooks/useAuthUser";
 
-const Banner = () => {
+const Banner: React.FC = () => {
   const navigate = useNavigate();
+  // If useAuthUser has a type, import and use it here
   const { authUser } = useAuthUser();
 
-  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+  const [windowWidth, setWindowWidth] = useState<number>(
+    typeof window !== "undefined" ? window.innerWidth : 1200
+  );
 
   useEffect(() => {
     const handleResize = () => setWindowWidth(window.innerWidth);
