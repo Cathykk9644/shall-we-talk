@@ -63,7 +63,10 @@ const Navbar = () => {
                 </button>
               </Link>
 
-              <div className="avatar">
+              <Link
+                to="/profile"
+                className="avatar cursor-pointer flex items-center"
+              >
                 <div className="w-9 rounded-full border-2 border-sky-200">
                   <img
                     src={authUser?.profilePic}
@@ -72,11 +75,11 @@ const Navbar = () => {
                   />
                 </div>
                 {authUser?.fullName && (
-                  <span className="text-sky-600 text-sm hidden sm:inline ml-2 mt-2 font-semibold">
+                  <span className="text-sky-600 text-sm hidden sm:inline ml-2 font-semibold">
                     Hey {authUser.fullName.split(" ")[0]}!
                   </span>
                 )}
-              </div>
+              </Link>
             </div>
 
             {/* Logout button */}
