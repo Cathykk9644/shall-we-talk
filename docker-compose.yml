@@ -1,0 +1,51 @@
+version: "3.9"
+
+services:
+  mongo:
+    image: mongo:7
+    container_name: swt-mongo
+    restart: unless-stopped
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo-data:/data/db
+
+  server:
+    image: node:20
+    container_name: swt-server
+    working_dir: /app
+    volumes:
+      - ./server:/app
+      - /app/node_modules
+    env_file:
+      - server/.env
+    environment:
+      - NODE_ENV=development
+      - PORT=5001
+      - CLIENT_URL=http://localhost:5173
+      - MONGO_URI=mongodb://mongo:27017/shallwetalk
+      - CHOKIDAR_USEPOLLING=true
+    depends_on:
+      - mongo
+    command: bash -c "npm ci && npm run dev"
+    ports:
+      - "5001:5001"
+
+  client:
+    image: node:20
+    container_name: swt-client
+    working_dir: /app
+    volumes:
+      - ./client:/app
+      - /app/node_modules
+    environment:
+      - NODE_ENV=development
+      - CHOKIDAR_USEPOLLING=true
+    command: bash -c "npm ci && npm run dev -- --host"
+    ports:
+      - "5173:5173"
+    depends_on:
+      - server
+
+volumes:
+  mongo-data:

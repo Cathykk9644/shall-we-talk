@@ -135,6 +135,32 @@ The frontend will be available at `http://localhost:5173` (or as specified by Vi
 
 ---
 
+## 🐳 Run with Docker Compose (local dev)
+
+This repo includes a `docker-compose.yml` to run MongoDB, the Express API, and the Vite client together.
+
+Prerequisites:
+
+- Docker Desktop 4.0+
+
+Steps:
+
+1. Copy environment file for the server and fill in values as needed:
+   - `cp server/.env.example server/.env`
+2. Start the stack:
+   - `docker compose up --build`
+3. Open the apps:
+   - Client: http://localhost:5173
+   - API: http://localhost:5001 (health: `/`), API base: http://localhost:5001/api
+
+Notes:
+
+- Hot reload is enabled for both client and server via bind mounts.
+- Server connects to Mongo at `mongodb://mongo:27017/shallwetalk`.
+- In production, the server serves the built client from `client/dist` when `NODE_ENV=production`.
+
+---
+
 ## 📄 License
 
 MIT
