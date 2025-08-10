@@ -81,6 +81,13 @@ export async function suggestReplies(messages) {
   return response.data; // { suggestions: string[] }
 }
 
+export async function suggestIcebreakers(partnerUserId) {
+  const response = await axiosInstance.post("/chat/icebreakers", {
+    partnerUserId,
+  });
+  return response.data; // { topics: string[] }
+}
+
 // User profile APIs
 export async function getUserProfile() {
   const response = await axiosInstance.get("/users/profile");

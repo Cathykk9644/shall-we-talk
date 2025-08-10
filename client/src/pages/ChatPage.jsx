@@ -2,7 +2,11 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router";
 import useAuthUser from "../hooks/useAuthUser";
 import { useQuery } from "@tanstack/react-query";
-import { getStreamToken, suggestReplies } from "../config/api";
+import {
+  getStreamToken,
+  suggestReplies,
+  suggestIcebreakers,
+} from "../config/api";
 
 import {
   Channel,
@@ -18,6 +22,7 @@ import toast from "react-hot-toast";
 import ChatLoader from "../components/ChatLoader";
 import CallButton from "../components/CallButton";
 import SmartReplies from "../components/SmartReplies";
+import TopicStarters from "../components/TopicStarters";
 
 const STREAM_API_KEY = import.meta.env.VITE_STREAM_API_KEY;
 
@@ -29,6 +34,8 @@ const ChatPage = () => {
   const [loading, setLoading] = useState(true);
   const [aiLoading, setAiLoading] = useState(false);
   const [aiSuggestions, setAiSuggestions] = useState([]);
+  const [topicLoading, setTopicLoading] = useState(false);
+  const [topics, setTopics] = useState([]);
 
   const { authUser } = useAuthUser();
 
@@ -115,29 +122,6 @@ const ChatPage = () => {
     }
   };
 
-  const insertIntoComposer = (text) => {
-    try {
-      // stream-chat-react MessageInput uses a textarea. Find and insert text.
-      const textarea = document.querySelector(
-        'textarea[placeholder*="Message"]'
-      );
-      if (textarea) {
-        textarea.focus();
-        const start = textarea.selectionStart ?? textarea.value.length;
-        const end = textarea.selectionEnd ?? textarea.value.length;
-        const before = textarea.value.slice(0, start);
-        const after = textarea.value.slice(end);
-        const insert = (before && !before.endsWith(" ") ? " " : "") + text;
-        textarea.value = before + insert + after;
-        // trigger input event so React picks up the change
-        const ev = new Event("input", { bubbles: true });
-        textarea.dispatchEvent(ev);
-      }
-    } catch (err) {
-      console.error(err);
-    }
-  };
-
   const handlePick = async (text) => {
     if (!channel) return;
     try {
@@ -146,9 +130,32 @@ const ChatPage = () => {
       setAiSuggestions([]);
     } catch (err) {
       console.error(err);
-      // Fallback: insert into input area if sending fails
-      insertIntoComposer(text);
-      toast.error("Couldn't send automatically. Inserted into input instead.");
+      toast.error("Couldn't send message.");
+    }
+  };
+
+  const handleTopicSuggest = async () => {
+    if (!targetUserId) return;
+    try {
+      setTopicLoading(true);
+      const { topics } = await suggestIcebreakers(targetUserId);
+      setTopics(topics || []);
+    } catch (e) {
+      console.error(e);
+      toast.error("Couldn't get topics right now.");
+    } finally {
+      setTopicLoading(false);
+    }
+  };
+
+  const handleTopicPick = async (text) => {
+    if (!channel) return;
+    try {
+      await channel.sendMessage({ text });
+      setTopics([]);
+    } catch (err) {
+      console.error(err);
+      toast.error("Couldn't send message.");
     }
   };
 
@@ -165,6 +172,12 @@ const ChatPage = () => {
               suggestions={aiSuggestions}
               onPick={handlePick}
               loading={aiLoading}
+            />
+            <TopicStarters
+              onSuggest={handleTopicSuggest}
+              topics={topics}
+              onPick={handleTopicPick}
+              loading={topicLoading}
             />
             <Window>
               <ChannelHeader />

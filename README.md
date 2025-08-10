@@ -13,6 +13,7 @@ Shall WeTalk is a modern language exchange platform where users can teach others
 - 🔋 Pagination for Recommended Language Partners
 - 🌐 Real-time Messaging: Reply, Delete, Start Thread, Add Emoji, Send Image, Typing Indicators & Reactions
 - 🤖 AI Smart Reply Suggestions in chat (optional, Hugging Face Inference API)
+- 💡 AI Icebreakers & Topic Starters (optional) — “Need a topic?” chip above input
 - 📹 1-on-1 and Group Video Calls: Share Screen, Add Emoji Reaction, Record Meeting (Stream integration)
 - 🔐 JWT Authentication & Protected Routes
 - 🌍 Language Exchange Platform with Modern UI
@@ -137,11 +138,37 @@ API Reference
 { "suggestions": ["I'm good, thanks!", "Doing well—how about you?", "Pretty good! What's new?"] }
 ```
 
+## 💡 AI Icebreakers & Topic Starters
+
+Suggests 5 friendly topics tailored to both users’ languages, locations, and bios.
+
+- What it does: Generates short, beginner-friendly one-line prompts. Click to send.
+- Where it shows: Chat screen, a “Need a topic?” chip row above the input.
+- Fallbacks: If AI isn’t configured, generic safe topics are returned.
+
+Usage
+
+- Open a chat → click “Need a topic?” → pick a chip → it sends immediately.
+
+API Reference
+
+- Method: POST `/api/chat/icebreakers` (auth required)
+- Body:
+
+```
+{ "partnerUserId": "<other-user-id>" }
+```
+
+- Response:
+
+```
+{ "topics": ["What's a favorite place to visit in your city?", "What music are you listening to lately?", "..."] }
+```
+
 Notes
 
-- Free-tier Hugging Face Inference API is rate-limited and may have cold starts.
-- Some models require ToS acceptance on Hugging Face before use.
-- CI/tests do not require the key; the server falls back to generic suggestions.
+- Requires the same `HUGGINGFACE_API_KEY` backend env as Smart Replies.
+- Free-tier limits and cold starts apply.
 
 ---
 
