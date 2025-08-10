@@ -24,6 +24,38 @@ Shall WeTalk is a modern language exchange platform where users can teach others
 - 🧪 Backend testing with Vitest + Supertest + mongodb-memory-server
 - 🤖 GitHub Actions CI workflow (runs client and server tests on push/PR)
 - 🐳 Docker Compose for local development (MongoDB + API + Vite client)
+- 🧭 Architecture ADR with diagram (`docs/adr/0001-architecture.md`)
+
+## 🧭 Architecture Overview
+
+A high-level diagram of the system:
+
+```mermaid
+flowchart LR
+  subgraph Client [React Client]
+    UI[Pages & Components]
+    State[React Query]
+    UI --> State
+  end
+
+  subgraph Server [Express API]
+    Routes[/Routes/]
+    Controllers[Controllers]
+    Models[MongoDB Models]
+    Routes --> Controllers --> Models
+  end
+
+  DB[(MongoDB)]
+  CDN[(Cloudinary)]
+  Stream[(Stream Chat/Video)]
+
+  Client -- REST/JSON --> Server
+  Server -- Mongoose --> DB
+  Server -- Uploads --> CDN
+  Server -- Tokens/API --> Stream
+```
+
+---
 
 ## 🗂️ Project Structure
 

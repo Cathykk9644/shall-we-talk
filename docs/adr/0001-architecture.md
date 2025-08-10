@@ -11,6 +11,7 @@ Shall WeTalk is a full‑stack web app with a React client, an Express API, and 
 ## Decision
 
 Adopt a modular monorepo with separate client and server packages:
+
 - Client: React + Vite, React Router, React Query, Tailwind + DaisyUI
 - Server: Node.js + Express, JWT auth, Mongoose, Cloudinary/Multer
 - Realtime/video: Stream
@@ -18,6 +19,7 @@ Adopt a modular monorepo with separate client and server packages:
 - Local dev orchestration: Docker Compose (client + server + Mongo)
 
 ## Rationale
+
 - Clear separation of concerns while keeping a single repo for DX
 - Fast dev/build via Vite and hot reload
 - MongoDB fits document‑oriented user and message data
@@ -25,11 +27,13 @@ Adopt a modular monorepo with separate client and server packages:
 - Compose provides reproducible local setup without manual installs
 
 ## Consequences
+
 - Vendor lock‑in for realtime features (Stream)
 - Need to manage environment variables across packages
 - CI needs to install and test both packages
 
 ## Alternatives Considered
+
 - Single server serving SSR (Next.js): rejected to keep client and API independent
 - WebSockets in‑house (Socket.IO): replaced by Stream to accelerate delivery
 
