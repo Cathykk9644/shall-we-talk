@@ -12,6 +12,7 @@ Shall WeTalk is a modern language exchange platform where users can teach others
 - 🔔 Notification Alerts for New Friend Requests
 - 🔋 Pagination for Recommended Language Partners
 - 🌐 Real-time Messaging: Reply, Delete, Start Thread, Add Emoji, Send Image, Typing Indicators & Reactions
+- 🤖 AI Smart Reply Suggestions in chat (optional, Hugging Face Inference API)
 - 📹 1-on-1 and Group Video Calls: Share Screen, Add Emoji Reaction, Record Meeting (Stream integration)
 - 🔐 JWT Authentication & Protected Routes
 - 🌍 Language Exchange Platform with Modern UI
@@ -27,8 +28,6 @@ Shall WeTalk is a modern language exchange platform where users can teach others
 - 🧭 Architecture ADR with diagram (`docs/adr/0001-architecture.md`)
 
 ## 🧭 Architecture Overview
-
-A high-level diagram of the system:
 
 ```mermaid
 flowchart LR
@@ -95,6 +94,57 @@ shall-we-talk/
 
 ---
 
+## 🤖 AI Smart Reply Suggestions
+
+Smart, context-aware reply suggestions inside chat.
+
+- What it does: Generates 3 short replies from the last messages in the thread. Click a chip to send immediately to the conversation.
+- Where it shows: Chat screen, a top bar with a “Reply like this...” button and suggestion chips.
+- Fallbacks: If the AI API isn’t configured or is rate-limited, generic safe suggestions are returned.
+
+Setup
+
+- Create a free Hugging Face account and token (Settings → Access Tokens → New token with Read): https://huggingface.co/settings/tokens
+- Add the token to the backend env file `server/.env`:
+
+```
+HUGGINGFACE_API_KEY=hf_xxx
+```
+
+- Do NOT put this key in `client/.env`. Restart the server after updating env.
+
+Usage
+
+- Open a chat → click “Reply like this...” → pick a chip → it appears in the chat immediately.
+
+API Reference
+
+- Method: POST `/api/chat/suggest-replies` (auth required)
+- Body:
+
+```
+{
+  "messages": [
+    { "role": "me", "content": "Hi!" },
+    { "role": "friend", "content": "How are you?" }
+  ]
+}
+```
+
+- Response:
+
+```
+{ "suggestions": ["I'm good, thanks!", "Doing well—how about you?", "Pretty good! What's new?"] }
+```
+
+Notes
+
+- Free-tier Hugging Face Inference API is rate-limited and may have cold starts.
+- Some models require ToS acceptance on Hugging Face before use.
+- CI/tests do not require the key; the server falls back to generic suggestions.
+
+---
+
 ## 🧪 .env Setup
 
 ### Backend (`server/.env`)
@@ -107,6 +157,7 @@ CLOUDINARY_CLOUD_NAME=your_cloud_name
 CLOUDINARY_API_KEY=your_api_key
 CLOUDINARY_API_SECRET=your_api_secret
 NODE_ENV=development
+HUGGINGFACE_API_KEY=hf_xxx # optional, enables AI suggestions
 ```
 
 ### Frontend (`client/.env`)

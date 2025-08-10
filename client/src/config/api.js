@@ -73,6 +73,14 @@ export async function getStreamToken() {
   return response.data;
 }
 
+// New: AI smart reply suggestions
+export async function suggestReplies(messages) {
+  const response = await axiosInstance.post("/chat/suggest-replies", {
+    messages,
+  });
+  return response.data; // { suggestions: string[] }
+}
+
 // User profile APIs
 export async function getUserProfile() {
   const response = await axiosInstance.get("/users/profile");

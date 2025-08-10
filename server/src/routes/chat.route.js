@@ -1,8 +1,12 @@
 import express from "express";
 import { protectedRoute } from "../middleware/auth.middleware.js";
-import { getStreamToken } from "../controllers/chat.controller.js";
+import {
+  getStreamToken,
+  suggestReplies,
+} from "../controllers/chat.controller.js";
 
 const router = express.Router();
 
 router.get("/streamToken", protectedRoute, getStreamToken);
+router.post("/suggest-replies", protectedRoute, suggestReplies);
 export default router;

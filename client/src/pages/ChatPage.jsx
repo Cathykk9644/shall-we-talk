@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router";
 import useAuthUser from "../hooks/useAuthUser";
 import { useQuery } from "@tanstack/react-query";
-import { getStreamToken } from "../config/api";
+import { getStreamToken, suggestReplies } from "../config/api";
 
 import {
   Channel,
@@ -17,6 +17,7 @@ import { StreamChat } from "stream-chat";
 import toast from "react-hot-toast";
 import ChatLoader from "../components/ChatLoader";
 import CallButton from "../components/CallButton";
+import SmartReplies from "../components/SmartReplies";
 
 const STREAM_API_KEY = import.meta.env.VITE_STREAM_API_KEY;
 
@@ -26,6 +27,8 @@ const ChatPage = () => {
   const [chatClient, setChatClient] = useState(null);
   const [channel, setChannel] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [aiLoading, setAiLoading] = useState(false);
+  const [aiSuggestions, setAiSuggestions] = useState([]);
 
   const { authUser } = useAuthUser();
 
@@ -77,14 +80,6 @@ const ChatPage = () => {
     initChat();
   }, [tokenData, authUser, targetUserId]);
 
-  useEffect(() => {
-    console.log("Token Data:", tokenData);
-  }, [tokenData]);
-
-  useEffect(() => {
-    console.log("Auth User:", authUser);
-  }, [authUser]);
-
   const handleVideoCall = () => {
     if (channel) {
       const callUrl = `${window.location.origin}/call/${channel.id}`;
@@ -97,6 +92,66 @@ const ChatPage = () => {
     }
   };
 
+  const handleSuggest = async () => {
+    if (!channel || !authUser) return;
+    try {
+      setAiLoading(true);
+      // build last 10 messages with roles
+      const msgs = (channel.state?.messages || [])
+        .filter((m) => !m.deleted_at && typeof m.text === "string")
+        .slice(-10)
+        .map((m) => ({
+          role: m.user?.id === authUser._id ? "me" : "friend",
+          content: m.text,
+        }));
+
+      const { suggestions } = await suggestReplies(msgs);
+      setAiSuggestions(suggestions || []);
+    } catch (e) {
+      console.error(e);
+      toast.error("Couldn't get suggestions right now.");
+    } finally {
+      setAiLoading(false);
+    }
+  };
+
+  const insertIntoComposer = (text) => {
+    try {
+      // stream-chat-react MessageInput uses a textarea. Find and insert text.
+      const textarea = document.querySelector(
+        'textarea[placeholder*="Message"]'
+      );
+      if (textarea) {
+        textarea.focus();
+        const start = textarea.selectionStart ?? textarea.value.length;
+        const end = textarea.selectionEnd ?? textarea.value.length;
+        const before = textarea.value.slice(0, start);
+        const after = textarea.value.slice(end);
+        const insert = (before && !before.endsWith(" ") ? " " : "") + text;
+        textarea.value = before + insert + after;
+        // trigger input event so React picks up the change
+        const ev = new Event("input", { bubbles: true });
+        textarea.dispatchEvent(ev);
+      }
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  const handlePick = async (text) => {
+    if (!channel) return;
+    try {
+      // Send directly to the conversation
+      await channel.sendMessage({ text });
+      setAiSuggestions([]);
+    } catch (err) {
+      console.error(err);
+      // Fallback: insert into input area if sending fails
+      insertIntoComposer(text);
+      toast.error("Couldn't send automatically. Inserted into input instead.");
+    }
+  };
+
   if (loading || !chatClient || !channel) return <ChatLoader />;
 
   return (
@@ -105,6 +160,12 @@ const ChatPage = () => {
         <Channel channel={channel}>
           <div className="w-full relative">
             <CallButton handleVideoCall={handleVideoCall} />
+            <SmartReplies
+              onSuggest={handleSuggest}
+              suggestions={aiSuggestions}
+              onPick={handlePick}
+              loading={aiLoading}
+            />
             <Window>
               <ChannelHeader />
               <MessageList />
