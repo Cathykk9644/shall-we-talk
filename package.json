@@ -5,7 +5,9 @@
   "main": "index.js",
   "scripts": {
     "build": "npm install --prefix server && npm install --prefix client && npm run build --prefix client",
-    "start": "npm run start --prefix server"
+    "start": "npm run start --prefix server",
+    "test": "npm run -s test --prefix client && npm run -s test --prefix server",
+    "test:coverage": "npm run -s test:coverage --prefix client && npm run -s test --prefix server"
   },
   "keywords": [],
   "author": "",
