@@ -21,6 +21,8 @@ Shall WeTalk is a modern language exchange platform where users can teach others
 - 🎯 Scalable, Modular Project Structure
 - ⏳ Server-side Search for Users & Friends
 - 🧪 Frontend testing with Vitest + Testing Library
+- 🧪 Backend testing with Vitest + Supertest + mongodb-memory-server
+- 🤖 GitHub Actions CI workflow (runs client and server tests on push/PR)
 
 ## 🗂️ Project Structure
 
@@ -116,6 +118,20 @@ The frontend will be available at `http://localhost:5173` (or as specified by Vi
   - `npm run test` — run the suite once
   - `npm run test:watch` — watch mode
   - `npm run test:coverage` — coverage report
+
+---
+
+## ✅ Backend Testing
+
+- Stack: Vitest, Supertest, mongodb-memory-server
+- App structure: `server/src/app.js` exports the Express app; `server/src/server.js` starts it (skips start in `NODE_ENV=test`)
+- Config: `server/vite.config.js` (node env) + `server/src/test/setup.js` (in-memory Mongo, DB cleanup between tests)
+- Test locations:
+  - `server/src/routes/__tests__/*.test.js`
+- Commands:
+  - From `server/`: `npm run test` (watch: `npm run test:watch`, coverage: `npm run test:coverage`)
+  - From repo root: `npm test` (runs client then server)
+- External services are mocked in tests (e.g., Stream token, Cloudinary upload) to keep tests fast and deterministic
 
 ---
 
