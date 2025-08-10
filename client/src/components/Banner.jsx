@@ -167,10 +167,6 @@ const Banner = () => {
           />
         </div>
       </div>
-      {/* Copyright Disclaimer */}
-      <div className="w-full text-center text-xs text-gray-400 mt-4 lg:mt-10 font-semibold">
-        &copy; {new Date().getFullYear()} Shall WeTalk. All rights reserved.
-      </div>
     </>
   );
 };
