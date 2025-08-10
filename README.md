@@ -23,6 +23,7 @@ Shall WeTalk is a modern language exchange platform where users can teach others
 - 🧪 Frontend testing with Vitest + Testing Library
 - 🧪 Backend testing with Vitest + Supertest + mongodb-memory-server
 - 🤖 GitHub Actions CI workflow (runs client and server tests on push/PR)
+- 🐳 Docker Compose for local development (MongoDB + API + Vite client)
 
 ## 🗂️ Project Structure
 
