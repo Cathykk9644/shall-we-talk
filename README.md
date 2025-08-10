@@ -20,36 +20,42 @@ Shall WeTalk is a modern language exchange platform where users can teach others
 - 🚨 Robust Error Handling (Frontend & Backend)
 - 🎯 Scalable, Modular Project Structure
 - ⏳ Server-side Search for Users & Friends
+- 🧪 Frontend testing with Vitest + Testing Library
 
 ## 🗂️ Project Structure
 
 ```
-
 shall-we-talk/
-├── client/ # Frontend (React + Vite + Tailwind CSS + DaisyUI + React Query + Axios)
-│ ├── src/
-│ │ ├── assets/ # Images and static assets
-│ │ ├── components/ # Reusable React components
-│ │ ├── config/ # API and utility functions
-│ │ ├── constants/ # App-wide constants
-│ │ ├── hooks/ # Custom React hooks
-│ │ ├── pages/ # Page-level React components
-│ │ └── ...
-│ ├── index.html # Main HTML file
-│ ├── package.json # Frontend dependencies
-│ └── ...
-├── server/ # Backend (Node.js + Express + MongoDB, MVC pattern)
-│ ├── src/
-│ │ ├── config/ # DB, cloudinary, multer, etc.
-│ │ ├── controllers/ # Controllers (business logic, part of MVC)
-│ │ ├── middleware/ # Express middleware (auth, error handling, etc.)
-│ │ ├── models/ # Mongoose models (data layer, part of MVC)
-│ │ ├── routes/ # Route definitions (Express routers, part of MVC)
-│ │ └── server.js # Entry point
-│ ├── package.json # Backend dependencies
-│ └── ...
-└── README.md # Project documentation
-
+├── client/                         # Frontend (React + Vite + Tailwind CSS + DaisyUI + React Query + Axios)
+│   ├── src/
+│   │   ├── assets/                 # Images and static assets
+│   │   ├── components/             # Reusable React components
+│   │   │   └── __tests__/          # Component unit tests
+│   │   ├── config/                 # API and utility functions
+│   │   │   └── __tests__/          # Config/utils tests
+│   │   ├── constants/              # App-wide constants
+│   │   ├── hooks/                  # Custom React hooks
+│   │   ├── pages/                  # Page-level React components
+│   │   │   └── __tests__/          # Page integration tests
+│   │   ├── App.jsx
+│   │   ├── main.jsx
+│   │   └── index.css
+│   ├── eslint.config.js            # ESLint config (includes Vitest globals for test files)
+│   ├── setupTests.js               # Vitest setup (jest-dom matchers)
+│   ├── vite.config.js              # Vite + Vitest test config (jsdom environment)
+│   ├── index.html                  # Main HTML file
+│   └── package.json                # Frontend dependencies & test scripts
+├── server/                         # Backend (Node.js + Express + MongoDB, MVC pattern)
+│   ├── src/
+│   │   ├── config/                 # DB, cloudinary, multer, etc.
+│   │   ├── controllers/            # Controllers (business logic, part of MVC)
+│   │   ├── middleware/             # Express middleware (auth, error handling, etc.)
+│   │   ├── models/                 # Mongoose models (data layer, part of MVC)
+│   │   ├── routes/                 # Route definitions (Express routers, part of MVC)
+│   │   └── server.js               # Entry point
+│   └── package.json                # Backend dependencies
+├── package.json                    # Root metadata
+└── README.md                       # Project documentation
 ```
 
 ---
@@ -59,7 +65,6 @@ shall-we-talk/
 ### Backend (`server/.env`)
 
 ```
-
 PORT=5001
 MONGODB_URI=your_mongodb_uri
 JWT_SECRET=your_jwt_secret
@@ -67,15 +72,12 @@ CLOUDINARY_CLOUD_NAME=your_cloud_name
 CLOUDINARY_API_KEY=your_api_key
 CLOUDINARY_API_SECRET=your_api_secret
 NODE_ENV=development
-
 ```
 
 ### Frontend (`client/.env`)
 
 ```
-
 VITE_STREAM_API_KEY=your_stream_api_key
-
 ```
 
 ---
@@ -99,6 +101,21 @@ npm run dev
 ```
 
 The frontend will be available at `http://localhost:5173` (or as specified by Vite).
+
+---
+
+## ✅ Frontend Testing
+
+- Stack: Vitest, @testing-library/react, @testing-library/jest-dom, jsdom
+- Config: test environment set to jsdom in `client/vite.config.js`, global matchers loaded via `client/setupTests.js`
+- Test locations:
+  - `client/src/components/__tests__/*`
+  - `client/src/pages/__tests__/*`
+  - `client/src/config/__tests__/*`
+- Commands (run from `client/`):
+  - `npm run test` — run the suite once
+  - `npm run test:watch` — watch mode
+  - `npm run test:coverage` — coverage report
 
 ---
 
