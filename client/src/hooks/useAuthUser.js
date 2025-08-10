@@ -6,8 +6,9 @@ const useAuthUser = () => {
     queryKey: ["authUser"],
     queryFn: getAuthUser,
     retry: false,
-    // Remove the onError since 401 is expected for non-authenticated users
-    staleTime: 5 * 60 * 1000, // Consider auth data fresh for 5 minutes
+    onError: (error) => {
+      console.error("Failed to fetch authenticated user:", error);
+    },
   });
 
   return { isLoading: authUser.isLoading, authUser: authUser.data?.user };
