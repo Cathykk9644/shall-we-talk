@@ -80,10 +80,6 @@ const PracticeDashboard = () => {
     }
   }, [outgoingFriendReqs]);
 
-  useEffect(() => {
-    console.log("Updated Total Users:", totalUsers);
-  }, [totalUsers]);
-
   return (
     <div className="px-4 py-4 sm:p-6 lg:p-8 bg-bgColor1 min-h-screen w-full">
       <div className="w-full mx-auto space-y-5 px-0 sm:px-4">
@@ -114,7 +110,7 @@ const PracticeDashboard = () => {
             <UsersIcon className="mr-2 size-4 text-gray-500" />
             Friend Requests
             {incomingRequests.length > 0 && (
-              <span className="badge badge-info text-white ml-2 absolute -top-2 -right-2 animate-bounce">
+              <span className="badge badge-info text-white ml-2 absolute -top-2 -right-2 ">
                 {incomingRequests.length}
               </span>
             )}
