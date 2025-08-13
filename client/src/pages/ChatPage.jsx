@@ -23,6 +23,7 @@ import ChatLoader from "../components/ChatLoader";
 import CallButton from "../components/CallButton";
 import SmartReplies from "../components/SmartReplies";
 import TopicStarters from "../components/TopicStarters";
+import chatBg from "../assets/chat-page-bg.svg";
 
 const STREAM_API_KEY = import.meta.env.VITE_STREAM_API_KEY;
 
@@ -63,14 +64,12 @@ const ChatPage = () => {
           tokenData.streamToken
         );
 
-        //
         const channelId = [authUser._id, targetUserId].sort().join("-");
-        console.log("Channel ID:", channelId);
 
         const currChannel = client.channel("messaging", channelId, {
           members: [authUser._id, targetUserId],
         });
-        console.log("Current Channel:", currChannel);
+        await currChannel.watch();
 
         await currChannel.watch();
 
@@ -158,6 +157,29 @@ const ChatPage = () => {
       toast.error("Couldn't send message.");
     }
   };
+
+  useEffect(() => {
+    // Apply background to body so it always shows behind Stream components
+    const prev = {
+      bgImage: document.body.style.backgroundImage,
+      bgSize: document.body.style.backgroundSize,
+      bgPos: document.body.style.backgroundPosition,
+      bgRepeat: document.body.style.backgroundRepeat,
+      bgAttachment: document.body.style.backgroundAttachment,
+    };
+    document.body.style.backgroundImage = `url(${chatBg})`;
+    document.body.style.backgroundSize = "cover";
+    document.body.style.backgroundPosition = "center";
+    document.body.style.backgroundRepeat = "no-repeat";
+    document.body.style.backgroundAttachment = "fixed";
+    return () => {
+      document.body.style.backgroundImage = prev.bgImage || "";
+      document.body.style.backgroundSize = prev.bgSize || "";
+      document.body.style.backgroundPosition = prev.bgPos || "";
+      document.body.style.backgroundRepeat = prev.bgRepeat || "";
+      document.body.style.backgroundAttachment = prev.bgAttachment || "";
+    };
+  }, []);
 
   if (loading || !chatClient || !channel) return <ChatLoader />;
 

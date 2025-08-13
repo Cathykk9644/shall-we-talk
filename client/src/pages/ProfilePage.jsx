@@ -31,6 +31,7 @@ const ProfilePage = () => {
   const [message, setMessage] = useState("");
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [uploadingImage, setUploadingImage] = useState(false);
+
   // Handle profile image change
   const handleProfilePicChange = async (e) => {
     const file = e.target.files[0];
@@ -38,12 +39,10 @@ const ProfilePage = () => {
     setMessage("");
     setUploadingImage(true);
     try {
-      // Convert file to base64
       const reader = new FileReader();
       reader.readAsDataURL(file);
       reader.onloadend = async () => {
         const base64Image = reader.result;
-        // Call update mutation for profilePic
         updateMutation.mutate(
           { profilePic: base64Image },
           {
@@ -53,7 +52,7 @@ const ProfilePage = () => {
           }
         );
       };
-    } catch (err) {
+    } catch {
       setMessage("Failed to update image.");
       setUploadingImage(false);
     }
@@ -179,7 +178,7 @@ const ProfilePage = () => {
                 </div>
               )}
             </div>
-            <h2 className="text-xl xs:text-2xl sm:text-4xl font-bold tracking-tight text-gray-500 text-left mb-0 sm:ml-4 w-full text-center sm:text-left mt-4 sm:mt-0">
+            <h2 className="text-xl xs:text-2xl sm:text-4xl font-bold tracking-tight text-gray-500 mb-0 sm:ml-4 w-full text-center sm:text-left mt-4 sm:mt-0">
               My Profile
             </h2>
           </div>
@@ -294,13 +293,15 @@ const ProfilePage = () => {
                         </span>
                       )}
                     </span>
-                    <button
-                      onClick={() => setEditField(field.key)}
-                      className="ml-0 sm:ml-2 text-sky-500 hover:text-sky-700 p-1"
-                      aria-label={`Edit ${field.label}`}
-                    >
-                      <Pencil size={18} />
-                    </button>
+                    <div className="flex items-center gap-2">
+                      <button
+                        onClick={() => setEditField(field.key)}
+                        className="ml-0 sm:ml-2 text-sky-500 hover:text-sky-700 p-1"
+                        aria-label={`Edit ${field.label}`}
+                      >
+                        <Pencil size={18} />
+                      </button>
+                    </div>
                   </div>
                 )}
               </div>

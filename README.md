@@ -12,7 +12,7 @@ Shall WeTalk is a modern language exchange platform where users can teach others
 - 🔔 Notification Alerts for New Friend Requests
 - 🔋 Pagination for Recommended Language Partners
 - 🌐 Real-time Messaging: Reply, Delete, Start Thread, Add Emoji, Send Image, Typing Indicators & Reactions
-- 🤖 AI Smart Reply Suggestions in chat (optional, Hugging Face Inference API)
+- 🤖 AI Smart Reply Suggestions in chat (optional, Groq API)
 - 💡 AI Icebreakers & Topic Starters (optional) — “Need a topic?” chip above input
 - 📹 1-on-1 and Group Video Calls: Share Screen, Add Emoji Reaction, Record Meeting (Stream integration)
 - 🔐 JWT Authentication & Protected Routes
@@ -105,11 +105,13 @@ Smart, context-aware reply suggestions inside chat.
 
 Setup
 
-- Create a free Hugging Face account and token (Settings → Access Tokens → New token with Read): https://huggingface.co/settings/tokens
-- Add the token to the backend env file `server/.env`:
+- Create a free Groq account and API key: https://console.groq.com/keys
+- Add the key to the backend env file `server/.env`:
 
 ```
-HUGGINGFACE_API_KEY=hf_xxx
+GROQ_API_KEY=gsk_xxx
+# Optional: choose models, first available will be used
+GROQ_MODELS=llama-3.1-8b-instant,llama-3.1-70b-versatile
 ```
 
 - Do NOT put this key in `client/.env`. Restart the server after updating env.
@@ -167,8 +169,8 @@ API Reference
 
 Notes
 
-- Requires the same `HUGGINGFACE_API_KEY` backend env as Smart Replies.
-- Free-tier limits and cold starts apply.
+- Uses the same `GROQ_API_KEY` backend env as Smart Replies.
+- Free-tier limits apply.
 
 ---
 
@@ -184,7 +186,8 @@ CLOUDINARY_CLOUD_NAME=your_cloud_name
 CLOUDINARY_API_KEY=your_api_key
 CLOUDINARY_API_SECRET=your_api_secret
 NODE_ENV=development
-HUGGINGFACE_API_KEY=hf_xxx # optional, enables AI suggestions
+GROQ_API_KEY=gsk_xxx # optional, enables AI suggestions
+# GROQ_MODELS=llama-3.1-8b-instant,llama-3.1-70b-versatile
 ```
 
 ### Frontend (`client/.env`)
@@ -238,7 +241,7 @@ The frontend will be available at `http://localhost:5173` (or as specified by Vi
 - App structure: `server/src/app.js` exports the Express app; `server/src/server.js` starts it (skips start in `NODE_ENV=test`)
 - Config: `server/vite.config.js` (node env) + `server/src/test/setup.js` (in-memory Mongo, DB cleanup between tests)
 - Test locations:
-  - `server/src/routes/__tests__/*.test.js`
+- `server/src/routes/__tests__/*.test.js`
 - Commands:
   - From `server/`: `npm run test` (watch: `npm run test:watch`, coverage: `npm run test:coverage`)
   - From repo root: `npm test` (runs client then server)

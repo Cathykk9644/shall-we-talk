@@ -235,11 +235,28 @@ export async function getUserProfile(req, res) {
 export async function updateUserProfile(req, res) {
   try {
     const userId = req.user._id;
-    const { fullName, bio, nativeLanguage, learningLanguage, profilePic } =
-      req.body;
+    const allowed = [
+      "fullName",
+      "bio",
+      "nativeLanguage",
+      "learningLanguage",
+      "profilePic",
+      "location",
+    ];
+    const updateDoc = {};
+    for (const key of allowed) {
+      if (Object.prototype.hasOwnProperty.call(req.body, key)) {
+        updateDoc[key] = req.body[key];
+      }
+    }
+
+    if (Object.keys(updateDoc).length === 0) {
+      return res.status(400).json({ message: "No fields to update" });
+    }
+
     const updatedUser = await User.findByIdAndUpdate(
       userId,
-      { fullName, bio, nativeLanguage, learningLanguage, profilePic },
+      { $set: updateDoc },
       { new: true, runValidators: true }
     );
     if (!updatedUser)

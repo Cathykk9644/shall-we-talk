@@ -1,5 +1,6 @@
 import { generateStreamToken } from "../config/stream.js";
 import User from "../models/User.js";
+import { hfGenerateRaw } from "../config/ai.js";
 
 export async function getStreamToken(req, res) {
   try {
@@ -12,7 +13,7 @@ export async function getStreamToken(req, res) {
   }
 }
 
-// Generate smart reply suggestions using a free-tier Hugging Face model
+// Generate smart reply suggestions using Groq models via shared helper
 export async function suggestReplies(req, res) {
   try {
     const safeFallbacks = [
@@ -26,7 +27,7 @@ export async function suggestReplies(req, res) {
       return res.status(400).json({ message: "messages array is required" });
     }
 
-    const apiKey = process.env.HUGGINGFACE_API_KEY;
+    const apiKey = process.env.GROQ_API_KEY;
     if (!apiKey) {
       return res.status(200).json({
         message: "AI key missing; returning generic suggestions",
@@ -51,55 +52,26 @@ export async function suggestReplies(req, res) {
 
     const inputs = `${systemPrompt}\n\nConversation so far:\n${conversation}\n\nJSON:`;
 
-    const controller = new AbortController();
-    const timeout = setTimeout(() => controller.abort(), 15000);
+    // Use shared helper (now backed by Groq) with multiple fallback models
+    const gen = await hfGenerateRaw({
+      inputs,
+      parameters: {
+        max_new_tokens: 120,
+        temperature: 0.7,
+        return_full_text: false,
+      },
+      timeoutMs: 15000,
+    });
 
-    const response = await fetch(
-      "https://api-inference.huggingface.co/models/mistralai/Mistral-7B-Instruct-v0.2",
-      {
-        method: "POST",
-        headers: {
-          Authorization: `Bearer ${apiKey}`,
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          inputs,
-          parameters: {
-            max_new_tokens: 120,
-            temperature: 0.7,
-            return_full_text: false,
-          },
-          options: { wait_for_model: true },
-        }),
-        signal: controller.signal,
-      }
-    );
-
-    clearTimeout(timeout);
-
-    if (!response.ok) {
-      const text = await response.text().catch(() => "");
-      console.error("HF API error", response.status, text);
-      return res
-        .status(200)
-        .json({
-          message: "Using fallback suggestions",
-          suggestions: safeFallbacks,
-        });
+    if (!gen.ok) {
+      console.error("Groq API error (suggestReplies)", gen.error || gen.status);
+      return res.status(200).json({
+        message: "Using fallback suggestions",
+        suggestions: safeFallbacks,
+      });
     }
 
-    const data = await response.json();
-    // HF text-generation returns an array with { generated_text }
-    let raw = "";
-    if (Array.isArray(data) && data[0]?.generated_text) {
-      raw = data[0].generated_text;
-    } else if (typeof data === "string") {
-      raw = data;
-    } else if (data?.generated_text) {
-      raw = data.generated_text;
-    } else {
-      raw = JSON.stringify(data);
-    }
+    const raw = gen.raw || "";
 
     let suggestions = [];
     try {
@@ -113,7 +85,7 @@ export async function suggestReplies(req, res) {
         }
       }
     } catch (e) {
-      // ignore and fallback
+      // ignore and fallback to heuristic parsing
     }
 
     if (!suggestions.length) {
@@ -174,7 +146,7 @@ export async function suggestIcebreakers(req, res) {
       "What's a small goal you're working on this week?",
     ];
 
-    const apiKey = process.env.HUGGINGFACE_API_KEY;
+    const apiKey = process.env.GROQ_API_KEY;
     if (!apiKey) {
       return res.status(200).json({
         message: "AI key missing; returning generic topics",
@@ -200,45 +172,25 @@ Partner (${partner.fullName || "Friend"}):
 
     const inputs = `${systemPrompt}\n\nProfiles:\n${profileContext}\n\nJSON:`;
 
-    const controller = new AbortController();
-    const timeout = setTimeout(() => controller.abort(), 15000);
+    // Use shared helper (now backed by Groq) with multiple fallback models
+    const gen = await hfGenerateRaw({
+      inputs,
+      parameters: {
+        max_new_tokens: 150,
+        temperature: 0.7,
+        return_full_text: false,
+      },
+      timeoutMs: 15000,
+    });
 
-    const response = await fetch(
-      "https://api-inference.huggingface.co/models/mistralai/Mistral-7B-Instruct-v0.2",
-      {
-        method: "POST",
-        headers: {
-          Authorization: `Bearer ${apiKey}`,
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          inputs,
-          parameters: {
-            max_new_tokens: 150,
-            temperature: 0.7,
-            return_full_text: false,
-          },
-          options: { wait_for_model: true },
-        }),
-        signal: controller.signal,
-      }
-    );
-
-    clearTimeout(timeout);
-
-    if (!response.ok) {
-      const text = await response.text().catch(() => "");
-      console.error("HF API error (icebreakers)", response.status, text);
-      return res.status(200).json({ message: "Using fallback topics", topics: safeFallbacks });
+    if (!gen.ok) {
+      console.error("Groq API error (icebreakers)", gen.error || gen.status);
+      return res
+        .status(200)
+        .json({ message: "Using fallback topics", topics: safeFallbacks });
     }
 
-    const data = await response.json();
-
-    let raw = "";
-    if (Array.isArray(data) && data[0]?.generated_text) raw = data[0].generated_text;
-    else if (typeof data === "string") raw = data;
-    else if (data?.generated_text) raw = data.generated_text;
-    else raw = JSON.stringify(data);
+    const raw = gen.raw || "";
 
     let topics = [];
     try {
@@ -260,16 +212,23 @@ Partner (${partner.fullName || "Friend"}):
     }
 
     topics = topics
-      .map((s) => String(s).replace(/^["']|["']$/g, "").trim())
+      .map((s) =>
+        String(s)
+          .replace(/^["']|["']$/g, "")
+          .trim()
+      )
       .filter(Boolean)
       .map((s) => (s.length > 90 ? s.slice(0, 87).trimEnd() + "..." : s));
 
-    while (topics.length < 5) topics.push(safeFallbacks[topics.length] || "Tell me about your day");
+    while (topics.length < 5)
+      topics.push(safeFallbacks[topics.length] || "Tell me about your day");
     topics = topics.slice(0, 5);
 
     return res.status(200).json({ topics });
   } catch (error) {
     console.error("Error in suggestIcebreakers controller:", error);
-    return res.status(500).json({ message: "Internal Server Error", topics: [] });
+    return res
+      .status(500)
+      .json({ message: "Internal Server Error", topics: [] });
   }
 }

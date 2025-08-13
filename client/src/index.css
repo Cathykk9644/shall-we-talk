@@ -8,12 +8,20 @@ body {
 @tailwind components;
 @tailwind utilities;
 
+/* Ensure the background shows on chat roots only */
 .str-chat__channel {
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: #bae6fd;
+  background: url("./assets/chat-page-bg.svg") center/cover no-repeat !important;
   height: 100%;
+}
+
+/* Drop video page bg image: make wrappers transparent to use page's own bg */
+.str-video,
+.str-video__call,
+.str-video__call-content {
+  background: transparent !important;
 }
 
 .str-chat__container {
@@ -24,10 +32,18 @@ body {
   border-radius: 8px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
   overflow: hidden;
+  background-color: rgba(255, 255, 255, 0.9) !important; /* 90% opacity */
+  backdrop-filter: blur(2px);
+}
+
+/* Header and input bar also semi-opaque to match */
+.str-chat__channel-header,
+.str-chat__message-input {
+  background-color: rgba(255, 255, 255, 0.9) !important;
 }
 
 .str-chat__list {
-  background-color: #ffffff;
+  background-color: transparent; /* show container bg */
   padding: 12px;
 }
 
@@ -41,4 +57,15 @@ body {
 
 .str-chat__message-text {
   color: #4b5563;
+}
+
+/* Additional wrappers to be transparent so background shows through */
+.str-chat,
+.str-chat__channel,
+.str-chat__main-panel,
+.str-chat__message-list,
+.str-chat__virtual-message-list,
+.str-chat__list,
+.str-chat__window {
+  background-color: transparent !important;
 }
