@@ -22,6 +22,7 @@ Shall WeTalk is a modern language exchange platform where users can teach others
 - 🚨 Robust Error Handling (Frontend & Backend)
 - 🎯 Scalable, Modular Project Structure
 - ⏳ Server-side Search for Users & Friends
+- 🛡️ API Rate Limiting for security and fair usage
 - 🧪 Frontend testing with Vitest + Testing Library
 - 🧪 Backend testing with Vitest + Supertest + mongodb-memory-server
 - 🤖 GitHub Actions CI workflow (runs client and server tests on push/PR)
