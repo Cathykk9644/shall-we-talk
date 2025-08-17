@@ -6,6 +6,7 @@ import cookieParser from "cookie-parser";
 import cors from "cors";
 import bodyParser from "body-parser";
 import path from "path";
+import apiLimiter from "./middleware/rateLimit.middleware.js";
 
 const app = express();
 
@@ -22,6 +23,9 @@ app.use(
 // Increase payload size limit
 app.use(express.json({ limit: "10mb" }));
 app.use(bodyParser.urlencoded({ extended: true, limit: "10mb" }));
+
+// Apply rate limiting to all API routes
+app.use("/api/", apiLimiter);
 
 app.use("/api/auth", authRoutes);
 app.use("/api/users", userRoutes);
