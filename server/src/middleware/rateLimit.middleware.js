@@ -1,4 +1,4 @@
-const rateLimit = require("express-rate-limit");
+import rateLimit from "express-rate-limit";
 
 // Limit each IP to 100 requests per 15 minutes
 const apiLimiter = rateLimit({
@@ -8,4 +8,4 @@ const apiLimiter = rateLimit({
   legacyHeaders: false,
 });
 
-module.exports = apiLimiter;
+export default apiLimiter;
