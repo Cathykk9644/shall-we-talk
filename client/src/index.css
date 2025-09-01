@@ -36,6 +36,15 @@ body {
   backdrop-filter: blur(2px);
 }
 
+/* Utility: hide scrollbars for horizontal chip carousels */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
 /* Header and input bar also semi-opaque to match */
 .str-chat__channel-header,
 .str-chat__message-input {
