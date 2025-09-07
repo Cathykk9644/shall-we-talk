@@ -1,5 +1,8 @@
 import useAuthUser from "../hooks/useAuthUser";
 import { useState } from "react";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import toast from "react-hot-toast";
 import { completeOnboarding } from "../config/api";
@@ -21,15 +24,36 @@ const OnboardingPage = () => {
   const queryClient = useQueryClient();
   const navigate = useNavigate();
 
-  const [formState, setFormState] = useState({
-    fullName: authUser?.fullName || "",
-    bio: authUser?.bio || "",
-    nativeLanguage: authUser?.nativeLanguage || "",
-    learningLanguage: authUser?.learningLanguage || "",
-    location: authUser?.location || "",
-    profilePic: authUser?.profilePic || "", // for preview
-    image: "", // for sending to backend
+  // Zod schema for onboarding
+  const onboardingSchema = z.object({
+    fullName: z.string().min(2, "Full name is required"),
+    bio: z.string().min(10, "Bio must be at least 10 characters"),
+    nativeLanguage: z.string().min(1, "Select your native language"),
+    learningLanguage: z.string().min(1, "Select a language to learn"),
+    location: z.string().min(2, "Location is required"),
   });
+
+  const {
+    register,
+    handleSubmit,
+    setValue,
+    getValues,
+    formState: { errors },
+  } = useForm({
+    resolver: zodResolver(onboardingSchema),
+    defaultValues: {
+      fullName: authUser?.fullName || "",
+      bio: authUser?.bio || "",
+      nativeLanguage: authUser?.nativeLanguage || "",
+      learningLanguage: authUser?.learningLanguage || "",
+      location: authUser?.location || "",
+    },
+    mode: "onTouched",
+  });
+
+  // For image preview and upload (not in zod schema)
+  const [profilePic, setProfilePic] = useState(authUser?.profilePic || "");
+  const [image, setImage] = useState("");
 
   const [imageError, setImageError] = useState(""); // Add this state
 
@@ -49,11 +73,8 @@ const OnboardingPage = () => {
   const handleRandomAvatar = () => {
     const idx = Math.floor(Math.random() * 100) + 1;
     const randomAvatar = `https://avatar.iran.liara.run/public/${idx}.png`;
-    setFormState({
-      ...formState,
-      profilePic: randomAvatar,
-      image: randomAvatar,
-    });
+    setProfilePic(randomAvatar);
+    setImage(randomAvatar);
     toast.success("Random profile picture generated!");
   };
 
@@ -61,7 +82,6 @@ const OnboardingPage = () => {
     setImageError(""); // Reset error on new upload
     const file = e.target.files[0];
     if (file && file.size > 4 * 1024 * 1024) {
-      // 4 MB limit
       setImageError(
         "The selected file is over 4 MB. Please choose a smaller image."
       );
@@ -80,11 +100,8 @@ const OnboardingPage = () => {
         const compressedFile = await imageCompression(file, options);
         const reader = new FileReader();
         reader.onload = () => {
-          setFormState({
-            ...formState,
-            profilePic: reader.result, // for preview
-            image: reader.result, // for backend upload
-          });
+          setProfilePic(reader.result);
+          setImage(reader.result);
         };
         reader.readAsDataURL(compressedFile);
       } catch (error) {
@@ -94,16 +111,11 @@ const OnboardingPage = () => {
     }
   };
 
-  const handleOnboarding = (e) => {
-    e.preventDefault();
+  const onSubmit = (data) => {
     // Only send the fields required by backend
     const payload = {
-      fullName: formState.fullName,
-      bio: formState.bio,
-      nativeLanguage: formState.nativeLanguage,
-      learningLanguage: formState.learningLanguage,
-      location: formState.location,
-      image: formState.image, // send image as base64 or url
+      ...data,
+      image: image, // send image as base64 or url
     };
     onboardingMutation(payload);
   };
@@ -116,16 +128,20 @@ const OnboardingPage = () => {
             Complete Your Profile
           </h1>
 
-          <form onSubmit={handleOnboarding} className="space-y-6">
+          <form
+            onSubmit={handleSubmit(onSubmit)}
+            className="space-y-6"
+            noValidate
+          >
             {/* PROFILE PIC CONTAINER */}
             <div className="flex flex-col items-center justify-center space-y-4">
               {/* IMAGE PREVIEW */}
               <div className="size-32 rounded-full bg-base-200 overflow-hidden">
-                {formState.profilePic &&
-                typeof formState.profilePic === "string" &&
-                formState.profilePic.trim() !== "" ? (
+                {profilePic &&
+                typeof profilePic === "string" &&
+                profilePic.trim() !== "" ? (
                   <img
-                    src={formState.profilePic}
+                    src={profilePic}
                     alt="Profile Preview"
                     className="w-full h-full object-cover"
                   />
@@ -180,14 +196,15 @@ const OnboardingPage = () => {
               </label>
               <input
                 type="text"
-                name="fullName"
-                value={formState.fullName}
-                onChange={(e) =>
-                  setFormState({ ...formState, fullName: e.target.value })
-                }
                 className="input w-full text-sm  text-gray-500"
                 placeholder="Pls enter your full name"
+                {...register("fullName")}
               />
+              {errors.fullName && (
+                <span className="text-xs text-rose-500 font-semibold">
+                  {errors.fullName.message}
+                </span>
+              )}
             </div>
 
             {/* BIO */}
@@ -198,14 +215,15 @@ const OnboardingPage = () => {
                 </span>
               </label>
               <textarea
-                name="bio"
-                value={formState.bio}
-                onChange={(e) =>
-                  setFormState({ ...formState, bio: e.target.value })
-                }
                 className="textarea textarea-bordered h-24 text-ellipsis text-gray-500"
                 placeholder="Tell others about yourself and what you are hoping to achieve on this language learning platform"
+                {...register("bio")}
               />
+              {errors.bio && (
+                <span className="text-xs text-rose-500 font-semibold">
+                  {errors.bio.message}
+                </span>
+              )}
             </div>
 
             {/* LANGUAGES */}
@@ -218,15 +236,8 @@ const OnboardingPage = () => {
                   </span>
                 </label>
                 <select
-                  name="nativeLanguage"
-                  value={formState.nativeLanguage}
-                  onChange={(e) =>
-                    setFormState({
-                      ...formState,
-                      nativeLanguage: e.target.value,
-                    })
-                  }
                   className="select select-bordered w-full text-sm text-gray-500"
+                  {...register("nativeLanguage")}
                 >
                   <option value="">Select your native language</option>
                   {LANGUAGES.map((lang) => (
@@ -235,6 +246,11 @@ const OnboardingPage = () => {
                     </option>
                   ))}
                 </select>
+                {errors.nativeLanguage && (
+                  <span className="text-xs text-rose-500 font-semibold">
+                    {errors.nativeLanguage.message}
+                  </span>
+                )}
               </div>
 
               {/* LEARNING LANGUAGE */}
@@ -245,15 +261,8 @@ const OnboardingPage = () => {
                   </span>
                 </label>
                 <select
-                  name="learningLanguage"
-                  value={formState.learningLanguage}
-                  onChange={(e) =>
-                    setFormState({
-                      ...formState,
-                      learningLanguage: e.target.value,
-                    })
-                  }
                   className="select select-bordered w-full text-sm text-gray-500"
+                  {...register("learningLanguage")}
                 >
                   <option value="">Select language you'd like to learn</option>
                   {LANGUAGES.map((lang) => (
@@ -262,6 +271,11 @@ const OnboardingPage = () => {
                     </option>
                   ))}
                 </select>
+                {errors.learningLanguage && (
+                  <span className="text-xs text-rose-500 font-semibold">
+                    {errors.learningLanguage.message}
+                  </span>
+                )}
               </div>
             </div>
 
@@ -276,14 +290,15 @@ const OnboardingPage = () => {
                 <MapPinIcon className="absolute top-1/2 transform -translate-y-1/2 left-3 size-5 text-base-content opacity-70" />
                 <input
                   type="text"
-                  name="location"
-                  value={formState.location}
-                  onChange={(e) =>
-                    setFormState({ ...formState, location: e.target.value })
-                  }
                   className="input input-bordered w-full pl-10 text-sm text-gray-500"
                   placeholder="City, Country"
+                  {...register("location")}
                 />
+                {errors.location && (
+                  <span className="text-xs text-rose-500 font-semibold">
+                    {errors.location.message}
+                  </span>
+                )}
               </div>
             </div>
 

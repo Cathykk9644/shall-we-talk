@@ -1,5 +1,7 @@
 import React from "react";
-import { useState } from "react";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { useNavigate, Link } from "react-router";
 import loginbg from "../assets/loginbg.avif";
 import logo from "../assets/Logo.jpeg";
@@ -10,10 +12,23 @@ import { signup } from "../config/api.js";
 const Signup = () => {
   const navigate = useNavigate();
 
-  const [signupData, setSignupData] = useState({
-    fullName: "",
-    email: "",
-    password: "",
+  // Zod schema for validation
+  const signupSchema = z.object({
+    fullName: z.string().min(2, "Full name is required"),
+    email: z.string().email("Invalid email address"),
+    password: z.string().min(6, "Password must be at least 6 characters"),
+    terms: z.literal(true, {
+      errorMap: () => ({ message: "You must accept the terms" }),
+    }),
+  });
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
+    resolver: zodResolver(signupSchema),
+    mode: "onTouched",
   });
 
   const queryClient = useQueryClient();
@@ -30,8 +45,9 @@ const Signup = () => {
     },
   });
 
-  const handleSignup = (e) => {
-    e.preventDefault();
+  const onSubmit = (data) => {
+    // Remove 'terms' before sending to API
+    const { terms, ...signupData } = data;
     signUpMutation(signupData);
   };
 
@@ -79,7 +95,11 @@ const Signup = () => {
         <h1 className="text-xl font-bold text-sky-500 items-center">
           Let's start to create account
         </h1>
-        <form className="flex flex-col space-y-4" onSubmit={handleSignup}>
+        <form
+          className="flex flex-col space-y-4"
+          onSubmit={handleSubmit(onSubmit)}
+          noValidate
+        >
           {/* FULLNAME */}
           <div className="w-full">
             <label className="block text-gray-400 text-xs font-semibold">
@@ -87,15 +107,15 @@ const Signup = () => {
             </label>
             <input
               className="h-10 block w-full mt-2 rounded-md border-0 p-4 text-gray-500 text-xs shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:outline-0 focus:ring-1 focus:ring-inset focus:ring-sky-600"
-              name="name"
               type="text"
               placeholder="Steve Jobs"
-              value={signupData.fullName}
-              onChange={(e) =>
-                setSignupData({ ...signupData, fullName: e.target.value })
-              }
-              required
+              {...register("fullName")}
             />
+            {errors.fullName && (
+              <span className="text-xs text-rose-500 font-semibold">
+                {errors.fullName.message}
+              </span>
+            )}
           </div>
           {/* EMAIL */}
           <div className="w-full">
@@ -104,15 +124,15 @@ const Signup = () => {
             </label>
             <input
               className="h-10 block w-full mt-2 rounded-md border-0 p-4 text-gray-500 text-xs shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:outline-0 focus:ring-1 focus:ring-inset focus:ring-sky-600"
-              name="email"
               type="email"
               placeholder="SteveJobs@apple.com"
-              value={signupData.email}
-              onChange={(e) =>
-                setSignupData({ ...signupData, email: e.target.value })
-              }
-              required
+              {...register("email")}
             />
+            {errors.email && (
+              <span className="text-xs text-rose-500 font-semibold">
+                {errors.email.message}
+              </span>
+            )}
           </div>
 
           {/* PASSWORD */}
@@ -122,15 +142,15 @@ const Signup = () => {
             </label>
             <input
               className="h-10 block w-full mt-2 rounded-md border-0 p-4 text-gray-500 text-xs shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:outline-0 focus:ring-1 focus:ring-inset focus:ring-sky-600"
-              name="password"
               type="password"
               placeholder="***********"
-              value={signupData.password}
-              onChange={(e) =>
-                setSignupData({ ...signupData, password: e.target.value })
-              }
-              required
+              {...register("password")}
             />
+            {errors.password && (
+              <span className="text-xs text-rose-500 font-semibold">
+                {errors.password.message}
+              </span>
+            )}
           </div>
 
           <div className="form-control">
@@ -138,7 +158,7 @@ const Signup = () => {
               <input
                 type="checkbox"
                 className="checkbox checkbox-xs "
-                required
+                {...register("terms")}
               />
               <span className="text-xs leading-tight text-gray-400 font-semibold">
                 I agree to the{" "}
@@ -151,6 +171,11 @@ const Signup = () => {
                 </span>
               </span>
             </label>
+            {errors.terms && (
+              <span className="text-xs text-rose-500 font-semibold block text-center">
+                {errors.terms.message}
+              </span>
+            )}
           </div>
 
           <button

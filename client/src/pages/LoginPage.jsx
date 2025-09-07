@@ -1,4 +1,7 @@
-import React, { useState } from "react";
+import React from "react";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { Link, useNavigate } from "react-router";
 import loginbg from "../assets/loginbg.avif";
 import logo from "../assets/Logo.jpeg";
@@ -10,9 +13,19 @@ import { RiChatSmile2Line } from "react-icons/ri";
 const LoginPage = () => {
   const navigate = useNavigate();
 
-  const [loginData, setLoginData] = useState({
-    email: "",
-    password: "",
+  // Zod schema for login
+  const loginSchema = z.object({
+    email: z.string().email("Invalid email address"),
+    password: z.string().min(6, "Password must be at least 6 characters"),
+  });
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
+    resolver: zodResolver(loginSchema),
+    mode: "onTouched",
   });
 
   const queryClient = useQueryClient();
@@ -26,9 +39,8 @@ const LoginPage = () => {
     onSuccess: () => queryClient.invalidateQueries({ queryKey: ["authUser"] }),
   });
 
-  const handleLogin = (e) => {
-    e.preventDefault();
-    loginMutation(loginData);
+  const onSubmit = (data) => {
+    loginMutation(data);
   };
 
   return (
@@ -75,7 +87,11 @@ const LoginPage = () => {
         <h1 className="text-xl font-bold text-sky-500 items-center">
           Log in to your account
         </h1>
-        <form className="flex flex-col space-y-4" onSubmit={handleLogin}>
+        <form
+          className="flex flex-col space-y-4"
+          onSubmit={handleSubmit(onSubmit)}
+          noValidate
+        >
           {/* EMAIL */}
           <div className="w-full">
             <label className="block text-gray-400 text-xs font-semibold">
@@ -83,15 +99,15 @@ const LoginPage = () => {
             </label>
             <input
               className="h-10 block w-full mt-2 rounded-md border-0 p-4 text-gray-500 text-xs shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:outline-0 focus:ring-1 focus:ring-inset focus:ring-sky-600"
-              name="email"
               type="email"
               placeholder="SteveJobs@apple.com"
-              value={loginData.email}
-              onChange={(e) =>
-                setLoginData({ ...loginData, email: e.target.value })
-              }
-              required
+              {...register("email")}
             />
+            {errors.email && (
+              <span className="text-xs text-rose-500 font-semibold">
+                {errors.email.message}
+              </span>
+            )}
           </div>
 
           {/* PASSWORD */}
@@ -101,15 +117,15 @@ const LoginPage = () => {
             </label>
             <input
               className="h-10 block w-full mt-2 rounded-md border-0 p-4 text-gray-500 text-xs shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:outline-0 focus:ring-1 focus:ring-inset focus:ring-sky-600"
-              name="password"
               type="password"
               placeholder="***********"
-              value={loginData.password}
-              onChange={(e) =>
-                setLoginData({ ...loginData, password: e.target.value })
-              }
-              required
+              {...register("password")}
             />
+            {errors.password && (
+              <span className="text-xs text-rose-500 font-semibold">
+                {errors.password.message}
+              </span>
+            )}
           </div>
 
           <button
