@@ -19,6 +19,7 @@ Shall WeTalk is a modern language exchange platform where users can teach others
 - 🌍 Language Exchange Platform with Modern UI
 - ⚡ Tech Stack: React + Express + MongoDB + TailwindCSS + DaisyUI + TanStack Query + Cloudinary + Multer + Axios
 - 🧠 Global State Management with React Query
+- 🛡️ Schema validation with Zod (frontend & backend)
 - 🚨 Robust Error Handling (Frontend & Backend)
 - 🎯 Scalable, Modular Project Structure
 - ⏳ Server-side Search for Users & Friends
